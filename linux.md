@@ -1,1 +1,1 @@
-## this is a test
+# I added .gitignore file to the project of the pregrain 
