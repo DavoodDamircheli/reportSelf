@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Some Config</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="pondoc.css" />
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Some Config</h1>
+</header>
+<h1 id="table-of-content">Table of content</h1>
+<ul>
+<li><a href="#step-0">Pandoc</a></li>
+<li><a href="#Marp">Marp</a></li>
+<li><a href="#markdown-review">Markdown</a></li>
+<li><a href="#git">git</a></li>
+</ul>
+<h2 id="step-0">step 0</h2>
+<h2 id="pandoc-and-marp">pandoc and marp</h2>
+<ul>
+<li>I am using marp for presentation</li>
+<li>If I need a long continous ducment i am using pandoc</li>
+<li>for running the pandoc I use</li>
+</ul>
+<pre><code>pandoc selfTuroring.md -s  -o selfTuroring.html --css pondoc.css</code></pre>
+<p>.css file is for the theme and format the one that I am using is</p>
+<p><a href="https://gist.github.com/killercup/5917178">pandoc.css</a> ## live watch the edits</p>
+<p>To have a live preview of your Markdown document as you edit it, with changes automatically compiling and updating in an HTML file that you can view in a browser, you’ll need to use a combination of tools. Here’s how you can set up a live preview system using Pandoc, a file watcher like entr, and a web browser. ### Step 1: Install entr</p>
+<pre><code>on Ubuntu:
+
+bash
+
+sudo apt-get install entr</code></pre>
+<h3 id="step-2-set-up-a-file-watcher">Step 2: Set Up a File Watcher</h3>
+<p>Once you have entr installed, you can set up a file watcher that runs Pandoc to compile your Markdown file into HTML every time you save changes to the file.</p>
+<p>Open a terminal and navigate to the directory containing your Markdown file. Run the following command:</p>
+<pre><code>bash
+
+ls input.md | entr pandoc /_ -s -o output.html -c style.css</code></pre>
+<p>Replace input.md with the name of your Markdown file and style.css with the path to your CSS file. The /_ is a placeholder that entr uses to refer to the file that has changed. Step 3: Open the HTML in a Browser</p>
+<p>Open output.html in your web browser. Most modern browsers will cache the file, so you may need to manually refresh to see changes. For an even more automatic setup, you can use a browser extension or a development server that automatically refreshes the page when it detects changes to the file.</p>
+<h2 id="markdown-review">markdown review</h2>
+<ul>
+<li>heading</li>
+</ul>
+<pre><code># Heading 1
+## Heading 2
+### Heading 3
+#### Heading 4
+##### Heading 5
+###### Heading 6</code></pre>
+<ul>
+<li><p>Emphasis</p>
+<p>Bold: Wrap text with two asterisks or underscores.</p>
+<p>markdown</p>
+<pre><code>**bold text**
+__bold text__</code></pre></li>
+<li><p>Italic: Wrap text with one asterisk or underscore.</p></li>
+</ul>
+<pre><code>*italic text*
+_italic text_</code></pre>
+<ul>
+<li>Lists: Use asterisks, plus, or minus signs.</li>
+</ul>
+<pre><code>- Item 1
+- Item 2
+- Item 3</code></pre>
+<ul>
+<li>Ordered Lists: Use numbers followed by a period.</li>
+</ul>
+<pre><code>    1. First Item
+    2. Second Item
+    3. Third Item</code></pre>
+<ul>
+<li>Links</li>
+</ul>
+<p>To create a link, enclose the link text in brackets and then follow it immediately with the URL in parentheses.</p>
+<pre><code>[OpenAI](https://www.openai.com/)</code></pre>
+<ul>
+<li>images</li>
+</ul>
+<p>Similar to links, but start with an exclamation mark, followed by the alt text in brackets, and the path or URL to the image in parentheses.</p>
+<pre><code>![Alt text](/path/to/image.jpg)</code></pre>
+<ul>
+<li><p>Code</p>
+<p>Inline Code: Wrap text with backticks.</p>
+<p>markdown</p>
+<pre><code>`Inline code`</code></pre>
+<p>Code Blocks: Use triple backticks or indent with four spaces for multiple lines of code.</p></li>
+</ul>
+<pre><code></code></pre>
+<p>code block</p>
+<pre><code></code></pre>
+<ul>
+<li>Horizontal Rules</li>
+</ul>
+<p>Use three or more asterisks, dashes, or underscores.</p>
+<pre><code>---</code></pre>
+<ul>
+<li>Tables</li>
+</ul>
+<p>Create tables by using vertical bars and dashes. Align text by using colons.</p>
+<pre><code>
+| Header 1 | Header 2 | Header 3 |
+|----------|:--------:|---------:|
+| Cell 1   | Cell 2   | Cell 3   |
+| Cell 4   | Cell 5   | Cell 6   |</code></pre>
+<ul>
+<li>Escaping Characters</li>
+</ul>
+<p>Use a backslash before Markdown characters you want to escape.</p>
+<pre><code>\*Not italicized\*</code></pre>
+<ul>
+<li>Task Lists</li>
+</ul>
+<p>To create a task list, se dashes followed by brackets. If the task is completed, place an x inside the brackets.</p>
+<pre><code>- [x] Completed task
+- [ ] Incomplete task</code></pre>
+<h2 id="git">git</h2>
+<ul>
+<li><p>adding All Files in a Directory</p>
+<p>To add all files in the current directory:</p>
+<p>sh</p>
+<pre><code>git add .</code></pre></li>
+</ul>
+<p>-If you have a directory named dirName, you can add all files within it like so:</p>
+<pre><code>git add dirName/</code></pre>
+<ul>
+<li>adding Specific Files</li>
+</ul>
+<p>Suppose you have a directory named myDirectory, and inside it, you want to add the files named file1.txt, file2.txt, and file3.txt to staging. You can add them to Git with the following command:</p>
+<p>sh</p>
+<pre><code>git add myDirectory/file1.txt myDirectory/file2.txt myDirectory/file3.txt</code></pre>
+<ul>
+<li>Committing the Added Files</li>
+</ul>
+<p>After adding the files, you can commit them with a message describing the changes:</p>
+<p>sh</p>
+<pre><code>git commit -m &quot;Add specific files from myDirectory&quot;</code></pre>
+<ul>
+<li>To find out which files are being tracked by Git in your repository, you can use various Git commands that provide insights into the state of your repository, including which files are tracked, untracked, staged for commit, or have been modified. Here are some commands that can help you identify tracked files:</li>
+</ul>
+<ol type="1">
+<li>git ls-files</li>
+</ol>
+<p>The simplest way to list all files that are currently being tracked by Git in your repository is to use the git ls-files command:</p>
+<p>sh</p>
+<pre><code>git ls-files</code></pre>
+<p>This command will list all the files that Git is tracking in the repository, displaying the paths relative to the repository’s root directory. 2. git status</p>
+<p>The git status command provides a broader overview of the repository’s current state, including which files are tracked and have changes, which files are staged for the next commit, and which files are not being tracked by Git:</p>
+<p>sh</p>
+<pre><code>git status</code></pre>
+<ul>
+<li>Tracked files that have modifications will be listed under the “Changes not staged for commit” section.</li>
+<li>Untracked files will appear under the “Untracked files” section.</li>
+<li>Staged files ready for the next commit will be listed under the “Changes to be committed” section.</li>
+</ul>
+</body>
+</html>
