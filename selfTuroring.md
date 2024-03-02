@@ -1,5 +1,5 @@
 ---
-title: Some Config 
+title: Some Configs
 ---
 
 # Table of content 
@@ -7,9 +7,17 @@ title: Some Config
 - [Marp](#Marp)
 - [Markdown](#markdown-review)
 - [git](#git)
+- [make](#review-make)
+- [git for hpc](git-hpc)
 
 
+<!-- 
 
+to run the md file and see the changes live
+
+ls  selfTuroring.md | entr pandoc /_ -s -o selfTuroring.html --css pandoc.css
+
+-->
 
 
 
@@ -45,7 +53,7 @@ Open a terminal and navigate to the directory containing your Markdown file. Run
 ```
 bash
 
-ls input.md | entr pandoc /_ -s -o output.html -c style.css
+ls input.md | entr pandoc /_ -s -o output.html --css style.css
 ```
 Replace input.md with the name of your Markdown file and style.css with the path to your CSS file. The /_ is a placeholder that entr uses to refer to the file that has changed.
 Step 3: Open the HTML in a Browser
@@ -53,13 +61,21 @@ Step 3: Open the HTML in a Browser
 Open output.html in your web browser. Most modern browsers will cache the file, so you may need to manually refresh to see changes. For an even more automatic setup, you can use a browser extension or a development server that automatically refreshes the page when it detects changes to the file.
 
 ---
+
 ## marp 
+
 we need to compile the md file like following to compile and see the results
 marp myfile.md & open myfile.html
 
 ---
 
 ## markdown review 
+
+- Commenting
+
+```
+<!--   -->
+```
 
 - heading
 ```
@@ -169,9 +185,82 @@ To create a task list, se dashes followed by brackets. If the task is completed,
 - [x] Completed task
 - [ ] Incomplete task
 ```
+
+---
+
 ## git
 
-- adding All Files in a Directory
+###  Step 1: Create a New Repository on GitHub
+
+1.    Log in to your GitHub account and go to your dashboard.
+2.    Click on the 'New' button next to 'Repositories' on your dashboard or navigate to https://github.com/new directly.
+3.    Enter a repository name. This doesn’t have to match your local directory's name, but it's recommended for simplicity.
+4.    Choose if the repository will be Public or Private.
+5.    Initialize the repository with a README, .gitignore, or license if needed. (Optional, and you might skip this if you are pushing an existing project that already has these files.)
+6.    Click 'Create repository'.
+
+### Step 2: Push Your Local Project to GitHub
+
+After creating your repository on GitHub, you need to push your local project. If your local directory is not already a Git repository, you will need to initialize it first.
+
+1. Open Terminal or Command Prompt and navigate to your project directory.
+
+```
+    bash
+
+cd path/to/your/project
+```
+2. Initialize the local directory as a Git repository (if not already a Git repo).
+
+```
+bash
+
+git init
+```
+
+
+3. Add the files in your local repository. This stages them for the first commit.
+
+```
+bash
+
+git add .
+```
+
+    . adds all files. You can replace . with specific filenames to add specific files.
+
+4. Commit the files that you've staged in your local repository.
+
+```
+bash
+
+git commit -m "First commit"
+```
+
+5. Add the URL for the remote repository where your local repository will be pushed.
+
+```
+bash
+
+git remote add origin https://github.com/your-username/your-repository.git
+```
+   
+  Replace https://github.com/your-username/your-repository.git with the URL of your newly created GitHub repository.
+
+6. Push the changes in your local repository to GitHub.
+
+```
+bash
+
+git push -u origin main
+```
+
+
+
+ - If your main branch is named differently (like master), replace main with your branch name.
+
+
+###  adding All Files in a Directory
 
     To add all files in the current directory:
 
@@ -225,4 +314,204 @@ git status
 - Tracked files that have modifications will be listed under the "Changes not staged for commit" section.
 - Untracked files will appear under the "Untracked files" section.
 - Staged files ready for the next commit will be listed under the "Changes to be committed" section.
+
+### .gitignore
+Basic Syntax
+
+   -  Blank lines are used for spacing for readability and are ignored.
+   -  Comments start with a # symbol. Lines beginning with # are ignored by Git.
+   -  Standard glob patterns are used for matching file names. A glob pattern is a string of literal and special characters used to match file paths.
+   - Slash / at the beginning of a pattern will specify that the pattern only matches files and directories in the repository root.
+   - Slash / at the end of a pattern specifies a directory.
+   - Asterisk * matches zero or more characters in a file or directory name, except for a slash /.
+   - Question mark ? matches any one character except for a slash /.
+   - Square brackets [] match any one character inside the brackets. For example, [abc] matches a, b, or c.
+   - Negation ! at the beginning of a pattern negates the pattern; it includes the pattern in what will be tracked by Git despite matching patterns defined earlier in the file.
+
+### Best Practices
+
+- Version control your .gitignore: It's a good practice to add .gitignore to your repository so that everyone working on the project is ignoring the same unnecessary files.
+
+- Use global .gitignore for personal files: For files specific to your development environment (like IDE configuration files), consider using a global .gitignore file that applies to all repositories on your machine. This can be configured with git config --global core.excludesFile *~/.gitignore_global*.
+
+
+### Renaming a Directory and Pushing Changes
+
+- If you rename a directory and push the changes, Git tracks this as a deletion of the directory with the old name and the addition of a new directory with the new name. Here's how you would handle it:
+
+- Rename the directory locally. You can do this through your file explorer or with the command line.
+-  Use git add -A to stage all changes, including deletions and additions.
+- Commit and push as described in the previous answer.
+
+- Remember, Git tracks content, not files, so renaming is seen as deleting the old path and creating a new one with the same content.
+
+### forking in github
+
+#### Step-by-Step Guide to Fork a Repository on GitHub
+
+- Log in to GitHub: Make sure you're logged into your GitHub account.
+-  Find the Repository: Navigate to the original repository you wish to fork on GitHub.
+-  Fork the Repository:
+        Look for the "Fork" button in the top-right corner of the repository's page on GitHub.
+        Click on the "Fork" button. GitHub will then create a copy of the repository in your GitHub account. This process might take a few seconds.
+
+- After Forking
+
+Once the repository is forked, you have your own copy on your GitHub account. You can clone this forked repository to your local machine, make changes, commit them, and push the changes back to your fork on GitHub. Here’s how:
+
+- Clone Your Forked Repository:
+1. Navigate to your forked repository on GitHub.
+2. Click on the "Code" button and copy the URL provided.
+3. Open your terminal or command prompt, navigate to where you want to clone the repository, and use the git clone command followed by the URL you copied.
+
+    Example:
+
+```
+    bash
+
+git clone https://github.com/your-username/repository-name.git
+```
+
+- Make Changes Locally: After cloning, you can make changes to the repository locally on your computer.
+
+- Push Changes to Your Fork:
+
+    After making changes, add and commit those changes locally using git add and git commit.
+    Push your changes back to your fork on GitHub using git push.
+
+Example:
+
+```
+bash
+
+    git add .
+    git commit -m "Description of the changes"
+    git push origin main
+```
+
+- Contributing Back to the Original Repository
+
+If you want to contribute your changes back to the original repository, you can create a pull request:
+
+-  Navigate to Your Fork on GitHub and click the "Pull request" button.
+-    Fill Out the Pull Request Form: GitHub will automatically use the differences between your fork and the original repository to fill out the form. Make sure to provide a clear description of what changes you've made and why.
+-    Submit the Pull Request: Once you submit the pull request, the maintainers of the original repository will review your changes. They might merge your changes into the original repository, request changes, or discuss further implications with you.
+
+#### repository and local directory
+
+- **Local Repository**: This is your project directory on your computer where you use Git commands. When you commit changes here, they are recorded in your project's history locally.
+
+- **Remote Repository**: This is the version of your project that is hosted on a service like GitHub. Changes made here can be pulled into your local repository, and changes made locally can be pushed to this remote repository to share them with others.
+
+
+#### To Stop Tracking but Keep the File Locally
+(**meaning keep the file in the track locally**)
+
+- If you want to keep the file on your local system but remove it from the repository and stop tracking changes, use the git rm --cached command. This command removes the file from the staging area (making Git stop tracking it) but keeps it in your working directory.
+
+   1. Open your terminal or command prompt.
+   2. Navigate to your Git repository directory.
+   3.  Use the following command, replacing file_name with the name of your file:
+
+```
+
+git rm --cached file_name
+```
+
+- If the file is inside a folder, you need to include the path:
+
+
+```
+git rm --cached path/to/your/file_name
+```
+
+- For multiple files or to apply the command to an entire directory, use the -r option:
+
+
+```
+git rm --cached -r folder_name/
+```
+
+- After running this command, you need to commit the change:
+
+
+```
+git commit -m "Stop tracking file_name"
+```
+
+#### To Delete the File from the Repository and Stop Tracking It
+
+- If you intend to remove the file from both the repository and your local file system, use the git rm command without --cached:
+
+   1.  Open your terminal or command prompt.
+   2.  Navigate to your Git repository directory.
+   3.  Use the following command:
+
+```
+git rm file_name
+```
+
+- Or for a directory:
+
+```
+git rm -r folder_name/
+```
+
+- Then, commit the change:
+
+```
+git commit -m "Remove file_name"
+```
+
+#### Ignoring the File in Future Commits
+
+- If you don’t want the file to be accidentally re-added to the repository, consider adding its name to a .gitignore file at the root of your repository. This tells Git to ignore the file(s) in future operations.
+
+    1. Open or create a .gitignore file in the root of your repository.
+    2. Add the file or pattern you want to ignore. For example:
+
+bash
+
+- **Ignore a single file**
+```
+file_name
+```
+- **Ignore an entire directory**
+
+```
+folder_name/
+```
+
+- Save the .gitignore file and commit it:
+
+```
+git add .gitignore
+git commit -m "Update .gitignore to ignore specific files"
+```
+
+
+#### delete from remote repository
+
+- To make sure that the changes (like file deletion or stopping tracking a file) are reflected on GitHub or another remote repository, you need to push those changes. After committing the changes locally (with git commit), you push them using:
+
+
+```
+git push origin main
+```
+
+- Or, if you're using a different branch, replace main with the name of your branch:
+
+
+```
+git push origin your-branch-name
+```
+
+---
+
+## review-make
+
+---
+
+## git-hpc
+
 
