@@ -1,6 +1,6 @@
 # I am adding the gitignore file here to add files to it
 #
-'mystyle.css'
-'newtheme.css'
-'pythonProjects.py'
-
+mystyle.css
+newtheme.css
+pythonProjects.py
+*.swp
