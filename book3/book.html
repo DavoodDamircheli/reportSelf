@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>peri Journey</title>
+  <style>
+    /* Add your custom CSS styles here */
+   /* General font styles */
+   body {
+	 font-family: "Georgia", serif; /* Set the default font for the body */
+    }
+
+        /* Specific font styles */
+    h1, h2, h3 {
+      font-family: "Arial", sans-serif; /* Set the font for headings */
+     }
+
+
+
+   #sidebar {
+      width: 200px;
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      background-color: #f1f1f1;
+      overflow-y: auto;
+      font-family: "Verdana", sans-serif; /* Set the font for the sidebar */
+    }
+
+    #content {
+      margin-left: 210px;
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div id="sidebar">
+    <h2>Table of Contents</h2>
+    <ul>
+    <li><a href="#chapter-1-introduction">Chapter 1: Introduction <a id="chapter1"></a></a></li>
+    <li><a href="#chapter-2-main-problem">Chapter 2: main problem <a id="chapter2"></a></a></li>
+    </ul>
+  </div>
+  <div id="content">
+    <header>
+      <h1>peri Journey</h1>
+      <p>By Davood Damircheli</p>
+    </header>
+    <main>
+      <h1 id="chapter-1-introduction">Chapter 1: Introduction <a id="chapter1"></a></h1>
+      <p>This is the first chapter of my book… To have a table of contents as a sidebar on the left, and make each chapter link navigate to the respective chapter content, you’ll need to use some JavaScript and CSS along with your HTML template. Here’s how you can modify the provided template to achieve this:</p>
+      <ol type="1">
+      <li><strong>Update the HTML template (<code>template.html</code>)</strong>:</li>
+      </ol>
+      <div class="sourceCode" id="cb1"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="dt">&lt;!DOCTYPE </span>html<span class="dt">&gt;</span></span>
+      <span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a><span class="kw">&lt;html&gt;</span></span>
+      <span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a><span class="kw">&lt;head&gt;</span></span>
+      <span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a>  <span class="kw">&lt;meta</span><span class="ot"> charset=</span><span class="st">&quot;utf-8&quot;</span><span class="kw">&gt;</span></span>
+      <span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a>  <span class="kw">&lt;title&gt;</span>$title$<span class="kw">&lt;/title&gt;</span></span>
+      <span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a>  <span class="kw">&lt;style&gt;</span></span>
+      <span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a>    <span class="co">/* Add your custom CSS styles here */</span></span>
+      <span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a>    <span class="pp">#sidebar</span> {</span>
+      <span id="cb1-9"><a href="#cb1-9" aria-hidden="true"></a>      <span class="kw">width</span>: <span class="dv">200</span><span class="dt">px</span><span class="op">;</span></span>
+      <span id="cb1-10"><a href="#cb1-10" aria-hidden="true"></a>      <span class="kw">position</span>: <span class="dv">fixed</span><span class="op">;</span></span>
+      <span id="cb1-11"><a href="#cb1-11" aria-hidden="true"></a>      <span class="kw">left</span>: <span class="dv">0</span><span class="op">;</span></span>
+      <span id="cb1-12"><a href="#cb1-12" aria-hidden="true"></a>      <span class="kw">top</span>: <span class="dv">0</span><span class="op">;</span></span>
+      <span id="cb1-13"><a href="#cb1-13" aria-hidden="true"></a>      <span class="kw">bottom</span>: <span class="dv">0</span><span class="op">;</span></span>
+      <span id="cb1-14"><a href="#cb1-14" aria-hidden="true"></a>      <span class="kw">background-color</span>: <span class="cn">#f1f1f1</span><span class="op">;</span></span>
+      <span id="cb1-15"><a href="#cb1-15" aria-hidden="true"></a>      <span class="kw">overflow-y</span>: <span class="bu">auto</span><span class="op">;</span></span>
+      <span id="cb1-16"><a href="#cb1-16" aria-hidden="true"></a>    }</span>
+      <span id="cb1-17"><a href="#cb1-17" aria-hidden="true"></a></span>
+      <span id="cb1-18"><a href="#cb1-18" aria-hidden="true"></a>    <span class="pp">#content</span> {</span>
+      <span id="cb1-19"><a href="#cb1-19" aria-hidden="true"></a>      <span class="kw">margin-left</span>: <span class="dv">210</span><span class="dt">px</span><span class="op">;</span></span>
+      <span id="cb1-20"><a href="#cb1-20" aria-hidden="true"></a>      <span class="kw">padding</span>: <span class="dv">20</span><span class="dt">px</span><span class="op">;</span></span>
+      <span id="cb1-21"><a href="#cb1-21" aria-hidden="true"></a>    }</span>
+      <span id="cb1-22"><a href="#cb1-22" aria-hidden="true"></a>  <span class="kw">&lt;/style&gt;</span></span>
+      <span id="cb1-23"><a href="#cb1-23" aria-hidden="true"></a><span class="kw">&lt;/head&gt;</span></span>
+      <span id="cb1-24"><a href="#cb1-24" aria-hidden="true"></a><span class="kw">&lt;body&gt;</span></span>
+      <span id="cb1-25"><a href="#cb1-25" aria-hidden="true"></a>  <span class="kw">&lt;div</span><span class="ot"> id=</span><span class="st">&quot;sidebar&quot;</span><span class="kw">&gt;</span></span>
+      <span id="cb1-26"><a href="#cb1-26" aria-hidden="true"></a>    <span class="kw">&lt;h2&gt;</span>Table of Contents<span class="kw">&lt;/h2&gt;</span></span>
+      <span id="cb1-27"><a href="#cb1-27" aria-hidden="true"></a>    $toc$</span>
+      <span id="cb1-28"><a href="#cb1-28" aria-hidden="true"></a>  <span class="kw">&lt;/div&gt;</span></span>
+      <span id="cb1-29"><a href="#cb1-29" aria-hidden="true"></a>  <span class="kw">&lt;div</span><span class="ot"> id=</span><span class="st">&quot;content&quot;</span><span class="kw">&gt;</span></span>
+      <span id="cb1-30"><a href="#cb1-30" aria-hidden="true"></a>    <span class="kw">&lt;header&gt;</span></span>
+      <span id="cb1-31"><a href="#cb1-31" aria-hidden="true"></a>      <span class="kw">&lt;h1&gt;</span>$title$<span class="kw">&lt;/h1&gt;</span></span>
+      <span id="cb1-32"><a href="#cb1-32" aria-hidden="true"></a>      <span class="kw">&lt;p&gt;</span>By $author$<span class="kw">&lt;/p&gt;</span></span>
+      <span id="cb1-33"><a href="#cb1-33" aria-hidden="true"></a>    <span class="kw">&lt;/header&gt;</span></span>
+      <span id="cb1-34"><a href="#cb1-34" aria-hidden="true"></a>    <span class="kw">&lt;main&gt;</span></span>
+      <span id="cb1-35"><a href="#cb1-35" aria-hidden="true"></a>      $body$</span>
+      <span id="cb1-36"><a href="#cb1-36" aria-hidden="true"></a>    <span class="kw">&lt;/main&gt;</span></span>
+      <span id="cb1-37"><a href="#cb1-37" aria-hidden="true"></a>    <span class="kw">&lt;footer&gt;</span></span>
+      <span id="cb1-38"><a href="#cb1-38" aria-hidden="true"></a>      <span class="kw">&lt;p&gt;</span>$rights$<span class="kw">&lt;/p&gt;</span></span>
+      <span id="cb1-39"><a href="#cb1-39" aria-hidden="true"></a>    <span class="kw">&lt;/footer&gt;</span></span>
+      <span id="cb1-40"><a href="#cb1-40" aria-hidden="true"></a>  <span class="kw">&lt;/div&gt;</span></span>
+      <span id="cb1-41"><a href="#cb1-41" aria-hidden="true"></a></span>
+      <span id="cb1-42"><a href="#cb1-42" aria-hidden="true"></a>  <span class="kw">&lt;script&gt;</span></span>
+      <span id="cb1-43"><a href="#cb1-43" aria-hidden="true"></a>    <span class="co">// Add click event listeners to TOC links</span></span>
+      <span id="cb1-44"><a href="#cb1-44" aria-hidden="true"></a>    <span class="bu">document</span><span class="op">.</span><span class="fu">querySelectorAll</span>(<span class="st">&#39;#sidebar a&#39;</span>)<span class="op">.</span><span class="fu">forEach</span>(<span class="kw">function</span>(link) {</span>
+      <span id="cb1-45"><a href="#cb1-45" aria-hidden="true"></a>      link<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">&#39;click&#39;</span><span class="op">,</span> <span class="kw">function</span>(e) {</span>
+      <span id="cb1-46"><a href="#cb1-46" aria-hidden="true"></a>        e<span class="op">.</span><span class="fu">preventDefault</span>()<span class="op">;</span></span>
+      <span id="cb1-47"><a href="#cb1-47" aria-hidden="true"></a>        <span class="kw">const</span> target <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="fu">getAttribute</span>(<span class="st">&#39;href&#39;</span>)<span class="op">;</span></span>
+      <span id="cb1-48"><a href="#cb1-48" aria-hidden="true"></a>        <span class="bu">document</span><span class="op">.</span><span class="fu">querySelector</span>(target)<span class="op">.</span><span class="fu">scrollIntoView</span>({ <span class="dt">behavior</span><span class="op">:</span> <span class="st">&#39;smooth&#39;</span> })<span class="op">;</span></span>
+      <span id="cb1-49"><a href="#cb1-49" aria-hidden="true"></a>      })<span class="op">;</span></span>
+      <span id="cb1-50"><a href="#cb1-50" aria-hidden="true"></a>    })<span class="op">;</span></span>
+      <span id="cb1-51"><a href="#cb1-51" aria-hidden="true"></a>  <span class="kw">&lt;/script&gt;</span></span>
+      <span id="cb1-52"><a href="#cb1-52" aria-hidden="true"></a><span class="kw">&lt;/body&gt;</span></span>
+      <span id="cb1-53"><a href="#cb1-53" aria-hidden="true"></a><span class="kw">&lt;/html&gt;</span></span></code></pre></div>
+      <p>In this updated template: - The <code>#sidebar</code> div will contain the table of contents as a fixed sidebar on the left. - The <code>#content</code> div will contain the main content area, with a left margin to accommodate the sidebar. - The JavaScript code at the bottom adds click event listeners to the links in the table of contents. When a link is clicked, it prevents the default link behavior and scrolls the page to the corresponding chapter content using the <code>scrollIntoView</code> method.</p>
+      <ol start="2" type="1">
+      <li><strong>Update the Pandoc command</strong>:</li>
+      </ol>
+      <pre><code>pandoc --toc --toc-depth=2 --template=template.html --metadata-file=metadata.yaml --output=book.html --standalone chapters/*.md</code></pre>
+      <p>The <code>--standalone</code> option is added to generate a self-contained HTML file with all the necessary code (including the JavaScript) in the output.</p>
+      <ol start="3" type="1">
+      <li><strong>Add chapter anchors in your Markdown files</strong>:</li>
+      </ol>
+      <p>In each chapter Markdown file, add an HTML anchor at the beginning of the chapter content, like this:</p>
+      <div class="sourceCode" id="cb3"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="fu"># Chapter 1: Introduction &lt;a id=&quot;chapter1&quot;&gt;&lt;/a&gt;</span></span>
+      <span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a></span>
+      <span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a>This is the first chapter of my book...</span></code></pre></div>
+      <p>The <code>&lt;a id="chapter1"&gt;&lt;/a&gt;</code> anchor will serve as the target for the table of contents links to scroll to.</p>
+      <p>After running the updated Pandoc command, the generated <code>book.html</code> file will have a sidebar with the table of contents on the left. Clicking on a chapter link will smoothly scroll the page to the corresponding chapter content.</p>
+      <p>Note that you may need to adjust the CSS styles (e.g., sidebar width, content area margin) according to your preferences. Additionally, you can enhance the styling and functionality further by adding more CSS and JavaScript as needed.</p>
+      <h1 id="chapter-2-main-problem">Chapter 2: main problem <a id="chapter2"></a></h1>
+      <p>This is the second chapter of my book…</p>
+    </main>
+    <footer>
+      <p>© 2024 Davood Damircheli, All Rights Reserved</p>
+    </footer>
+  </div>
+
+  <script>
+    // Add click event listeners to TOC links
+    document.querySelectorAll('#sidebar a').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = this.getAttribute('href');
+        document.querySelector(target).scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+  </script>
+</body>
+</html>

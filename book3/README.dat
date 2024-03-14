@@ -1,0 +1,4 @@
+
+pandoc --toc --toc-depth=2 --template=template.html --metadata-file=metadata.yaml --output=book.html --standalone chapters/*.md                                                                                  
+
+
