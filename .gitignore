@@ -4,3 +4,11 @@ mystyle.css
 newtheme.css
 pythonProjects.py
 *.swp
+*.yaml
+template.*
+book3/metadata.yaml
+book3/template.html
+book2/
+book*
+*.pdf
+ 
