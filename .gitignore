@@ -11,4 +11,7 @@ book3/template.html
 book2/
 book*
 *.pdf
+images
+mybook1/
+*.png
  
