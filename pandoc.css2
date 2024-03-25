@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>$title$</title>
+  <style>
+    /* General styles */
+    html {
+      font-size: 100%;
+      overflow-y: scroll;
+      -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+    }
+
+    body {
+      color: #444;
+      font-family: Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
+      font-size: 12px;
+      line-height: 1.7;
+      margin: 0;
+      padding: 1em;
+      background: #fefefe;
+      display: flex;
+    }
+
+    /* Sidebar styles */
+    #sidebar {
+      width: 200px;
+      padding: 1em;
+      background-color: #f1f1f1;
+      overflow-y: auto;
+    }
+
+    /* Content area styles */
+    #content {
+      flex: 1;
+      padding: 1em;
+      max-width: 42em;
+    }
+
+    /* Link styles */
+    a {
+      color: #0645ad;
+      text-decoration: none;
+    }
+
+    a:visited {
+      color: #0b0080;
+    }
+
+    a:hover {
+      color: #06e;
+    }
+
+    a:active {
+      color: #faa700;
+    }
+
+    a:focus {
+      outline: thin dotted;
+    }
+
+    /* Selection styles */
+    *::-moz-selection {
+      background: rgba(255, 255, 0, 0.3);
+      color: #000;
+    }
+
+    *::selection {
+      background: rgba(255, 255, 0, 0.3);
+      color: #000;
+    }
+
+    a::-moz-selection {
+      background: rgba(255, 255, 0, 0.3);
+      color: #0645ad;
+    }
+
+    a::selection {
+      background: rgba(255, 255, 0, 0.3);
+      color: #0645ad;
+    }
+  </style>
+</head>
+<body>
+  <div id="sidebar">
+    <h2>Table of Contents</h2>
+    $toc$
+  </div>
+  <div id="content">
+    <header>
+      <h1>$title$</h1>
+      <p>By $author$</p>
+    </header>
+    <main>
+      $body$
+    </main>
+    <footer>
+      <p>$rights$</p>
+    </footer>
+  </div>
+
+  <script>
+    // Add click event listeners to TOC links
+    document.querySelectorAll('#sidebar a').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = this.getAttribute('href');
+        document.querySelector(target).scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+  </script>
+</body>
+</html>

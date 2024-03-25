@@ -28,11 +28,14 @@ Some Configs
   - [LSU conda HPC](#conda-lsu)
   - [confilct with different Python versions](#pythons)
   - [tests](#tests)
-
-
-
-
-
+- [how to write a book](#book)
+- [book with slide bar](#book2)
+- [singularity approach and HPC](#singularity)
+  - [where to get reliable containers](#where)
+  - [build your own image](#build)
+- [creating my own continer](#my-container)
+  - [mounting directories](#mount)
+  - [workflow of container in hpc](#using-sif-file)
 
 ---
 
@@ -874,6 +877,18 @@ scp -r /path/to/local/project username@hpc.domain:/path/to/remote/directory for 
 
  or rsync -av /path/to/local/project username@hpc.domain:/path/to/remote/directory for rsync.
 ```
+
+#### scp for LSU
+
+```bash 
+go to the local pc
+
+scp /path/to/local/project  davdam@smic.hpc.lsu.edu:/home
+
+```
+
+
+
  
 - Using Git to transfer files to an HPC (High-Performance Computing) system can streamline your workflow, especially if you frequently update your code.
 
@@ -1186,6 +1201,38 @@ conda install -c conda-forge gmsh
 ```
 
 
+## an example of PBS file with conda 
+
+
+```PBS
+
+#!/bin/bash
+#PBS -N my_job
+#PBS -l nodes=1:ppn=4
+#PBS -l walltime=00:30:00
+#PBS -j oe
+#PBS -o output.log
+
+# Load the required module
+module load python/3.8.5
+
+# Create and activate a Conda virtual environment
+conda create -n my_env python=3.8 -y
+source activate my_env
+
+# Install required packages in the virtual environment
+pip install numpy scipy matplotlib
+
+# Run your Python script
+python my_script.py
+
+# Deactivate the virtual environment
+source deactivate
+
+```
+
+
+
 
 ---
 
@@ -1403,6 +1450,602 @@ conda create --name perienv_new python=3.6
 ```
     python --version
 ```
+
+
+---
+
+## book
+
+
+Certainly! Writing a book with different chapters and a table of contents using Markdown files and converting them to HTML with Pandoc is a straightforward process. Here are the steps you can follow:
+
+1. **Create a directory structure for your project**:
+```
+my-book/
+├── chapters/
+│   ├── chapter1.md
+│   ├── chapter2.md
+│   └── ...
+├── metadata.yaml
+└── template.html
+```
+
+2. **Write your chapters in Markdown format**:
+Create a separate Markdown file for each chapter in the `chapters/` directory. For example, `chapter1.md` might contain:
+
+```markdown
+# Chapter 1: Introduction
+
+This is the first chapter of my book...
+```
+
+3. **Create a metadata file (`metadata.yaml`)**:
+This file will contain the book's metadata, such as the title, author, and the list of chapters. Here's an example:
+
+```yaml
+---
+title: My Book
+author: Your Name
+rights: © 2023 Your Name, All Rights Reserved
+chapters:
+  - chapters/chapter1.md
+  - chapters/chapter2.md
+  - chapters/chapter3.md
+...
+---
+```
+
+4. **Create an HTML template (`template.html`)**:
+This template will define the structure of your HTML output. Here's a basic example:
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>$title$</title>
+  <style>
+    /* Add your custom CSS styles here */
+  </style>
+</head>
+<body>
+  <header>
+    <h1>$title$</h1>
+    <p>By $author$</p>
+  </header>
+  <nav>
+    <h2>Table of Contents</h2>
+    $toc$
+  </nav>
+  <main>
+    $body$
+  </main>
+  <footer>
+    <p>$rights$</p>
+  </footer>
+</body>
+</html>
+```
+
+5. **Convert Markdown to HTML using Pandoc**:
+Open your terminal or command prompt, navigate to the `my-book/` directory, and run the following command:
+
+```
+pandoc --toc --toc-depth=2 --template=template.html --metadata-file=metadata.yaml --output=book.html chapters/*.md
+```
+
+This command will:
+- `--toc`: Generate a table of contents
+- `--toc-depth=2`: Set the depth of headings included in the table of contents to 2 (chapter and section headings)
+- `--template=template.html`: Use the `template.html` file as the HTML template
+- `--metadata-file=metadata.yaml`: Use the `metadata.yaml` file for metadata
+- `--output=book.html`: Output the HTML file as `book.html`
+- `chapters/*.md`: Include all Markdown files in the `chapters/` directory
+
+After running this command, you should have a `book.html` file in your `my-book/` directory, which will contain your book's content with a table of contents and formatted according to your `template.html` file.
+
+You can further customize the appearance of your book by modifying the `template.html` file and adding CSS styles. Additionally, you can explore other Pandoc options and features to fine-tune the output according to your needs.
+
+---
+
+
+## book2 
+
+To have a table of contents as a sidebar on the left, and make each chapter link navigate to the respective chapter content, you'll need to use some JavaScript and CSS along with your HTML template. Here's how you can modify the provided template to achieve this:
+
+1. **Update the HTML template (`template.html`)**:
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>$title$</title>
+  <style>
+    /* Add your custom CSS styles here */
+    #sidebar {
+      width: 200px;
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      background-color: #f1f1f1;
+      overflow-y: auto;
+    }
+
+    #content {
+      margin-left: 210px;
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div id="sidebar">
+    <h2>Table of Contents</h2>
+    $toc$
+  </div>
+  <div id="content">
+    <header>
+      <h1>$title$</h1>
+      <p>By $author$</p>
+    </header>
+    <main>
+      $body$
+    </main>
+    <footer>
+      <p>$rights$</p>
+    </footer>
+  </div>
+
+  <script>
+    // Add click event listeners to TOC links
+    document.querySelectorAll('#sidebar a').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = this.getAttribute('href');
+        document.querySelector(target).scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+  </script>
+</body>
+</html>
+```
+
+In this updated template:
+- The `#sidebar` div will contain the table of contents as a fixed sidebar on the left.
+- The `#content` div will contain the main content area, with a left margin to accommodate the sidebar.
+- The JavaScript code at the bottom adds click event listeners to the links in the table of contents. When a link is clicked, it prevents the default link behavior and scrolls the page to the corresponding chapter content using the `scrollIntoView` method.
+
+2. **Update the Pandoc command**:
+
+```
+pandoc --toc --toc-depth=2 --template=template.html --metadata-file=metadata.yaml --output=book.html --standalone chapters/*.md
+```
+
+The `--standalone` option is added to generate a self-contained HTML file with all the necessary code (including the JavaScript) in the output.
+
+3. **Add chapter anchors in your Markdown files**:
+
+In each chapter Markdown file, add an HTML anchor at the beginning of the chapter content, like this:
+
+```markdown
+# Chapter 1: Introduction <a id="chapter1"></a>
+
+This is the first chapter of my book...
+```
+
+The `<a id="chapter1"></a>` anchor will serve as the target for the table of contents links to scroll to.
+
+After running the updated Pandoc command, the generated `book.html` file will have a sidebar with the table of contents on the left. Clicking on a chapter link will smoothly scroll the page to the corresponding chapter content.
+
+Note that you may need to adjust the CSS styles (e.g., sidebar width, content area margin) according to your preferences. Additionally, you can enhance the styling and functionality further by adding more CSS and JavaScript as needed.
+
+
+
+---
+
+## singularity
+
+### a nice toturial
+[container for hpc](https://pawseysc.github.io/hpc-container-training/index.html)
+
+
+- **Note** singularity is just avaiable on the head nodes, so you need to start a interactive job
+
+
+some comments
+
+```
+singularity --version
+singularity --help
+
+singulariy --help build
+
+
+```
+- how to get ios information 
+
+```
+cat /etc/os-release
+```
+
+- Binding a path 
+
+```
+singularity shell -B /work /home/admin/singularity/file.sif
+```
+
+- Binding multiple directory
+
+```
+singularity shell -B /work,/projecct  /home/admin/singularity/file.sif
+```
+
+###  using **--nv** for GPU
+
+for example for **machin learing**
+
+- for example when we are using the Tensorflow
+
+```
+import tensorflow as tf
+
+tf.confi.list_physical_devices("GPU")
+
+```
+
+
+- exec
+
+
+example
+
+```
+
+
+singularity exec /home/admin/singularity/ubuntu-training/sif python
+
+```
+
+
+or 
+
+example  **exec -c**
+
+```
+
+singularity exec /home/admin/singularity/ubuntu-training/sif python -c "print('Hello world!')"
+
+```
+
+## singulairy shell
+
+---
+
+## how to run jobs in singulairty shell
+
+
+
+
+![usefull comments](images/sjob.png)
+
+
+
+### pbs and singularity
+
+
+
+![usefull comments](images/sPbs.png)
+
+
+
+---
+
+## how to use released images 
+
+1. get the image 
+
+2. **change the group** ownership
+
+---
+
+## where
+### where to get images?
+
+- we can convert Doker  into singularity
+
+- on the developer website search for **Decker**, **singularity**, 
+
+
+
+[ready Singularity](https://github.com/mkandes/naked-singularity/tree/master/definition-files)
+
+Example
+
+Tensorflow website and Decker
+
+
+Tier 1: Developer release (official release)
+–
+–
+- On software’s official website, look for “Docker” / “Singularity” / “Container” / etc.
+E.g., Tensorflow, Trinity, Salmon
+
+
+
+
+
+![usefull comments](images/sget.png)
+
+
+
+###  **E4S** a nice source for getting the ready container 
+
+- ubuntu with spack minimum
+- ubuntu GPU
+
+
+[E4S](https://www.exascaleproject.org/wp-content/uploads/2022/05/E4S-2022-08-25-Shende_1.pdf)
+
+
+
+## How to get them?
+
+
+![usefull comments](images/sget2.png)
+
+
+
+- you need to do 
+
+``` singularity pull source
+```
+
+- but if you get the image form the Decker, or it is a Decker image you will convert it in the follwoing form
+
+
+```bash
+singularity pull docker://ubuntu
+```
+
+
+That is it!!!
+ 
+- you can specity the storage location with **--dir**
+
+```bash
+mkdir -p siflocation
+
+singularity pull --dir ~/path to siflocation docker://ubuntu
+```
+
+
+
+- indeed we need to convert the follwoing 
+
+```bash
+
+docker pull somthing ===> singularity pull docerk://something
+```
+
+- or http://
+
+```bash
+
+singularity pull http link
+
+```
+---
+
+## singularity cache
+
+- inspect
+
+```
+singularity cache list -v
+```
+
+
+- dry clean
+
+```
+singularity cache clean -n 
+```
+
+- really to wipethe cache 
+
+```
+singularity cache clean -f 
+```
+
+---
+
+## singularity BUILD
+
+1:15:00
+
+
+
+```
+singularity build mytarget.sif destination
+
+
+singularity build myubuntu.sif  docker://ubuntu:20.04 
+```
+
+---
+
+###Step 2: Change group ownership
+
+
+- i need to ask hpc people to add me to the group of singularity that I can use 
+singularity sell
+
+and after getting the image I should do 
+
+```bash
+chgrp singularity <container>
+```
+---
+## build
+
+
+```bash 
+sudo singularity build mytarget source
+```
+
+- making a directory of the the container to **modify the image**
+
+```
+singularity build --sandbox myTarget source
+```
+
+- **untill now you can just run the container** 
+if we want to write we need 
+
+```bash
+
+sudo singularity shell --writable mycontainer 
+
+for example
+
+
+sudo singularity shell --writable mycontainer/
+
+or 
+
+ 
+sudo singularity shell --writable mycontainer.sif
+```
+
+ 
+![usefull comments](images/sbuild.png)
+
+
+- after modification now it is time to make or build our image from a modified image
+
+```
+
+sudo singularity build mynewImage.sif mylocalCOntaier 
+```
+
+
+
+## recipe
+
+
+A text file containing instructions to build a container
+
+---
+
+
+## my container
+
+
+###  mount
+
+#### default mounted directory
+
+
+ - When you use singularity shell to enter a container, by default, Singularity maps your home directory from the host into the container. 
+
+- To work around this and use the container's own filesystem entirely (including its home directory), 
+you can use the **--no-home** option with your singularity shell command. 
+- This option prevents Singularity from mounting your host's home directory over the container's home directory. Here's how you might use it:
+
+```bash
+
+sudo singularity shell --writable --no-home ubuntu-min-tools
+```
+---
+
+### Minmum default and /root
+
+- Containers often have minimal setups, and depending on the base image used to create the container, a .bashrc for the root user might not exist by default.
+
+- Creating a .bashrc File Inside the Container
+
+1. **Identif the User's Home Directory:** First, find out what the home directory is for the user you are operating as inside the container. If you're root, this is typically **/root**. You can confirm by running **echo $HOME** inside the container.
+
+
+2. Create a .bashrc File: If there's no .bashrc in the home directory, you can create one. 
+
+```
+vi /root/.bashrc
+```
+ 
+- Or, if you're a **non-root** user and know the home directory:
+
+```bash
+
+vi /home/username/.bashrc
+```
+
+## bind syntax
+
+
+- The path ubuntu-min-tools/opt/periv2 appears to be **incorrect** because it includes what seems to be part of the command or container name (ubuntu-min-tools) rather than just the path where you want to mount the directory inside the container.
+
+
+
+
+
+
+```
+sudo singularity shell --writable --no-home -B /home/davood/projects/beta_perigrain_v2:/opt/periv2 ubuntu-min-tools
+```
+
+
+---
+
+
+### using sif file
+
+1. Integrating Singularity into Your Bash Script
+
+- Modify your **run.sh** script to use Singularity for tasks that require the Python environment. 
+
+- For Python tasks, wrap your Python command with singularity exec. For example:
+
+```bash
+
+singularity exec /path/to/your/container.sif python3 myfunctions.py
+
+```
+
+
+- For **MPI tasks**, if the MPI environment is outside the container and should use the HPC's native MPI, you can leave those commands as is. If the MPI environment is inside the container, use Singularity's options to run MPI applications. The exact command depends on your setup and might require additional flags for compatibility with your HPC's MPI configuration.
+
+
+
+2. Creating a PBS Job Script
+
+Create a PBS job script that will submit your run.sh script as a job. This job script, let's call it submit_job.pbs, might look something like this:
+
+```bash
+
+#!/bin/bash
+#PBS -N job_name
+#PBS -l walltime=01:00:00
+#PBS -l select=1:ncpus=8:mem=16gb
+#PBS -j oe
+
+module load singularity   # Load Singularity if it is a module
+module load mpi           # Load MPI module if your MPI tasks are outside the container
+
+cd $PBS_O_WORKDIR # Change directory to your working directory
+bash run.sh
+```
+
+## MPI and container
+
+#### Notes on MPI and Containers
+
+    - **MPI Inside vs. Outside Containers**: Running MPI applications can be more complex when containers are involved. Ideally, the MPI version inside the container should match the version available on the HPC system to avoid compatibility issues. If your MPI application and environment are fully contained, ensure your Singularity image is set up correctly for MPI.
+
+    - **Hybrid Approaches**: In some cases, you might run non-MPI tasks within the container and MPI tasks outside, or vice versa. Tailor your script based on where the MPI environment is best utilized.
+
+    - **Testing**: Before submitting the job, test your modified run.sh script and PBS job script (submit_job.pbs) with smaller tasks to ensure everything works as expected in the HPC environmen
 
 
 ---

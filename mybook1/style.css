@@ -1,0 +1,15 @@
+body {
+    display: flex;
+}
+
+#sidebar {
+    width: 20%;
+    background-color: #f0f0f0;
+    padding: 10px;
+}
+
+#content {
+    flex-grow: 1;
+    padding: 10px;
+}
+

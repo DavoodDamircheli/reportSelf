@@ -1,0 +1,10 @@
+
+python3 -m http.server
+
+
+
+xdg-open index.html
+
+firefox index.html
+
+
