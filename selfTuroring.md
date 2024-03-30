@@ -1,6 +1,6 @@
 <span id="top"></span>
 ---
-Some Configs
+Missing concepts!
 ---
 
 # Table of content 
@@ -35,8 +35,13 @@ Some Configs
   - [build your own image](#build)
 - [creating my own continer](#my-container)
   - [mounting directories](#mount)
+    - [very interesting Error](#jaleb)
+    - [copy direcetory](#copy)
+    - [Do we need a directory inside a container to mount?](#target-directory)
   - [workflow of container in hpc](#using-sif-file)
-
+  - [Allow Container Access to Host's Display](#display)
+- [Do I need to rebuild the container?](#config)
+- [Do I need to compile my code again on hpc cluster?](#compile-on-cluster)
 ---
 
 
@@ -1998,6 +2003,102 @@ sudo singularity shell --writable --no-home -B /home/davood/projects/beta_perigr
 
 ---
 
+## jaleb
+
+- The error you're encountering while running your script within a Singularity container indicates a problem with accessing the file system outside the container. This is a common scenario when working with containers like Singularity or Docker, especially when trying to access files or directories on the host system. Here are some steps to troubleshoot and resolve the issue:
+1. **Bind Mounts**
+
+- When you execute a Singularity container, you need to ensure that directories from the host system are accessible inside the container through bind mounts. By default, Singularity automatically binds certain directories like /home, /tmp, and /proc, but you may need to explicitly bind additional directories depending on your setup and Singularity configuration.
+
+- To bind a directory from your host to the container, you can use the -B or --bind option with the singularity exec command. You'll want to ensure that the /work/davdam/periHpc-output/kalthoff3d/kalthof3d_hpc_h10/ directory is accessible inside the container. For example:
+
+```sh
+
+singularity exec --bind /work/davdam/periHpc-output:/work/davdam/periHpc-output containers/ubuntu-min-peri-require-v2.sif python3 test.py
+```
+
+This command mounts the /work/davdam/periHpc-output directory from your host to the same path inside the container, making it accessible for your script.
+
+2. Check Container's File System Access
+
+Verify that the container's environment has the necessary permissions to read from and write to the bound directory. Singularity containers run with the user permissions of the user who started them, so ensure that your user has the appropriate permissions for the /work/davdam/periHpc-output/kalthoff3d/kalthof3d_hpc_h10/ directory on the host.
+3. Directory Existence and Permissions Inside Container
+
+Even with correct bind mounts, you need to ensure that the directory exists and has the correct permissions inside the container. Use a shell inside the container to check the directory's existence and permissions:
+
+```sh
+
+singularity shell --bind /work/davdam/periHpc-output:/work/davdam/periHpc-output containers/ubuntu-min-peri-require-v2.sif
+```
+
+
+Once inside the container, navigate to the directory and check that it exists and your user has write permissions.
+4. Container's Environment and Dependencies
+
+Ensure that the container environment has all necessary dependencies installed, including h5py and its dependencies, configured correctly. The error could stem from a mismatch or misconfiguration within the container, even though the same script works outside of it.
+
+If after following these steps you're still facing issues, consider revisiting the container's configuration or the way your Singularity image is built to ensure it's properly set up for your workflow, including file system access and Python environment dependencies.
+User
+
+
+### why the path is repeated twice here 
+
+```
+--bind /work/davdam/periHpc-output:/work/davdam/periHpc-output
+
+```
+-  In the Singularity --bind option format --bind /host/path:/container/path, the path before the colon (:) specifies the location on the host system that you want to make accessible inside the container, while the path after the colon specifies where this directory will be mounted (or seen) inside the container. The format allows you to map directories from the host to potentially different locations inside the container.
+
+- When the path is repeated twice, as in --bind /work/davdam/periHpc-output:/work/davdam/periHpc-output, it means you are binding the /work/davdam/periHpc-output directory from the host to the same path /work/davdam/periHpc-output inside the container. Essentially, you're making the directory available inside the container at the same path as it exists on the host, maintaining a consistent path environment for applications that may rely on specific path configurations.
+
+
+    Maintaining Path Consistency: You want to ensure that scripts or applications that reference specific paths can run both outside and inside the container without modifying the path references.
+    Ease of Use: It simplifies the process of working with files, especially when scripts or applications are designed to work with a predefined directory structure.
+
+### NOTE
+However, you're not restricted to this approach. You can bind the host directory to a different path inside the container if needed, for example, --bind /work/davdam/periHpc-output:/data, which would make /work/davdam/periHpc-output from the host accessible as /data inside the container. This flexibility can be particularly useful for aligning with the directory structures expected by applications or when integrating with multiple containers that expect different directory layouts.
+
+---
+
+## copy 
+
+### copy a directory in container
+
+singularity copy and cp and etc didnt work I had to shell into the container and copy the directory!!
+
+
+---
+
+
+
+### target directory
+
+When you use the `--bind` or `--volume` option with Singularity (or Docker, respectively) to mount a directory from the host system into the container, you do not need to have the target directory already existing inside the container. If the target directory does not exist, it will be created by Singularity at runtime. However, understanding the behavior when the directory does exist in the container is important:
+
+### If the Target Directory Exists in the Container:
+- **Non-Empty Directory:** If you mount a host directory to a non-empty directory inside the container, the mount will "overlay" the directory inside the container. This means that while the container is running, any files in the target directory inside the container will be "hidden" and replaced by the contents of the host directory. The original contents of the directory inside the container will not be modified or removed; they will simply be inaccessible for the duration of the mount. Once the container stops and the mount is removed, the original contents of the directory will be visible again.
+
+- **Empty Directory:** If the directory exists and is empty, then mounting a host directory to it is straightforward. The contents of the host directory will be accessible at the mount point inside the container.
+
+### Recommendations:
+- **For Configuration Files:** If you plan to mount a `config` directory from the host to `/app/myproject/config` inside the container, it is generally a good practice to have a default `config` directory in your container with default configuration files. This approach ensures that your application can run with default settings if no external mount is provided. When you do provide an external mount, your custom or updated configuration will override these defaults without altering them permanently.
+
+- **Maintain a Clear Structure:** To avoid confusion, especially when dealing with multiple environments or configurations, it’s helpful to maintain a clear directory structure and understand which directories will be mounted and potentially override the container's contents.
+
+- **Documentation:** Document the behavior and expectations regarding configuration files and directories in your project's README or documentation. This can help users and collaborators understand how to customize the application’s behavior through mounts.
+
+### Example Command:
+To mount a `config` directory from your HPC home directory to `/app/myproject/config` inside the container, you would use:
+
+```bash
+singularity exec --bind /home/user/config:/app/myproject/config yourappname.sif /app/myproject/bin/simulate2d
+```
+
+In this command:
+- `/home/user/config` is the path to your configuration directory on the HPC system.
+- `/app/myproject/config` is the path inside the container where the application expects its configuration files.
+- The application within the container, `/app/myproject/bin/simulate2d`, will read the configuration files from the mounted directory.
+---
 
 ### using sif file
 
@@ -2037,15 +2138,156 @@ cd $PBS_O_WORKDIR # Change directory to your working directory
 bash run.sh
 ```
 
+
+--- 
+
+
 ## MPI and container
+
 
 #### Notes on MPI and Containers
 
-    - **MPI Inside vs. Outside Containers**: Running MPI applications can be more complex when containers are involved. Ideally, the MPI version inside the container should match the version available on the HPC system to avoid compatibility issues. If your MPI application and environment are fully contained, ensure your Singularity image is set up correctly for MPI.
 
-    - **Hybrid Approaches**: In some cases, you might run non-MPI tasks within the container and MPI tasks outside, or vice versa. Tailor your script based on where the MPI environment is best utilized.
+- **MPI Inside vs. Outside Containers**: Running MPI applications can be more complex when containers are involved. Ideally, the MPI version inside the container should match the version available on the HPC system to avoid compatibility issues. If your MPI application and environment are fully contained, ensure your Singularity image is set up correctly for MPI.
 
-    - **Testing**: Before submitting the job, test your modified run.sh script and PBS job script (submit_job.pbs) with smaller tasks to ensure everything works as expected in the HPC environmen
+- **Hybrid Approaches**: In some cases, you might run non-MPI tasks within the container and MPI tasks outside, or vice versa. Tailor your script based on where the MPI environment is best utilized.
+
+- **Testing**: Before submitting the job, test your modified run.sh script and PBS job script (submit-job.pbs) with smaller tasks to ensure everything works as expected in the HPC environmen
+
+---
+
+
+## display 
+
+f you're inside a container and facing the "Authorization required, but no authorization protocol specified" error while trying to run a compiled C++ code that requires graphical output, the issue is likely related to X11 graphics forwarding from within the container to your host's display. Containers, by default, do not have access to the host's display server due to isolation.
+
+Here are steps to solve this problem, focusing on Docker as it's one of the most common container platforms. The same principles apply to other container technologies, but the commands and configuration might differ.
+
+### Allow Container Access to Host's Display
+
+1. **Share the Display**: You need to allow the container to access the host's display. This is done by setting the `DISPLAY` environment variable inside the container to match the `DISPLAY` variable of the host system.
+
+2. **X11 Unix Socket**: Share the X11 Unix socket directory between the host and the container by using the `-v` (volume) option in Docker.
+
+3. **Xhost**: Temporarily allow connections to the X server on the host from any address. This is generally not recommended for public networks due to security concerns.
+
+#### Implementation
+
+First, on your host, run:
+
+```bash
+xhost +
+```
+
+This command temporarily allows all connections to your X server. For a more secure setup, you might specify the IP address of the container or use `xhost +local:` to only allow local connections.
+
+Then, when running your container, add the `-e DISPLAY` and `-v /tmp/.X11-unix:/tmp/.X11-unix` options to your `docker run` command. For example:
+
+```bash
+docker run -it --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix your_container_image
+```
+
+This command runs a container with the display environment variable set to use the host's display and shares the X11 Unix socket between the host and the container.
+
+#### Security Note
+
+After you've finished running your containerized application, it's a good practice to revoke the open access to your X server (if you used `xhost +` earlier) by running:
+
+```bash
+xhost -
+```
+
+This command will reset the access control to the default settings, generally denying all connections except those allowed explicitly.
+
+### Inside a Container without Docker
+
+If you're using a containerization technology other than Docker, or if Docker-specific solutions aren't applicable, you'll need to adjust the approach based on your container platform's way of handling networking, volumes, and environment variables. The key concepts of sharing the `DISPLAY` environment variable and the X11 Unix socket directory, however, remain the same.
+
+
+---
+
+## config
+
+No, you generally do not need to rebuild your container every time you wish to change a parameter in your application for running on an HPC cluster. There are more efficient strategies to manage parameter changes without the overhead of rebuilding the container:
+
+### 1. **External Configuration Files or Environment Variables**
+One common approach is to use external configuration files or environment variables to pass parameters into your application. This way, you can change the parameters without altering the container.
+
+- **Configuration Files**: You can mount a configuration file into the container at runtime that your application reads to set parameters. This file can be edited outside the container, and the changes will be reflected the next time you run the container.
+
+    ```bash
+    singularity exec --bind ./config:/app/config yourappname.sif ./bin/simulate2d
+    ```
+
+    In this example, `--bind ./config:/app/config` mounts the local `config` directory to `/app/config` inside the container, where your application can access it.
+
+- **Environment Variables**: Alternatively, you can pass parameters as environment variables using the `-e` option with Singularity. Your application would then read these environment variables at runtime.
+
+    ```bash
+    singularity exec -e SINGULARITYENV_PARAM1=value1 yourappname.sif ./bin/simulate2d
+    ```
+
+    Ensure your application is designed to read parameters from either configuration files or environment variables as needed.
+
+### 2. **Interactive Mode or Shell Access**
+For development, testing, or debugging, you might want to run the container in interactive mode or access its shell directly. This allows you to modify files, execute commands, or run scripts inside the container without rebuilding it.
+
+```bash
+singularity shell yourappname.sif
+```
+
+Once inside, you can edit parameters in your scripts or binaries directly and run your application.
+
+### 3. **Scripts and Command Line Arguments**
+Modify your application to accept command line arguments or to read from a script that can be easily edited and passed into the container. This is particularly useful for numerical parameters, flags, or other simple configurations that might change frequently.
+
+For example, you could modify your application to accept command line arguments for different parameters:
+```bash
+singularity exec yourappname.sif ./bin/simulate2d --param1 value1 --param2 value2
+```
+
+### 4. **Volume Binding for Dynamic Data**
+Bind volumes (directories) from the host to the container for data or configuration files that might change between runs. This is similar to the first approach and allows your application to access different data sets or configuration files without rebuilding the container.
+
+```bash
+singularity exec --bind /path/to/data:/app/data yourappname.sif ./bin/simulate2d
+```
+
+This approach is flexible and efficient for HPC applications, as it separates the immutable aspects of your environment (which are containerized) from the mutable aspects (like data and configuration), which are managed externally.
+
+---
+
+
+
+## compile on cluster
+
+
+No, if you compile your code inside a container on your local machine, you typically do not need to recompile it when you run the container on an HPC (High-Performance Computing) cluster. The primary advantage of using containers is to package your application along with all its dependencies into a single, portable unit that can run consistently across different computing environments.
+
+Here's why recompilation is usually unnecessary:
+
+### 1. **Consistent Environment:**
+Containers encapsulate not just the application, but also the runtime environment, including the operating system libraries (to an extent), application binaries, and all dependencies. This consistency ensures that if your application compiles and runs inside a container on one system, it should behave the same way when the container is run on another system, such as an HPC cluster.
+
+### 2. **Binary Compatibility:**
+Since the binary executables are created in an environment that is shipped with the container, those binaries are compatible with any system where the container runtime (e.g., Docker or Singularity) is compatible. This means the binaries should execute without issues on the HPC cluster, assuming the architecture (e.g., x86_64) is the same.
+
+### 3. **Performance Considerations:**
+While the need to recompile for performance reasons (e.g., to optimize for a specific architecture) might arise, this is generally handled during the container's build process. If your application benefits significantly from being optimized for the specific hardware of the HPC cluster, you might consider building the container directly on the HPC system or incorporating architecture-specific optimizations into your container build process. However, for many applications, the difference may not justify the complexity.
+
+### Best Practices:
+- **Build Once, Run Anywhere:** Compile your code inside the container during the build process. This practice adheres to the principle of creating a container that can be run across different environments without modification.
+
+- **Test Locally, Deploy Globally:** Test your container thoroughly in your local environment to ensure that it behaves as expected. Once confirmed, you can confidently deploy and run it on the HPC cluster.
+
+- **Consider Using Precompiled Binaries:** For dependencies that are large or complex to compile, consider using precompiled binaries if they are available for your base container image's OS. This approach can save time both during the build process and when moving the container to different environments.
+
+- **Optimize for Portability:** If you anticipate running your container across a wide variety of systems, aim to optimize for portability. This might mean targeting common denominators in terms of system libraries and avoiding bleeding-edge features that might not be supported everywhere.
+
+Following these guidelines, you should be able to use your containers across different systems, including HPC clusters, without needing to recompile your code each time.
+
+
+
 
 
 ---
