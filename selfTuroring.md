@@ -24,6 +24,7 @@ Missing concepts!
   - [real exprements](#real)
 - [conda](#conda)
   - [conda and hpc](#conda-and-hpc)
+  - [conda in PBS file](#pbs)
   - [python_packages_concept](#concept)
   - [LSU conda HPC](#conda-lsu)
   - [confilct with different Python versions](#pythons)
@@ -42,7 +43,18 @@ Missing concepts!
   - [Allow Container Access to Host's Display](#display)
 - [Do I need to rebuild the container?](#config)
 - [Do I need to compile my code again on hpc cluster?](#compile-on-cluster)
----
+- [containers and MPI II](#mpi)
+- [steps for MPI in container](#mpi-authorization)
+- [a common practce](#mpi)
+
+- [samba sahre folder](#samba)
+- [my ru with containers](#run)
+
+
+
+
+
+----
 
 
 <!-- 
@@ -885,6 +897,23 @@ scp -r /path/to/local/project username@hpc.domain:/path/to/remote/directory for 
 
 #### scp for LSU
 
+- getting file **from** hpc 
+
+```bash 
+scp -r davdam@smic.hpc.lsu.edu:/work/davdam/periHpc-output/kalthoff3d/kalthof3d_hpc_May_2_h10 ./
+
+
+```
+or 
+
+```bash 
+scp -r davdam@smic.hpc.lsu.edu:/work/davdam/periHpc-output/kalthoff3d/kalthof3d_hpc_May_2_h10  /path/to/local/directory 
+
+
+```
+
+
+- uploading file **to** HPC
 ```bash 
 go to the local pc
 
@@ -1304,7 +1333,50 @@ Notes
 
 This method simplifies the installation process and manages dependencies automatically, making it a preferred approach in many cases, especially when direct internet access is available on the cluster.
 
+---
 
+## pbs
+
+```bash 
+
+#!/bin/bash
+#PBS -q workq 
+#PBS -A hpc_perigrain3
+#PBS -l nodes=4:ppn=20
+#PBS -l walltime=00:20:00 
+# Send stdout to a named file: move to external command line
+# Merge stderr messages with stdout
+#PBS -j oe 
+#PBS -N kalthoff3D
+# Shell commands may begin here
+
+
+module purge
+#module load mvapich2
+#module load hdf5/1.10.6/intel-19.0.5-mvapich-2.3.3
+module load mpich/3.3.2/intel-19.0.5
+#--------------------Singularity Setting--------------
+module load conda
+#conda init
+source /usr/local/packages/conda/23.11.0/etc/profile.d/conda.sh
+conda activate /home/davdam/.conda/envs/perinv
+
+# Debugging: print which Python is used
+which python3
+python3 --version
+
+cd $PBS_O_WORKDIR
+
+PATH_RUN= /home/davdam/perihpcExamples/3d-kalthoff-hpc-May-2/run.sh
+
+myDIR=/work/davdam/periHpc-output/kalthoff3d/kalthof3d_hpc_May_2_h10
+sfile=$myDIR/setup.h5
+
+echo "this is my python path"
+echo $PYTHONPATH
+
+/home/davdam/.conda/envs/perinv/bin/python3 plot3d_timestep.py --data_dir $myDIR --img_dir $myDIR --setup_file $sfile --dotsize 5
+```
 
 
 ## concept
@@ -2286,10 +2358,79 @@ While the need to recompile for performance reasons (e.g., to optimize for a spe
 
 Following these guidelines, you should be able to use your containers across different systems, including HPC clusters, without needing to recompile your code each time.
 
+## mpi
+
+
+[mpi and containers](https://permedcoe.github.io/mpi-in-container/#mpi-inside-a-container)
+
+
+## mpi authorization
+
+
+```
+Authorization required, but no authorization protocol specified 
+
+```
+- I used mpirun -disable-x : still we have the same error  
+
+
+---
+
+# mpi
+
+## MPI and singularity
+
+a common practice is
+
+```
+mpirun -np XXX machine_file singularity exec ....
+```
+
+----
+## samba
+
+
+
+[samba share](https://ubuntu.com/tutorials/install-and-configure-samba#4-setting-up-user-accounts-and-connecting-to-share)
+
+
+etting up a Samba share on Ubuntu, you will indeed need to replace `"ip-address"` with the actual IP address of the Ubuntu machine where the Samba server is running. This address is a numeric identifier that uniquely identifies your machine on the network.
+
+Here’s how you can find the IP address on your Ubuntu machine:
+
+1. **Open a terminal:** You can do this by pressing `Ctrl+Alt+T` on your keyboard.
+2. **Type the following command and press Enter:**
+   ```bash
+   ip a
+   ```
+   This will list all the network interfaces and their assigned IP addresses. Look for something like `inet 192.168.x.x` or `inet 10.0.x.x` under an interface that isn't `lo` (which is the loopback interface).
+
+Once you find your IP address, replace `"ip-address"` in the network path (`\\ip-address\sambashare`) with this number. For example, if your IP address is `192.168.1.5`, then the network path would be `\\192.168.1.5\sambashare`.
+
+Ensure that the Samba server is properly configured and that the firewall is allowing access to the Samba ports. Then, you should be able to access your Samba share from other computers on the network by entering the network path in a File Explorer window on a Windows machine or a similar application on other operating systems.
 
 
 
 
+----
+
+## run 
+
+```bash
+myPython() {
+    singularity exec \
+        -B "$PATH_OUT:$PATH_OUT:rw,$PATH_MSH2:$PATH_MSH1,$PATH_LOC:$PATH_IMG,$PATH_DATA2:$PATH_DATA1:rw,$PATH_h5py2:$PATH_h5py1:rw,$PATH2:$PATH1:rw" \
+        "$IMG" \
+        bash -c "cd $PATH_IMG2; python3  $*"
+}
+
+myMPIsingularity() {
+    mpirun -machinefile "$PBS_NODEFILE" -np "$NPROCS" \
+        singularity exec  -B "$PATH_OUT:$PATH_OUT:rw,$PATH_MSH2:$PATH_MSH1,$PATH_LOC:$PATH_IMG:rw,$PATH2:$PATH1:rw"  "$IMG" \
+        bash -c "cd $PATH_IMG2; $PATH_SIM3D -c $config -o $dir -i $sfile" >> "$logfile" 2>&1
+}
+
+```
 ---
 
 <div id="back-to-top" style="position: fixed; bottom: 20px; right: 20px; display: none;">
