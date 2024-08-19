@@ -8,12 +8,14 @@ Missing concepts!
 - [Marp](#Marp)
 - [Markdown](#markdown-review)
 - [linux](#linux)
+- [package manger with SPACK](#spack)
 - [git](#git)
   - [creating](#creat-repository)
   - [stop tracking](#stop-tracking)
   - [fork and branching](#fork-and-branching)
   - [collaboration on Github](#collaboration-and-github)
   - [git LFS](#git-LFS)
+  - [what do I do after invitation?](#git-invitation)
 - [make](#review-make)
 - [git for hpc](git-hpc)
   - [track repository on HPC server](#hpc-track)
@@ -298,6 +300,14 @@ du -h /path/to/directory | sort -h
 
 ---
 
+# spack
+
+[cheatsheet spack](https://cheatography.com/mohan2/cheat-sheets/spack-amd/)
+
+
+
+
+---
 ## git
 
 ### creat repository 
@@ -791,7 +801,7 @@ git push --force origin main
 
 ## example 
 
-
+```
 2038  git lsf track "*.png" "*.h5" "*.mp4"
  2039  git-lsf track "*.png" "*.h5" "*.mp4"
  2040  git lfs track "*.png" "*.h5" "*.mp4"
@@ -802,6 +812,65 @@ git push --force origin main
  2045  git add .gitattributes
  2046  git commit -m "track large files with Git LFS"
  2047  du -h 
+```
+---
+ 
+---
+
+
+## git invitation 
+
+
+Certainly! When someone invites you to collaborate on a GitHub project, there's a general workflow to follow to ensure smooth collaboration. Here's a step-by-step guide to help you track and submit the changes you make to the project:
+Accept the Invitation:
+Go to the repository's GitHub page. If you were invited to collaborate, there should be a notification prompting you to accept the invitation.
+Clone the Repository:
+As you mentioned, you've already done this. Just to reiterate, the command would be:
+bash
+git clone https://github.com/username/repository-name.git
+3-Navigate to the Repository:
+Change your directory to the cloned repository:
+bash
+cd repository-name
+4-Create a New Branch (optional but recommended):
+Instead of working directly on the main branch (e.g., main or master), create a new branch for your feature or fix. This makes the collaboration process cleaner.
+git checkout -b your-branch-name
+5-Make Your Changes:
+Edit, add, or delete files as necessary.
+6-Track Your Changes:
+After you've made some changes, check the status of your changes using:
+git status
+This will show you the modified files. To add these changes to be committed, use:
+git add .
+The . will add all changes. If you wish to add specific files, replace . with the filename.
+7-Commit Your Changes:
+Once you've added your changes, commit them with a meaningful message:
+git commit -m "Descriptive message about the changes you made"
+8-Push Your Changes:
+Push your changes to GitHub:
+git push origin your-branch-name
+9-Create a Pull Request:
+Once you've pushed your branch to GitHub, go to the repository's GitHub page.
+Click on "Pull requests" then "New Pull Request".
+Select your branch from the dropdown menu to compare it with the main branch.
+Review your changes and click "Create Pull Request". Add any necessary comments or descriptions.
+10-Collaboration:
+The repository owner (or other collaborators) will review your changes. They might request some modifications.
+Once everything is approved, your changes can be merged into the main branch.
+11-Sync Your Local Repository:
+After your changes are merged (or periodically, even before they are merged), you'll want to update your local repository to get any other changes from the main branch or other collaborators:
+css
+git pull origin main
+Remember to replace main with the name of the main branch if it's different.
+Repeat:
+For every new feature or fix, you can repeat the process: creating a new branch, making changes, committing, and creating a pull request.
+Remember that Git and GitHub have a bit of a learning curve, so don't be discouraged if things seem complex at first. Over time, this workflow will become second nature. It's also worth noting that there are many other Git commands and features that can be useful, but the above steps outline a basic collaborative workflow.
+
+
+
+
+
+
 ---
 
 
