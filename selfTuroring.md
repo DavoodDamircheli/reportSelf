@@ -51,7 +51,7 @@ Missing concepts!
 
 - [samba sahre folder](#samba)
 - [my ru with containers](#run)
-
+- [working with External drive](#external-drive)
 
 
 
@@ -2500,6 +2500,93 @@ myMPIsingularity() {
 }
 
 ```
+
+## external drive
+
+To access an external hard drive from the terminal in Ubuntu, follow these steps:
+
+### 1. **Identify the External Hard Drive**
+
+First, you need to identify the device name of your external hard drive. You can do this using the `lsblk` or `fdisk` command.
+
+- **Using `lsblk`:**
+  ```bash
+  lsblk
+  ```
+  This command lists all block devices (e.g., hard drives, USB drives). Look for your external hard drive in the list. It might be something like `/dev/sdb` or `/dev/sdc`, depending on your system configuration.
+
+- **Using `fdisk`:**
+  ```bash
+  sudo fdisk -l
+  ```
+  This will provide a detailed list of all drives and partitions. Look for your external drive by size or other identifying information.
+
+### 2. **Mount the External Hard Drive**
+
+Once you've identified the device, you need to mount it to access its contents.
+
+- **Create a Mount Point:**
+  You need to create a directory where the drive will be mounted. For example:
+  ```bash
+  sudo mkdir /mnt/external_drive
+  ```
+
+- **Mount the Drive:**
+  Use the `mount` command to mount the drive to the directory you just created. Replace `/dev/sdX1` with your actual device name and partition (e.g., `/dev/sdb1`).
+  ```bash
+  sudo mount /dev/sdX1 /mnt/external_drive
+  ```
+
+  After mounting, you can access the contents of the external drive in the `/mnt/external_drive` directory.
+
+### 3. **Accessing the Drive**
+
+You can now navigate to the mounted directory:
+
+```bash
+cd /mnt/external_drive
+```
+
+You can perform operations like listing files, copying, moving, etc., as needed.
+
+### 4. **Unmounting the Drive**
+
+When you're done, it's important to unmount the drive before disconnecting it:
+
+```bash
+sudo umount /mnt/external_drive
+```
+
+### Example Steps:
+
+1. Identify the device (e.g., `/dev/sdb1`):
+   ```bash
+   lsblk
+   ```
+2. Create a mount point:
+   ```bash
+   sudo mkdir /mnt/external_drive
+   ```
+3. Mount the drive:
+   ```bash
+   sudo mount /dev/sdb1 /mnt/external_drive
+   ```
+4. Access the drive:
+   ```bash
+   cd /mnt/external_drive
+   ```
+5. Unmount when done:
+   ```bash
+   sudo umount /mnt/external_drive
+   ```
+
+### Notes:
+- If the drive is formatted with a specific filesystem (e.g., NTFS, exFAT), ensure you have the necessary drivers installed (`ntfs-3g`, `exfat-utils`, etc.):
+  ```bash
+  sudo apt-get install ntfs-3g exfat-utils
+  ```
+
+This will allow you to access the contents of your external hard drive via the terminal in Ubuntu.
 ---
 
 <div id="back-to-top" style="position: fixed; bottom: 20px; right: 20px; display: none;">
