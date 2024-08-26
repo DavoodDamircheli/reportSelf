@@ -79,14 +79,14 @@
 </head>
 <body>
 <h2 id="section"><span id="top"></span></h2>
-<h2 id="some-configs">Some Configs</h2>
+<h2 id="missing-concepts">Missing concepts!</h2>
 <h1 id="table-of-content">Table of content</h1>
 <ul>
-<li><a href="#step-0">Pandoc</a></li>
-<li><a href="#Marp">Marp</a></li>
-<li><a href="#markdown-review">Markdown</a></li>
-<li><a href="#linux">linux</a></li>
-<li><a href="#git">git</a>
+<li><p><a href="#step-0">Pandoc</a></p></li>
+<li><p><a href="#Marp">Marp</a></p></li>
+<li><p><a href="#markdown-review">Markdown</a></p></li>
+<li><p><a href="#linux">linux</a></p></li>
+<li><p><a href="#git">git</a></p>
 <ul>
 <li><a href="#creat-repository">creating</a></li>
 <li><a href="#stop-tracking">stop tracking</a></li>
@@ -94,38 +94,52 @@
 <li><a href="#collaboration-and-github">collaboration on Github</a></li>
 <li><a href="#git-LFS">git LFS</a></li>
 </ul></li>
-<li><a href="#review-make">make</a></li>
-<li><a href="git-hpc">git for hpc</a>
+<li><p><a href="#review-make">make</a></p></li>
+<li><p><a href="git-hpc">git for hpc</a></p>
 <ul>
 <li><a href="#hpc-track">track repository on HPC server</a></li>
 </ul></li>
-<li><a href="#step0-hpc">prepare and run a project on HPC</a>
+<li><p><a href="#step0-hpc">prepare and run a project on HPC</a></p>
 <ul>
 <li><a href="#bash">bash programing</a></li>
 <li><a href="#basic-pbs-file">simple step by step preparing PBS file</a></li>
 <li><a href="#env-variable">environment varibles</a></li>
 <li><a href="#real">real exprements</a></li>
 </ul></li>
-<li><a href="#conda">conda</a>
+<li><p><a href="#conda">conda</a></p>
 <ul>
 <li><a href="#conda-and-hpc">conda and hpc</a></li>
+<li><a href="#pbs">conda in PBS file</a></li>
 <li><a href="#concept">python_packages_concept</a></li>
 <li><a href="#conda-lsu">LSU conda HPC</a></li>
 <li><a href="#pythons">confilct with different Python versions</a></li>
 <li><a href="#tests">tests</a></li>
 </ul></li>
-<li><a href="#book">how to write a book</a></li>
-<li><a href="#book2">book with slide bar</a></li>
-<li><a href="#singularity">singularity approach and HPC</a>
+<li><p><a href="#book">how to write a book</a></p></li>
+<li><p><a href="#book2">book with slide bar</a></p></li>
+<li><p><a href="#singularity">singularity approach and HPC</a></p>
 <ul>
 <li><a href="#where">where to get reliable containers</a></li>
 <li><a href="#build">build your own image</a></li>
 </ul></li>
-<li><a href="#my-container">creating my own continer</a>
+<li><p><a href="#my-container">creating my own continer</a></p>
 <ul>
-<li><a href="#mount">mounting directories</a></li>
-<li><a href="#using-sif-file">workflow of container in hpc</a></li>
+<li><a href="#mount">mounting directories</a>
+<ul>
+<li><a href="#jaleb">very interesting Error</a></li>
+<li><a href="#copy">copy direcetory</a></li>
+<li><a href="#target-directory">Do we need a directory inside a container to mount?</a></li>
 </ul></li>
+<li><a href="#using-sif-file">workflow of container in hpc</a></li>
+<li><a href="#display">Allow Container Access to Host’s Display</a></li>
+</ul></li>
+<li><p><a href="#config">Do I need to rebuild the container?</a></p></li>
+<li><p><a href="#compile-on-cluster">Do I need to compile my code again on hpc cluster?</a></p></li>
+<li><p><a href="#mpi">containers and MPI II</a></p></li>
+<li><p><a href="#mpi-authorization">steps for MPI in container</a></p></li>
+<li><p><a href="#mpi">a common practce</a></p></li>
+<li><p><a href="#samba">samba sahre folder</a></p></li>
+<li><p><a href="#run">my ru with containers</a></p></li>
 </ul>
 <hr />
 <!-- 
@@ -682,9 +696,20 @@ git checkout -b hpc-work</code></pre>
 
  or rsync -av /path/to/local/project username@hpc.domain:/path/to/remote/directory for rsync.</code></pre>
 <h4 id="scp-for-lsu">scp for LSU</h4>
-<div class="sourceCode" id="cb73"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true"></a><span class="ex">go</span> to the local pc</span>
-<span id="cb73-2"><a href="#cb73-2" aria-hidden="true"></a></span>
-<span id="cb73-3"><a href="#cb73-3" aria-hidden="true"></a><span class="fu">scp</span> /path/to/local/project  davdam@smic.hpc.lsu.edu:/home</span></code></pre></div>
+<ul>
+<li>getting file <strong>from</strong> hpc</li>
+</ul>
+<div class="sourceCode" id="cb73"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true"></a><span class="fu">scp</span> -r davdam@smic.hpc.lsu.edu:/work/davdam/periHpc-output/kalthoff3d/kalthof3d_hpc_May_2_h10 ./</span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true"></a></span></code></pre></div>
+<p>or</p>
+<div class="sourceCode" id="cb74"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true"></a><span class="fu">scp</span> -r davdam@smic.hpc.lsu.edu:/work/davdam/periHpc-output/kalthoff3d/kalthof3d_hpc_May_2_h10  /path/to/local/directory </span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true"></a></span></code></pre></div>
+<ul>
+<li>uploading file <strong>to</strong> HPC</li>
+</ul>
+<div class="sourceCode" id="cb75"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true"></a><span class="ex">go</span> to the local pc</span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true"></a></span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true"></a><span class="fu">scp</span> /path/to/local/project  davdam@smic.hpc.lsu.edu:/home</span></code></pre></div>
 <ul>
 <li>Using Git to transfer files to an HPC (High-Performance Computing) system can streamline your workflow, especially if you frequently update your code.</li>
 </ul>
@@ -962,6 +987,46 @@ source deactivate
 Access and Permissions: Make sure you have the necessary permissions for installing software within your Conda environment and that your environment has enough space for the installation.
 Using Gmsh: With Gmsh installed, you can start using it for your mesh generation or finite element analysis projects directly within this Conda environment.</code></pre>
 <p>This method simplifies the installation process and manages dependencies automatically, making it a preferred approach in many cases, especially when direct internet access is available on the cluster.</p>
+<hr />
+<h2 id="pbs">pbs</h2>
+<div class="sourceCode" id="cb96"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true"></a></span>
+<span id="cb96-2"><a href="#cb96-2" aria-hidden="true"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb96-3"><a href="#cb96-3" aria-hidden="true"></a><span class="co">#PBS -q workq </span></span>
+<span id="cb96-4"><a href="#cb96-4" aria-hidden="true"></a><span class="co">#PBS -A hpc_perigrain3</span></span>
+<span id="cb96-5"><a href="#cb96-5" aria-hidden="true"></a><span class="co">#PBS -l nodes=4:ppn=20</span></span>
+<span id="cb96-6"><a href="#cb96-6" aria-hidden="true"></a><span class="co">#PBS -l walltime=00:20:00 </span></span>
+<span id="cb96-7"><a href="#cb96-7" aria-hidden="true"></a><span class="co"># Send stdout to a named file: move to external command line</span></span>
+<span id="cb96-8"><a href="#cb96-8" aria-hidden="true"></a><span class="co"># Merge stderr messages with stdout</span></span>
+<span id="cb96-9"><a href="#cb96-9" aria-hidden="true"></a><span class="co">#PBS -j oe </span></span>
+<span id="cb96-10"><a href="#cb96-10" aria-hidden="true"></a><span class="co">#PBS -N kalthoff3D</span></span>
+<span id="cb96-11"><a href="#cb96-11" aria-hidden="true"></a><span class="co"># Shell commands may begin here</span></span>
+<span id="cb96-12"><a href="#cb96-12" aria-hidden="true"></a></span>
+<span id="cb96-13"><a href="#cb96-13" aria-hidden="true"></a></span>
+<span id="cb96-14"><a href="#cb96-14" aria-hidden="true"></a><span class="ex">module</span> purge</span>
+<span id="cb96-15"><a href="#cb96-15" aria-hidden="true"></a><span class="co">#module load mvapich2</span></span>
+<span id="cb96-16"><a href="#cb96-16" aria-hidden="true"></a><span class="co">#module load hdf5/1.10.6/intel-19.0.5-mvapich-2.3.3</span></span>
+<span id="cb96-17"><a href="#cb96-17" aria-hidden="true"></a><span class="ex">module</span> load mpich/3.3.2/intel-19.0.5</span>
+<span id="cb96-18"><a href="#cb96-18" aria-hidden="true"></a><span class="co">#--------------------Singularity Setting--------------</span></span>
+<span id="cb96-19"><a href="#cb96-19" aria-hidden="true"></a><span class="ex">module</span> load conda</span>
+<span id="cb96-20"><a href="#cb96-20" aria-hidden="true"></a><span class="co">#conda init</span></span>
+<span id="cb96-21"><a href="#cb96-21" aria-hidden="true"></a><span class="bu">source</span> /usr/local/packages/conda/23.11.0/etc/profile.d/conda.sh</span>
+<span id="cb96-22"><a href="#cb96-22" aria-hidden="true"></a><span class="ex">conda</span> activate /home/davdam/.conda/envs/perinv</span>
+<span id="cb96-23"><a href="#cb96-23" aria-hidden="true"></a></span>
+<span id="cb96-24"><a href="#cb96-24" aria-hidden="true"></a><span class="co"># Debugging: print which Python is used</span></span>
+<span id="cb96-25"><a href="#cb96-25" aria-hidden="true"></a><span class="fu">which</span> python3</span>
+<span id="cb96-26"><a href="#cb96-26" aria-hidden="true"></a><span class="ex">python3</span> --version</span>
+<span id="cb96-27"><a href="#cb96-27" aria-hidden="true"></a></span>
+<span id="cb96-28"><a href="#cb96-28" aria-hidden="true"></a><span class="bu">cd</span> <span class="va">$PBS_O_WORKDIR</span></span>
+<span id="cb96-29"><a href="#cb96-29" aria-hidden="true"></a></span>
+<span id="cb96-30"><a href="#cb96-30" aria-hidden="true"></a><span class="va">PATH_RUN=</span> <span class="ex">/home/davdam/perihpcExamples/3d-kalthoff-hpc-May-2/run.sh</span></span>
+<span id="cb96-31"><a href="#cb96-31" aria-hidden="true"></a></span>
+<span id="cb96-32"><a href="#cb96-32" aria-hidden="true"></a><span class="va">myDIR=</span>/work/davdam/periHpc-output/kalthoff3d/kalthof3d_hpc_May_2_h10</span>
+<span id="cb96-33"><a href="#cb96-33" aria-hidden="true"></a><span class="va">sfile=$myDIR</span>/setup.h5</span>
+<span id="cb96-34"><a href="#cb96-34" aria-hidden="true"></a></span>
+<span id="cb96-35"><a href="#cb96-35" aria-hidden="true"></a><span class="bu">echo</span> <span class="st">&quot;this is my python path&quot;</span></span>
+<span id="cb96-36"><a href="#cb96-36" aria-hidden="true"></a><span class="bu">echo</span> <span class="va">$PYTHONPATH</span></span>
+<span id="cb96-37"><a href="#cb96-37" aria-hidden="true"></a></span>
+<span id="cb96-38"><a href="#cb96-38" aria-hidden="true"></a><span class="ex">/home/davdam/.conda/envs/perinv/bin/python3</span> plot3d_timestep.py --data_dir <span class="va">$myDIR</span> --img_dir <span class="va">$myDIR</span> --setup_file <span class="va">$sfile</span> --dotsize 5</span></code></pre></div>
 <h2 id="concept">concept</h2>
 <hr />
 <p>It looks like you tried to check the version of NumPy using numpy –version, which is not the correct way to check the version of a Python package from the command line. The error message bash: numpy: command not found… occurs because numpy is not a command-line utility but a Python library.</p>
@@ -1076,51 +1141,51 @@ bash</code></pre>
 <ol start="2" type="1">
 <li><strong>Write your chapters in Markdown format</strong>: Create a separate Markdown file for each chapter in the <code>chapters/</code> directory. For example, <code>chapter1.md</code> might contain:</li>
 </ol>
-<div class="sourceCode" id="cb103"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true"></a><span class="fu"># Chapter 1: Introduction</span></span>
-<span id="cb103-2"><a href="#cb103-2" aria-hidden="true"></a></span>
-<span id="cb103-3"><a href="#cb103-3" aria-hidden="true"></a>This is the first chapter of my book...</span></code></pre></div>
+<div class="sourceCode" id="cb106"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true"></a><span class="fu"># Chapter 1: Introduction</span></span>
+<span id="cb106-2"><a href="#cb106-2" aria-hidden="true"></a></span>
+<span id="cb106-3"><a href="#cb106-3" aria-hidden="true"></a>This is the first chapter of my book...</span></code></pre></div>
 <ol start="3" type="1">
 <li><strong>Create a metadata file (<code>metadata.yaml</code>)</strong>: This file will contain the book’s metadata, such as the title, author, and the list of chapters. Here’s an example:</li>
 </ol>
-<div class="sourceCode" id="cb104"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true"></a><span class="pp">---</span></span>
-<span id="cb104-2"><a href="#cb104-2" aria-hidden="true"></a><span class="fu">title</span><span class="kw">:</span><span class="at"> My Book</span></span>
-<span id="cb104-3"><a href="#cb104-3" aria-hidden="true"></a><span class="fu">author</span><span class="kw">:</span><span class="at"> Your Name</span></span>
-<span id="cb104-4"><a href="#cb104-4" aria-hidden="true"></a><span class="fu">rights</span><span class="kw">:</span><span class="at"> © 2023 Your Name, All Rights Reserved</span></span>
-<span id="cb104-5"><a href="#cb104-5" aria-hidden="true"></a><span class="fu">chapters</span><span class="kw">:</span></span>
-<span id="cb104-6"><a href="#cb104-6" aria-hidden="true"></a><span class="at">  </span><span class="kw">-</span><span class="at"> chapters/chapter1.md</span></span>
-<span id="cb104-7"><a href="#cb104-7" aria-hidden="true"></a><span class="at">  </span><span class="kw">-</span><span class="at"> chapters/chapter2.md</span></span>
-<span id="cb104-8"><a href="#cb104-8" aria-hidden="true"></a><span class="at">  </span><span class="kw">-</span><span class="at"> chapters/chapter3.md</span></span>
-<span id="cb104-9"><a href="#cb104-9" aria-hidden="true"></a><span class="co">...</span></span>
-<span id="cb104-10"><a href="#cb104-10" aria-hidden="true"></a><span class="co">---</span></span></code></pre></div>
+<div class="sourceCode" id="cb107"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true"></a><span class="pp">---</span></span>
+<span id="cb107-2"><a href="#cb107-2" aria-hidden="true"></a><span class="fu">title</span><span class="kw">:</span><span class="at"> My Book</span></span>
+<span id="cb107-3"><a href="#cb107-3" aria-hidden="true"></a><span class="fu">author</span><span class="kw">:</span><span class="at"> Your Name</span></span>
+<span id="cb107-4"><a href="#cb107-4" aria-hidden="true"></a><span class="fu">rights</span><span class="kw">:</span><span class="at"> © 2023 Your Name, All Rights Reserved</span></span>
+<span id="cb107-5"><a href="#cb107-5" aria-hidden="true"></a><span class="fu">chapters</span><span class="kw">:</span></span>
+<span id="cb107-6"><a href="#cb107-6" aria-hidden="true"></a><span class="at">  </span><span class="kw">-</span><span class="at"> chapters/chapter1.md</span></span>
+<span id="cb107-7"><a href="#cb107-7" aria-hidden="true"></a><span class="at">  </span><span class="kw">-</span><span class="at"> chapters/chapter2.md</span></span>
+<span id="cb107-8"><a href="#cb107-8" aria-hidden="true"></a><span class="at">  </span><span class="kw">-</span><span class="at"> chapters/chapter3.md</span></span>
+<span id="cb107-9"><a href="#cb107-9" aria-hidden="true"></a><span class="co">...</span></span>
+<span id="cb107-10"><a href="#cb107-10" aria-hidden="true"></a><span class="co">---</span></span></code></pre></div>
 <ol start="4" type="1">
 <li><strong>Create an HTML template (<code>template.html</code>)</strong>: This template will define the structure of your HTML output. Here’s a basic example:</li>
 </ol>
-<div class="sourceCode" id="cb105"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true"></a><span class="dt">&lt;!DOCTYPE </span>html<span class="dt">&gt;</span></span>
-<span id="cb105-2"><a href="#cb105-2" aria-hidden="true"></a><span class="kw">&lt;html&gt;</span></span>
-<span id="cb105-3"><a href="#cb105-3" aria-hidden="true"></a><span class="kw">&lt;head&gt;</span></span>
-<span id="cb105-4"><a href="#cb105-4" aria-hidden="true"></a>  <span class="kw">&lt;meta</span><span class="ot"> charset=</span><span class="st">&quot;utf-8&quot;</span><span class="kw">&gt;</span></span>
-<span id="cb105-5"><a href="#cb105-5" aria-hidden="true"></a>  <span class="kw">&lt;title&gt;</span>$title$<span class="kw">&lt;/title&gt;</span></span>
-<span id="cb105-6"><a href="#cb105-6" aria-hidden="true"></a>  <span class="kw">&lt;style&gt;</span></span>
-<span id="cb105-7"><a href="#cb105-7" aria-hidden="true"></a>    <span class="co">/* Add your custom CSS styles here */</span></span>
-<span id="cb105-8"><a href="#cb105-8" aria-hidden="true"></a>  <span class="kw">&lt;/style&gt;</span></span>
-<span id="cb105-9"><a href="#cb105-9" aria-hidden="true"></a><span class="kw">&lt;/head&gt;</span></span>
-<span id="cb105-10"><a href="#cb105-10" aria-hidden="true"></a><span class="kw">&lt;body&gt;</span></span>
-<span id="cb105-11"><a href="#cb105-11" aria-hidden="true"></a>  <span class="kw">&lt;header&gt;</span></span>
-<span id="cb105-12"><a href="#cb105-12" aria-hidden="true"></a>    <span class="kw">&lt;h1&gt;</span>$title$<span class="kw">&lt;/h1&gt;</span></span>
-<span id="cb105-13"><a href="#cb105-13" aria-hidden="true"></a>    <span class="kw">&lt;p&gt;</span>By $author$<span class="kw">&lt;/p&gt;</span></span>
-<span id="cb105-14"><a href="#cb105-14" aria-hidden="true"></a>  <span class="kw">&lt;/header&gt;</span></span>
-<span id="cb105-15"><a href="#cb105-15" aria-hidden="true"></a>  <span class="kw">&lt;nav&gt;</span></span>
-<span id="cb105-16"><a href="#cb105-16" aria-hidden="true"></a>    <span class="kw">&lt;h2&gt;</span>Table of Contents<span class="kw">&lt;/h2&gt;</span></span>
-<span id="cb105-17"><a href="#cb105-17" aria-hidden="true"></a>    $toc$</span>
-<span id="cb105-18"><a href="#cb105-18" aria-hidden="true"></a>  <span class="kw">&lt;/nav&gt;</span></span>
-<span id="cb105-19"><a href="#cb105-19" aria-hidden="true"></a>  <span class="kw">&lt;main&gt;</span></span>
-<span id="cb105-20"><a href="#cb105-20" aria-hidden="true"></a>    $body$</span>
-<span id="cb105-21"><a href="#cb105-21" aria-hidden="true"></a>  <span class="kw">&lt;/main&gt;</span></span>
-<span id="cb105-22"><a href="#cb105-22" aria-hidden="true"></a>  <span class="kw">&lt;footer&gt;</span></span>
-<span id="cb105-23"><a href="#cb105-23" aria-hidden="true"></a>    <span class="kw">&lt;p&gt;</span>$rights$<span class="kw">&lt;/p&gt;</span></span>
-<span id="cb105-24"><a href="#cb105-24" aria-hidden="true"></a>  <span class="kw">&lt;/footer&gt;</span></span>
-<span id="cb105-25"><a href="#cb105-25" aria-hidden="true"></a><span class="kw">&lt;/body&gt;</span></span>
-<span id="cb105-26"><a href="#cb105-26" aria-hidden="true"></a><span class="kw">&lt;/html&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb108"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true"></a><span class="dt">&lt;!DOCTYPE </span>html<span class="dt">&gt;</span></span>
+<span id="cb108-2"><a href="#cb108-2" aria-hidden="true"></a><span class="kw">&lt;html&gt;</span></span>
+<span id="cb108-3"><a href="#cb108-3" aria-hidden="true"></a><span class="kw">&lt;head&gt;</span></span>
+<span id="cb108-4"><a href="#cb108-4" aria-hidden="true"></a>  <span class="kw">&lt;meta</span><span class="ot"> charset=</span><span class="st">&quot;utf-8&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb108-5"><a href="#cb108-5" aria-hidden="true"></a>  <span class="kw">&lt;title&gt;</span>$title$<span class="kw">&lt;/title&gt;</span></span>
+<span id="cb108-6"><a href="#cb108-6" aria-hidden="true"></a>  <span class="kw">&lt;style&gt;</span></span>
+<span id="cb108-7"><a href="#cb108-7" aria-hidden="true"></a>    <span class="co">/* Add your custom CSS styles here */</span></span>
+<span id="cb108-8"><a href="#cb108-8" aria-hidden="true"></a>  <span class="kw">&lt;/style&gt;</span></span>
+<span id="cb108-9"><a href="#cb108-9" aria-hidden="true"></a><span class="kw">&lt;/head&gt;</span></span>
+<span id="cb108-10"><a href="#cb108-10" aria-hidden="true"></a><span class="kw">&lt;body&gt;</span></span>
+<span id="cb108-11"><a href="#cb108-11" aria-hidden="true"></a>  <span class="kw">&lt;header&gt;</span></span>
+<span id="cb108-12"><a href="#cb108-12" aria-hidden="true"></a>    <span class="kw">&lt;h1&gt;</span>$title$<span class="kw">&lt;/h1&gt;</span></span>
+<span id="cb108-13"><a href="#cb108-13" aria-hidden="true"></a>    <span class="kw">&lt;p&gt;</span>By $author$<span class="kw">&lt;/p&gt;</span></span>
+<span id="cb108-14"><a href="#cb108-14" aria-hidden="true"></a>  <span class="kw">&lt;/header&gt;</span></span>
+<span id="cb108-15"><a href="#cb108-15" aria-hidden="true"></a>  <span class="kw">&lt;nav&gt;</span></span>
+<span id="cb108-16"><a href="#cb108-16" aria-hidden="true"></a>    <span class="kw">&lt;h2&gt;</span>Table of Contents<span class="kw">&lt;/h2&gt;</span></span>
+<span id="cb108-17"><a href="#cb108-17" aria-hidden="true"></a>    $toc$</span>
+<span id="cb108-18"><a href="#cb108-18" aria-hidden="true"></a>  <span class="kw">&lt;/nav&gt;</span></span>
+<span id="cb108-19"><a href="#cb108-19" aria-hidden="true"></a>  <span class="kw">&lt;main&gt;</span></span>
+<span id="cb108-20"><a href="#cb108-20" aria-hidden="true"></a>    $body$</span>
+<span id="cb108-21"><a href="#cb108-21" aria-hidden="true"></a>  <span class="kw">&lt;/main&gt;</span></span>
+<span id="cb108-22"><a href="#cb108-22" aria-hidden="true"></a>  <span class="kw">&lt;footer&gt;</span></span>
+<span id="cb108-23"><a href="#cb108-23" aria-hidden="true"></a>    <span class="kw">&lt;p&gt;</span>$rights$<span class="kw">&lt;/p&gt;</span></span>
+<span id="cb108-24"><a href="#cb108-24" aria-hidden="true"></a>  <span class="kw">&lt;/footer&gt;</span></span>
+<span id="cb108-25"><a href="#cb108-25" aria-hidden="true"></a><span class="kw">&lt;/body&gt;</span></span>
+<span id="cb108-26"><a href="#cb108-26" aria-hidden="true"></a><span class="kw">&lt;/html&gt;</span></span></code></pre></div>
 <ol start="5" type="1">
 <li><strong>Convert Markdown to HTML using Pandoc</strong>: Open your terminal or command prompt, navigate to the <code>my-book/</code> directory, and run the following command:</li>
 </ol>
@@ -1134,59 +1199,59 @@ bash</code></pre>
 <ol type="1">
 <li><strong>Update the HTML template (<code>template.html</code>)</strong>:</li>
 </ol>
-<div class="sourceCode" id="cb107"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true"></a><span class="dt">&lt;!DOCTYPE </span>html<span class="dt">&gt;</span></span>
-<span id="cb107-2"><a href="#cb107-2" aria-hidden="true"></a><span class="kw">&lt;html&gt;</span></span>
-<span id="cb107-3"><a href="#cb107-3" aria-hidden="true"></a><span class="kw">&lt;head&gt;</span></span>
-<span id="cb107-4"><a href="#cb107-4" aria-hidden="true"></a>  <span class="kw">&lt;meta</span><span class="ot"> charset=</span><span class="st">&quot;utf-8&quot;</span><span class="kw">&gt;</span></span>
-<span id="cb107-5"><a href="#cb107-5" aria-hidden="true"></a>  <span class="kw">&lt;title&gt;</span>$title$<span class="kw">&lt;/title&gt;</span></span>
-<span id="cb107-6"><a href="#cb107-6" aria-hidden="true"></a>  <span class="kw">&lt;style&gt;</span></span>
-<span id="cb107-7"><a href="#cb107-7" aria-hidden="true"></a>    <span class="co">/* Add your custom CSS styles here */</span></span>
-<span id="cb107-8"><a href="#cb107-8" aria-hidden="true"></a>    <span class="pp">#sidebar</span> {</span>
-<span id="cb107-9"><a href="#cb107-9" aria-hidden="true"></a>      <span class="kw">width</span>: <span class="dv">200</span><span class="dt">px</span><span class="op">;</span></span>
-<span id="cb107-10"><a href="#cb107-10" aria-hidden="true"></a>      <span class="kw">position</span>: <span class="dv">fixed</span><span class="op">;</span></span>
-<span id="cb107-11"><a href="#cb107-11" aria-hidden="true"></a>      <span class="kw">left</span>: <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb107-12"><a href="#cb107-12" aria-hidden="true"></a>      <span class="kw">top</span>: <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb107-13"><a href="#cb107-13" aria-hidden="true"></a>      <span class="kw">bottom</span>: <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb107-14"><a href="#cb107-14" aria-hidden="true"></a>      <span class="kw">background-color</span>: <span class="cn">#f1f1f1</span><span class="op">;</span></span>
-<span id="cb107-15"><a href="#cb107-15" aria-hidden="true"></a>      <span class="kw">overflow-y</span>: <span class="bu">auto</span><span class="op">;</span></span>
-<span id="cb107-16"><a href="#cb107-16" aria-hidden="true"></a>    }</span>
-<span id="cb107-17"><a href="#cb107-17" aria-hidden="true"></a></span>
-<span id="cb107-18"><a href="#cb107-18" aria-hidden="true"></a>    <span class="pp">#content</span> {</span>
-<span id="cb107-19"><a href="#cb107-19" aria-hidden="true"></a>      <span class="kw">margin-left</span>: <span class="dv">210</span><span class="dt">px</span><span class="op">;</span></span>
-<span id="cb107-20"><a href="#cb107-20" aria-hidden="true"></a>      <span class="kw">padding</span>: <span class="dv">20</span><span class="dt">px</span><span class="op">;</span></span>
-<span id="cb107-21"><a href="#cb107-21" aria-hidden="true"></a>    }</span>
-<span id="cb107-22"><a href="#cb107-22" aria-hidden="true"></a>  <span class="kw">&lt;/style&gt;</span></span>
-<span id="cb107-23"><a href="#cb107-23" aria-hidden="true"></a><span class="kw">&lt;/head&gt;</span></span>
-<span id="cb107-24"><a href="#cb107-24" aria-hidden="true"></a><span class="kw">&lt;body&gt;</span></span>
-<span id="cb107-25"><a href="#cb107-25" aria-hidden="true"></a>  <span class="kw">&lt;div</span><span class="ot"> id=</span><span class="st">&quot;sidebar&quot;</span><span class="kw">&gt;</span></span>
-<span id="cb107-26"><a href="#cb107-26" aria-hidden="true"></a>    <span class="kw">&lt;h2&gt;</span>Table of Contents<span class="kw">&lt;/h2&gt;</span></span>
-<span id="cb107-27"><a href="#cb107-27" aria-hidden="true"></a>    $toc$</span>
-<span id="cb107-28"><a href="#cb107-28" aria-hidden="true"></a>  <span class="kw">&lt;/div&gt;</span></span>
-<span id="cb107-29"><a href="#cb107-29" aria-hidden="true"></a>  <span class="kw">&lt;div</span><span class="ot"> id=</span><span class="st">&quot;content&quot;</span><span class="kw">&gt;</span></span>
-<span id="cb107-30"><a href="#cb107-30" aria-hidden="true"></a>    <span class="kw">&lt;header&gt;</span></span>
-<span id="cb107-31"><a href="#cb107-31" aria-hidden="true"></a>      <span class="kw">&lt;h1&gt;</span>$title$<span class="kw">&lt;/h1&gt;</span></span>
-<span id="cb107-32"><a href="#cb107-32" aria-hidden="true"></a>      <span class="kw">&lt;p&gt;</span>By $author$<span class="kw">&lt;/p&gt;</span></span>
-<span id="cb107-33"><a href="#cb107-33" aria-hidden="true"></a>    <span class="kw">&lt;/header&gt;</span></span>
-<span id="cb107-34"><a href="#cb107-34" aria-hidden="true"></a>    <span class="kw">&lt;main&gt;</span></span>
-<span id="cb107-35"><a href="#cb107-35" aria-hidden="true"></a>      $body$</span>
-<span id="cb107-36"><a href="#cb107-36" aria-hidden="true"></a>    <span class="kw">&lt;/main&gt;</span></span>
-<span id="cb107-37"><a href="#cb107-37" aria-hidden="true"></a>    <span class="kw">&lt;footer&gt;</span></span>
-<span id="cb107-38"><a href="#cb107-38" aria-hidden="true"></a>      <span class="kw">&lt;p&gt;</span>$rights$<span class="kw">&lt;/p&gt;</span></span>
-<span id="cb107-39"><a href="#cb107-39" aria-hidden="true"></a>    <span class="kw">&lt;/footer&gt;</span></span>
-<span id="cb107-40"><a href="#cb107-40" aria-hidden="true"></a>  <span class="kw">&lt;/div&gt;</span></span>
-<span id="cb107-41"><a href="#cb107-41" aria-hidden="true"></a></span>
-<span id="cb107-42"><a href="#cb107-42" aria-hidden="true"></a>  <span class="kw">&lt;script&gt;</span></span>
-<span id="cb107-43"><a href="#cb107-43" aria-hidden="true"></a>    <span class="co">// Add click event listeners to TOC links</span></span>
-<span id="cb107-44"><a href="#cb107-44" aria-hidden="true"></a>    <span class="bu">document</span><span class="op">.</span><span class="fu">querySelectorAll</span>(<span class="st">&#39;#sidebar a&#39;</span>)<span class="op">.</span><span class="fu">forEach</span>(<span class="kw">function</span>(link) {</span>
-<span id="cb107-45"><a href="#cb107-45" aria-hidden="true"></a>      link<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">&#39;click&#39;</span><span class="op">,</span> <span class="kw">function</span>(e) {</span>
-<span id="cb107-46"><a href="#cb107-46" aria-hidden="true"></a>        e<span class="op">.</span><span class="fu">preventDefault</span>()<span class="op">;</span></span>
-<span id="cb107-47"><a href="#cb107-47" aria-hidden="true"></a>        <span class="kw">const</span> target <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="fu">getAttribute</span>(<span class="st">&#39;href&#39;</span>)<span class="op">;</span></span>
-<span id="cb107-48"><a href="#cb107-48" aria-hidden="true"></a>        <span class="bu">document</span><span class="op">.</span><span class="fu">querySelector</span>(target)<span class="op">.</span><span class="fu">scrollIntoView</span>({ <span class="dt">behavior</span><span class="op">:</span> <span class="st">&#39;smooth&#39;</span> })<span class="op">;</span></span>
-<span id="cb107-49"><a href="#cb107-49" aria-hidden="true"></a>      })<span class="op">;</span></span>
-<span id="cb107-50"><a href="#cb107-50" aria-hidden="true"></a>    })<span class="op">;</span></span>
-<span id="cb107-51"><a href="#cb107-51" aria-hidden="true"></a>  <span class="kw">&lt;/script&gt;</span></span>
-<span id="cb107-52"><a href="#cb107-52" aria-hidden="true"></a><span class="kw">&lt;/body&gt;</span></span>
-<span id="cb107-53"><a href="#cb107-53" aria-hidden="true"></a><span class="kw">&lt;/html&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb110"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true"></a><span class="dt">&lt;!DOCTYPE </span>html<span class="dt">&gt;</span></span>
+<span id="cb110-2"><a href="#cb110-2" aria-hidden="true"></a><span class="kw">&lt;html&gt;</span></span>
+<span id="cb110-3"><a href="#cb110-3" aria-hidden="true"></a><span class="kw">&lt;head&gt;</span></span>
+<span id="cb110-4"><a href="#cb110-4" aria-hidden="true"></a>  <span class="kw">&lt;meta</span><span class="ot"> charset=</span><span class="st">&quot;utf-8&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb110-5"><a href="#cb110-5" aria-hidden="true"></a>  <span class="kw">&lt;title&gt;</span>$title$<span class="kw">&lt;/title&gt;</span></span>
+<span id="cb110-6"><a href="#cb110-6" aria-hidden="true"></a>  <span class="kw">&lt;style&gt;</span></span>
+<span id="cb110-7"><a href="#cb110-7" aria-hidden="true"></a>    <span class="co">/* Add your custom CSS styles here */</span></span>
+<span id="cb110-8"><a href="#cb110-8" aria-hidden="true"></a>    <span class="pp">#sidebar</span> {</span>
+<span id="cb110-9"><a href="#cb110-9" aria-hidden="true"></a>      <span class="kw">width</span>: <span class="dv">200</span><span class="dt">px</span><span class="op">;</span></span>
+<span id="cb110-10"><a href="#cb110-10" aria-hidden="true"></a>      <span class="kw">position</span>: <span class="dv">fixed</span><span class="op">;</span></span>
+<span id="cb110-11"><a href="#cb110-11" aria-hidden="true"></a>      <span class="kw">left</span>: <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb110-12"><a href="#cb110-12" aria-hidden="true"></a>      <span class="kw">top</span>: <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb110-13"><a href="#cb110-13" aria-hidden="true"></a>      <span class="kw">bottom</span>: <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb110-14"><a href="#cb110-14" aria-hidden="true"></a>      <span class="kw">background-color</span>: <span class="cn">#f1f1f1</span><span class="op">;</span></span>
+<span id="cb110-15"><a href="#cb110-15" aria-hidden="true"></a>      <span class="kw">overflow-y</span>: <span class="bu">auto</span><span class="op">;</span></span>
+<span id="cb110-16"><a href="#cb110-16" aria-hidden="true"></a>    }</span>
+<span id="cb110-17"><a href="#cb110-17" aria-hidden="true"></a></span>
+<span id="cb110-18"><a href="#cb110-18" aria-hidden="true"></a>    <span class="pp">#content</span> {</span>
+<span id="cb110-19"><a href="#cb110-19" aria-hidden="true"></a>      <span class="kw">margin-left</span>: <span class="dv">210</span><span class="dt">px</span><span class="op">;</span></span>
+<span id="cb110-20"><a href="#cb110-20" aria-hidden="true"></a>      <span class="kw">padding</span>: <span class="dv">20</span><span class="dt">px</span><span class="op">;</span></span>
+<span id="cb110-21"><a href="#cb110-21" aria-hidden="true"></a>    }</span>
+<span id="cb110-22"><a href="#cb110-22" aria-hidden="true"></a>  <span class="kw">&lt;/style&gt;</span></span>
+<span id="cb110-23"><a href="#cb110-23" aria-hidden="true"></a><span class="kw">&lt;/head&gt;</span></span>
+<span id="cb110-24"><a href="#cb110-24" aria-hidden="true"></a><span class="kw">&lt;body&gt;</span></span>
+<span id="cb110-25"><a href="#cb110-25" aria-hidden="true"></a>  <span class="kw">&lt;div</span><span class="ot"> id=</span><span class="st">&quot;sidebar&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb110-26"><a href="#cb110-26" aria-hidden="true"></a>    <span class="kw">&lt;h2&gt;</span>Table of Contents<span class="kw">&lt;/h2&gt;</span></span>
+<span id="cb110-27"><a href="#cb110-27" aria-hidden="true"></a>    $toc$</span>
+<span id="cb110-28"><a href="#cb110-28" aria-hidden="true"></a>  <span class="kw">&lt;/div&gt;</span></span>
+<span id="cb110-29"><a href="#cb110-29" aria-hidden="true"></a>  <span class="kw">&lt;div</span><span class="ot"> id=</span><span class="st">&quot;content&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb110-30"><a href="#cb110-30" aria-hidden="true"></a>    <span class="kw">&lt;header&gt;</span></span>
+<span id="cb110-31"><a href="#cb110-31" aria-hidden="true"></a>      <span class="kw">&lt;h1&gt;</span>$title$<span class="kw">&lt;/h1&gt;</span></span>
+<span id="cb110-32"><a href="#cb110-32" aria-hidden="true"></a>      <span class="kw">&lt;p&gt;</span>By $author$<span class="kw">&lt;/p&gt;</span></span>
+<span id="cb110-33"><a href="#cb110-33" aria-hidden="true"></a>    <span class="kw">&lt;/header&gt;</span></span>
+<span id="cb110-34"><a href="#cb110-34" aria-hidden="true"></a>    <span class="kw">&lt;main&gt;</span></span>
+<span id="cb110-35"><a href="#cb110-35" aria-hidden="true"></a>      $body$</span>
+<span id="cb110-36"><a href="#cb110-36" aria-hidden="true"></a>    <span class="kw">&lt;/main&gt;</span></span>
+<span id="cb110-37"><a href="#cb110-37" aria-hidden="true"></a>    <span class="kw">&lt;footer&gt;</span></span>
+<span id="cb110-38"><a href="#cb110-38" aria-hidden="true"></a>      <span class="kw">&lt;p&gt;</span>$rights$<span class="kw">&lt;/p&gt;</span></span>
+<span id="cb110-39"><a href="#cb110-39" aria-hidden="true"></a>    <span class="kw">&lt;/footer&gt;</span></span>
+<span id="cb110-40"><a href="#cb110-40" aria-hidden="true"></a>  <span class="kw">&lt;/div&gt;</span></span>
+<span id="cb110-41"><a href="#cb110-41" aria-hidden="true"></a></span>
+<span id="cb110-42"><a href="#cb110-42" aria-hidden="true"></a>  <span class="kw">&lt;script&gt;</span></span>
+<span id="cb110-43"><a href="#cb110-43" aria-hidden="true"></a>    <span class="co">// Add click event listeners to TOC links</span></span>
+<span id="cb110-44"><a href="#cb110-44" aria-hidden="true"></a>    <span class="bu">document</span><span class="op">.</span><span class="fu">querySelectorAll</span>(<span class="st">&#39;#sidebar a&#39;</span>)<span class="op">.</span><span class="fu">forEach</span>(<span class="kw">function</span>(link) {</span>
+<span id="cb110-45"><a href="#cb110-45" aria-hidden="true"></a>      link<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">&#39;click&#39;</span><span class="op">,</span> <span class="kw">function</span>(e) {</span>
+<span id="cb110-46"><a href="#cb110-46" aria-hidden="true"></a>        e<span class="op">.</span><span class="fu">preventDefault</span>()<span class="op">;</span></span>
+<span id="cb110-47"><a href="#cb110-47" aria-hidden="true"></a>        <span class="kw">const</span> target <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="fu">getAttribute</span>(<span class="st">&#39;href&#39;</span>)<span class="op">;</span></span>
+<span id="cb110-48"><a href="#cb110-48" aria-hidden="true"></a>        <span class="bu">document</span><span class="op">.</span><span class="fu">querySelector</span>(target)<span class="op">.</span><span class="fu">scrollIntoView</span>({ <span class="dt">behavior</span><span class="op">:</span> <span class="st">&#39;smooth&#39;</span> })<span class="op">;</span></span>
+<span id="cb110-49"><a href="#cb110-49" aria-hidden="true"></a>      })<span class="op">;</span></span>
+<span id="cb110-50"><a href="#cb110-50" aria-hidden="true"></a>    })<span class="op">;</span></span>
+<span id="cb110-51"><a href="#cb110-51" aria-hidden="true"></a>  <span class="kw">&lt;/script&gt;</span></span>
+<span id="cb110-52"><a href="#cb110-52" aria-hidden="true"></a><span class="kw">&lt;/body&gt;</span></span>
+<span id="cb110-53"><a href="#cb110-53" aria-hidden="true"></a><span class="kw">&lt;/html&gt;</span></span></code></pre></div>
 <p>In this updated template: - The <code>#sidebar</code> div will contain the table of contents as a fixed sidebar on the left. - The <code>#content</code> div will contain the main content area, with a left margin to accommodate the sidebar. - The JavaScript code at the bottom adds click event listeners to the links in the table of contents. When a link is clicked, it prevents the default link behavior and scrolls the page to the corresponding chapter content using the <code>scrollIntoView</code> method.</p>
 <ol start="2" type="1">
 <li><strong>Update the Pandoc command</strong>:</li>
@@ -1197,9 +1262,9 @@ bash</code></pre>
 <li><strong>Add chapter anchors in your Markdown files</strong>:</li>
 </ol>
 <p>In each chapter Markdown file, add an HTML anchor at the beginning of the chapter content, like this:</p>
-<div class="sourceCode" id="cb109"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true"></a><span class="fu"># Chapter 1: Introduction &lt;a id=&quot;chapter1&quot;&gt;&lt;/a&gt;</span></span>
-<span id="cb109-2"><a href="#cb109-2" aria-hidden="true"></a></span>
-<span id="cb109-3"><a href="#cb109-3" aria-hidden="true"></a>This is the first chapter of my book...</span></code></pre></div>
+<div class="sourceCode" id="cb112"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true"></a><span class="fu"># Chapter 1: Introduction &lt;a id=&quot;chapter1&quot;&gt;&lt;/a&gt;</span></span>
+<span id="cb112-2"><a href="#cb112-2" aria-hidden="true"></a></span>
+<span id="cb112-3"><a href="#cb112-3" aria-hidden="true"></a>This is the first chapter of my book...</span></code></pre></div>
 <p>The <code>&lt;a id="chapter1"&gt;&lt;/a&gt;</code> anchor will serve as the target for the table of contents links to scroll to.</p>
 <p>After running the updated Pandoc command, the generated <code>book.html</code> file will have a sidebar with the table of contents on the left. Clicking on a chapter link will smoothly scroll the page to the corresponding chapter content.</p>
 <p>Note that you may need to adjust the CSS styles (e.g., sidebar width, content area margin) according to your preferences. Additionally, you can enhance the styling and functionality further by adding more CSS and JavaScript as needed.</p>
@@ -1298,24 +1363,24 @@ singularity exec /home/admin/singularity/ubuntu-training/sif python -c &quot;pri
 <ul>
 <li>but if you get the image form the Decker, or it is a Decker image you will convert it in the follwoing form</li>
 </ul>
-<div class="sourceCode" id="cb117"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb117-1"><a href="#cb117-1" aria-hidden="true"></a><span class="ex">singularity</span> pull docker://ubuntu</span></code></pre></div>
+<div class="sourceCode" id="cb120"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb120-1"><a href="#cb120-1" aria-hidden="true"></a><span class="ex">singularity</span> pull docker://ubuntu</span></code></pre></div>
 <p>That is it!!!</p>
 <ul>
 <li>you can specity the storage location with <strong>–dir</strong></li>
 </ul>
-<div class="sourceCode" id="cb118"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb118-1"><a href="#cb118-1" aria-hidden="true"></a><span class="fu">mkdir</span> -p siflocation</span>
-<span id="cb118-2"><a href="#cb118-2" aria-hidden="true"></a></span>
-<span id="cb118-3"><a href="#cb118-3" aria-hidden="true"></a><span class="ex">singularity</span> pull --dir ~/path to siflocation docker://ubuntu</span></code></pre></div>
+<div class="sourceCode" id="cb121"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb121-1"><a href="#cb121-1" aria-hidden="true"></a><span class="fu">mkdir</span> -p siflocation</span>
+<span id="cb121-2"><a href="#cb121-2" aria-hidden="true"></a></span>
+<span id="cb121-3"><a href="#cb121-3" aria-hidden="true"></a><span class="ex">singularity</span> pull --dir ~/path to siflocation docker://ubuntu</span></code></pre></div>
 <ul>
 <li>indeed we need to convert the follwoing</li>
 </ul>
-<div class="sourceCode" id="cb119"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb119-1"><a href="#cb119-1" aria-hidden="true"></a></span>
-<span id="cb119-2"><a href="#cb119-2" aria-hidden="true"></a><span class="ex">docker</span> pull somthing ===<span class="op">&gt;</span> singularity pull docerk://something</span></code></pre></div>
+<div class="sourceCode" id="cb122"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb122-1"><a href="#cb122-1" aria-hidden="true"></a></span>
+<span id="cb122-2"><a href="#cb122-2" aria-hidden="true"></a><span class="ex">docker</span> pull somthing ===<span class="op">&gt;</span> singularity pull docerk://something</span></code></pre></div>
 <ul>
 <li>or http://</li>
 </ul>
-<div class="sourceCode" id="cb120"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb120-1"><a href="#cb120-1" aria-hidden="true"></a></span>
-<span id="cb120-2"><a href="#cb120-2" aria-hidden="true"></a><span class="ex">singularity</span> pull http link</span></code></pre></div>
+<div class="sourceCode" id="cb123"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb123-1"><a href="#cb123-1" aria-hidden="true"></a></span>
+<span id="cb123-2"><a href="#cb123-2" aria-hidden="true"></a><span class="ex">singularity</span> pull http link</span></code></pre></div>
 <hr />
 <h2 id="singularity-cache">singularity cache</h2>
 <ul>
@@ -1343,7 +1408,7 @@ singularity build myubuntu.sif  docker://ubuntu:20.04 </code></pre>
 <li>i need to ask hpc people to add me to the group of singularity that I can use singularity sell</li>
 </ul>
 <p>and after getting the image I should do</p>
-<div class="sourceCode" id="cb125"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true"></a><span class="fu">chgrp</span> singularity <span class="op">&lt;</span>container<span class="op">&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb128"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb128-1"><a href="#cb128-1" aria-hidden="true"></a><span class="fu">chgrp</span> singularity <span class="op">&lt;</span>container<span class="op">&gt;</span></span></code></pre></div>
 <h2 id="my-container">my container</h2>
 <h3 id="mount">mount</h3>
 <h4 id="default-mounted-directory">default mounted directory</h4>
@@ -1352,8 +1417,8 @@ singularity build myubuntu.sif  docker://ubuntu:20.04 </code></pre>
 <li><p>To work around this and use the container’s own filesystem entirely (including its home directory), you can use the <strong>–no-home</strong> option with your singularity shell command.</p></li>
 <li><p>This option prevents Singularity from mounting your host’s home directory over the container’s home directory. Here’s how you might use it:</p></li>
 </ul>
-<div class="sourceCode" id="cb126"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb126-1"><a href="#cb126-1" aria-hidden="true"></a></span>
-<span id="cb126-2"><a href="#cb126-2" aria-hidden="true"></a><span class="fu">sudo</span> singularity shell --writable --no-home ubuntu-min-tools</span></code></pre></div>
+<div class="sourceCode" id="cb129"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb129-1"><a href="#cb129-1" aria-hidden="true"></a></span>
+<span id="cb129-2"><a href="#cb129-2" aria-hidden="true"></a><span class="fu">sudo</span> singularity shell --writable --no-home ubuntu-min-tools</span></code></pre></div>
 <hr />
 <h3 id="minmum-default-and-root">Minmum default and /root</h3>
 <ul>
@@ -1368,14 +1433,70 @@ singularity build myubuntu.sif  docker://ubuntu:20.04 </code></pre>
 <ul>
 <li>Or, if you’re a <strong>non-root</strong> user and know the home directory:</li>
 </ul>
-<div class="sourceCode" id="cb128"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb128-1"><a href="#cb128-1" aria-hidden="true"></a></span>
-<span id="cb128-2"><a href="#cb128-2" aria-hidden="true"></a><span class="ex">vi</span> /home/username/.bashrc</span></code></pre></div>
+<div class="sourceCode" id="cb131"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb131-1"><a href="#cb131-1" aria-hidden="true"></a></span>
+<span id="cb131-2"><a href="#cb131-2" aria-hidden="true"></a><span class="ex">vi</span> /home/username/.bashrc</span></code></pre></div>
 <h2 id="bind-syntax">bind syntax</h2>
 <ul>
 <li>The path ubuntu-min-tools/opt/periv2 appears to be <strong>incorrect</strong> because it includes what seems to be part of the command or container name (ubuntu-min-tools) rather than just the path where you want to mount the directory inside the container.</li>
 </ul>
 <pre><code>sudo singularity shell --writable --no-home -B /home/davood/projects/beta_perigrain_v2:/opt/periv2 ubuntu-min-tools</code></pre>
 <hr />
+<h2 id="jaleb">jaleb</h2>
+<ul>
+<li>The error you’re encountering while running your script within a Singularity container indicates a problem with accessing the file system outside the container. This is a common scenario when working with containers like Singularity or Docker, especially when trying to access files or directories on the host system. Here are some steps to troubleshoot and resolve the issue:</li>
+</ul>
+<ol type="1">
+<li><strong>Bind Mounts</strong></li>
+</ol>
+<ul>
+<li><p>When you execute a Singularity container, you need to ensure that directories from the host system are accessible inside the container through bind mounts. By default, Singularity automatically binds certain directories like /home, /tmp, and /proc, but you may need to explicitly bind additional directories depending on your setup and Singularity configuration.</p></li>
+<li><p>To bind a directory from your host to the container, you can use the -B or –bind option with the singularity exec command. You’ll want to ensure that the /work/davdam/periHpc-output/kalthoff3d/kalthof3d_hpc_h10/ directory is accessible inside the container. For example:</p></li>
+</ul>
+<div class="sourceCode" id="cb133"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb133-1"><a href="#cb133-1" aria-hidden="true"></a></span>
+<span id="cb133-2"><a href="#cb133-2" aria-hidden="true"></a><span class="ex">singularity</span> exec --bind /work/davdam/periHpc-output:/work/davdam/periHpc-output containers/ubuntu-min-peri-require-v2.sif python3 test.py</span></code></pre></div>
+<p>This command mounts the /work/davdam/periHpc-output directory from your host to the same path inside the container, making it accessible for your script.</p>
+<ol start="2" type="1">
+<li>Check Container’s File System Access</li>
+</ol>
+<p>Verify that the container’s environment has the necessary permissions to read from and write to the bound directory. Singularity containers run with the user permissions of the user who started them, so ensure that your user has the appropriate permissions for the /work/davdam/periHpc-output/kalthoff3d/kalthof3d_hpc_h10/ directory on the host. 3. Directory Existence and Permissions Inside Container</p>
+<p>Even with correct bind mounts, you need to ensure that the directory exists and has the correct permissions inside the container. Use a shell inside the container to check the directory’s existence and permissions:</p>
+<div class="sourceCode" id="cb134"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb134-1"><a href="#cb134-1" aria-hidden="true"></a></span>
+<span id="cb134-2"><a href="#cb134-2" aria-hidden="true"></a><span class="ex">singularity</span> shell --bind /work/davdam/periHpc-output:/work/davdam/periHpc-output containers/ubuntu-min-peri-require-v2.sif</span></code></pre></div>
+<p>Once inside the container, navigate to the directory and check that it exists and your user has write permissions. 4. Container’s Environment and Dependencies</p>
+<p>Ensure that the container environment has all necessary dependencies installed, including h5py and its dependencies, configured correctly. The error could stem from a mismatch or misconfiguration within the container, even though the same script works outside of it.</p>
+<p>If after following these steps you’re still facing issues, consider revisiting the container’s configuration or the way your Singularity image is built to ensure it’s properly set up for your workflow, including file system access and Python environment dependencies. User</p>
+<h3 id="why-the-path-is-repeated-twice-here">why the path is repeated twice here</h3>
+<pre><code>--bind /work/davdam/periHpc-output:/work/davdam/periHpc-output
+</code></pre>
+<ul>
+<li><p>In the Singularity –bind option format –bind /host/path:/container/path, the path before the colon (:) specifies the location on the host system that you want to make accessible inside the container, while the path after the colon specifies where this directory will be mounted (or seen) inside the container. The format allows you to map directories from the host to potentially different locations inside the container.</p></li>
+<li><p>When the path is repeated twice, as in –bind /work/davdam/periHpc-output:/work/davdam/periHpc-output, it means you are binding the /work/davdam/periHpc-output directory from the host to the same path /work/davdam/periHpc-output inside the container. Essentially, you’re making the directory available inside the container at the same path as it exists on the host, maintaining a consistent path environment for applications that may rely on specific path configurations.</p>
+<p>Maintaining Path Consistency: You want to ensure that scripts or applications that reference specific paths can run both outside and inside the container without modifying the path references. Ease of Use: It simplifies the process of working with files, especially when scripts or applications are designed to work with a predefined directory structure.</p></li>
+</ul>
+<h3 id="note">NOTE</h3>
+<p>However, you’re not restricted to this approach. You can bind the host directory to a different path inside the container if needed, for example, –bind /work/davdam/periHpc-output:/data, which would make /work/davdam/periHpc-output from the host accessible as /data inside the container. This flexibility can be particularly useful for aligning with the directory structures expected by applications or when integrating with multiple containers that expect different directory layouts.</p>
+<hr />
+<h2 id="copy">copy</h2>
+<h3 id="copy-a-directory-in-container">copy a directory in container</h3>
+<p>singularity copy and cp and etc didnt work I had to shell into the container and copy the directory!!</p>
+<hr />
+<h3 id="target-directory">target directory</h3>
+<p>When you use the <code>--bind</code> or <code>--volume</code> option with Singularity (or Docker, respectively) to mount a directory from the host system into the container, you do not need to have the target directory already existing inside the container. If the target directory does not exist, it will be created by Singularity at runtime. However, understanding the behavior when the directory does exist in the container is important:</p>
+<h3 id="if-the-target-directory-exists-in-the-container">If the Target Directory Exists in the Container:</h3>
+<ul>
+<li><p><strong>Non-Empty Directory:</strong> If you mount a host directory to a non-empty directory inside the container, the mount will “overlay” the directory inside the container. This means that while the container is running, any files in the target directory inside the container will be “hidden” and replaced by the contents of the host directory. The original contents of the directory inside the container will not be modified or removed; they will simply be inaccessible for the duration of the mount. Once the container stops and the mount is removed, the original contents of the directory will be visible again.</p></li>
+<li><p><strong>Empty Directory:</strong> If the directory exists and is empty, then mounting a host directory to it is straightforward. The contents of the host directory will be accessible at the mount point inside the container.</p></li>
+</ul>
+<h3 id="recommendations">Recommendations:</h3>
+<ul>
+<li><p><strong>For Configuration Files:</strong> If you plan to mount a <code>config</code> directory from the host to <code>/app/myproject/config</code> inside the container, it is generally a good practice to have a default <code>config</code> directory in your container with default configuration files. This approach ensures that your application can run with default settings if no external mount is provided. When you do provide an external mount, your custom or updated configuration will override these defaults without altering them permanently.</p></li>
+<li><p><strong>Maintain a Clear Structure:</strong> To avoid confusion, especially when dealing with multiple environments or configurations, it’s helpful to maintain a clear directory structure and understand which directories will be mounted and potentially override the container’s contents.</p></li>
+<li><p><strong>Documentation:</strong> Document the behavior and expectations regarding configuration files and directories in your project’s README or documentation. This can help users and collaborators understand how to customize the application’s behavior through mounts.</p></li>
+</ul>
+<h3 id="example-command">Example Command:</h3>
+<p>To mount a <code>config</code> directory from your HPC home directory to <code>/app/myproject/config</code> inside the container, you would use:</p>
+<div class="sourceCode" id="cb136"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb136-1"><a href="#cb136-1" aria-hidden="true"></a><span class="ex">singularity</span> exec --bind /home/user/config:/app/myproject/config yourappname.sif /app/myproject/bin/simulate2d</span></code></pre></div>
+<p>In this command: - <code>/home/user/config</code> is the path to your configuration directory on the HPC system. - <code>/app/myproject/config</code> is the path inside the container where the application expects its configuration files. - The application within the container, <code>/app/myproject/bin/simulate2d</code>, will read the configuration files from the mounted directory. —</p>
 <h3 id="using-sif-file">using sif file</h3>
 <ol type="1">
 <li>Integrating Singularity into Your Bash Script</li>
@@ -1384,8 +1505,8 @@ singularity build myubuntu.sif  docker://ubuntu:20.04 </code></pre>
 <li><p>Modify your <strong>run.sh</strong> script to use Singularity for tasks that require the Python environment.</p></li>
 <li><p>For Python tasks, wrap your Python command with singularity exec. For example:</p></li>
 </ul>
-<div class="sourceCode" id="cb130"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb130-1"><a href="#cb130-1" aria-hidden="true"></a></span>
-<span id="cb130-2"><a href="#cb130-2" aria-hidden="true"></a><span class="ex">singularity</span> exec /path/to/your/container.sif python3 myfunctions.py</span></code></pre></div>
+<div class="sourceCode" id="cb137"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb137-1"><a href="#cb137-1" aria-hidden="true"></a></span>
+<span id="cb137-2"><a href="#cb137-2" aria-hidden="true"></a><span class="ex">singularity</span> exec /path/to/your/container.sif python3 myfunctions.py</span></code></pre></div>
 <ul>
 <li>For <strong>MPI tasks</strong>, if the MPI environment is outside the container and should use the HPC’s native MPI, you can leave those commands as is. If the MPI environment is inside the container, use Singularity’s options to run MPI applications. The exact command depends on your setup and might require additional flags for compatibility with your HPC’s MPI configuration.</li>
 </ul>
@@ -1393,25 +1514,132 @@ singularity build myubuntu.sif  docker://ubuntu:20.04 </code></pre>
 <li>Creating a PBS Job Script</li>
 </ol>
 <p>Create a PBS job script that will submit your run.sh script as a job. This job script, let’s call it submit_job.pbs, might look something like this:</p>
-<div class="sourceCode" id="cb131"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb131-1"><a href="#cb131-1" aria-hidden="true"></a></span>
-<span id="cb131-2"><a href="#cb131-2" aria-hidden="true"></a><span class="co">#!/bin/bash</span></span>
-<span id="cb131-3"><a href="#cb131-3" aria-hidden="true"></a><span class="co">#PBS -N job_name</span></span>
-<span id="cb131-4"><a href="#cb131-4" aria-hidden="true"></a><span class="co">#PBS -l walltime=01:00:00</span></span>
-<span id="cb131-5"><a href="#cb131-5" aria-hidden="true"></a><span class="co">#PBS -l select=1:ncpus=8:mem=16gb</span></span>
-<span id="cb131-6"><a href="#cb131-6" aria-hidden="true"></a><span class="co">#PBS -j oe</span></span>
-<span id="cb131-7"><a href="#cb131-7" aria-hidden="true"></a></span>
-<span id="cb131-8"><a href="#cb131-8" aria-hidden="true"></a><span class="ex">module</span> load singularity   # Load Singularity if it is a module</span>
-<span id="cb131-9"><a href="#cb131-9" aria-hidden="true"></a><span class="ex">module</span> load mpi           # Load MPI module if your MPI tasks are outside the container</span>
-<span id="cb131-10"><a href="#cb131-10" aria-hidden="true"></a></span>
-<span id="cb131-11"><a href="#cb131-11" aria-hidden="true"></a><span class="bu">cd</span> <span class="va">$PBS_O_WORKDIR</span> <span class="co"># Change directory to your working directory</span></span>
-<span id="cb131-12"><a href="#cb131-12" aria-hidden="true"></a><span class="fu">bash</span> run.sh</span></code></pre></div>
+<div class="sourceCode" id="cb138"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb138-1"><a href="#cb138-1" aria-hidden="true"></a></span>
+<span id="cb138-2"><a href="#cb138-2" aria-hidden="true"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb138-3"><a href="#cb138-3" aria-hidden="true"></a><span class="co">#PBS -N job_name</span></span>
+<span id="cb138-4"><a href="#cb138-4" aria-hidden="true"></a><span class="co">#PBS -l walltime=01:00:00</span></span>
+<span id="cb138-5"><a href="#cb138-5" aria-hidden="true"></a><span class="co">#PBS -l select=1:ncpus=8:mem=16gb</span></span>
+<span id="cb138-6"><a href="#cb138-6" aria-hidden="true"></a><span class="co">#PBS -j oe</span></span>
+<span id="cb138-7"><a href="#cb138-7" aria-hidden="true"></a></span>
+<span id="cb138-8"><a href="#cb138-8" aria-hidden="true"></a><span class="ex">module</span> load singularity   # Load Singularity if it is a module</span>
+<span id="cb138-9"><a href="#cb138-9" aria-hidden="true"></a><span class="ex">module</span> load mpi           # Load MPI module if your MPI tasks are outside the container</span>
+<span id="cb138-10"><a href="#cb138-10" aria-hidden="true"></a></span>
+<span id="cb138-11"><a href="#cb138-11" aria-hidden="true"></a><span class="bu">cd</span> <span class="va">$PBS_O_WORKDIR</span> <span class="co"># Change directory to your working directory</span></span>
+<span id="cb138-12"><a href="#cb138-12" aria-hidden="true"></a><span class="fu">bash</span> run.sh</span></code></pre></div>
+<hr />
 <h2 id="mpi-and-container">MPI and container</h2>
 <h4 id="notes-on-mpi-and-containers">Notes on MPI and Containers</h4>
-<pre><code>- **MPI Inside vs. Outside Containers**: Running MPI applications can be more complex when containers are involved. Ideally, the MPI version inside the container should match the version available on the HPC system to avoid compatibility issues. If your MPI application and environment are fully contained, ensure your Singularity image is set up correctly for MPI.
-
-- **Hybrid Approaches**: In some cases, you might run non-MPI tasks within the container and MPI tasks outside, or vice versa. Tailor your script based on where the MPI environment is best utilized.
-
-- **Testing**: Before submitting the job, test your modified run.sh script and PBS job script (submit_job.pbs) with smaller tasks to ensure everything works as expected in the HPC environmen</code></pre>
+<ul>
+<li><p><strong>MPI Inside vs. Outside Containers</strong>: Running MPI applications can be more complex when containers are involved. Ideally, the MPI version inside the container should match the version available on the HPC system to avoid compatibility issues. If your MPI application and environment are fully contained, ensure your Singularity image is set up correctly for MPI.</p></li>
+<li><p><strong>Hybrid Approaches</strong>: In some cases, you might run non-MPI tasks within the container and MPI tasks outside, or vice versa. Tailor your script based on where the MPI environment is best utilized.</p></li>
+<li><p><strong>Testing</strong>: Before submitting the job, test your modified run.sh script and PBS job script (submit-job.pbs) with smaller tasks to ensure everything works as expected in the HPC environmen</p></li>
+</ul>
+<hr />
+<h2 id="display">display</h2>
+<p>f you’re inside a container and facing the “Authorization required, but no authorization protocol specified” error while trying to run a compiled C++ code that requires graphical output, the issue is likely related to X11 graphics forwarding from within the container to your host’s display. Containers, by default, do not have access to the host’s display server due to isolation.</p>
+<p>Here are steps to solve this problem, focusing on Docker as it’s one of the most common container platforms. The same principles apply to other container technologies, but the commands and configuration might differ.</p>
+<h3 id="allow-container-access-to-hosts-display">Allow Container Access to Host’s Display</h3>
+<ol type="1">
+<li><p><strong>Share the Display</strong>: You need to allow the container to access the host’s display. This is done by setting the <code>DISPLAY</code> environment variable inside the container to match the <code>DISPLAY</code> variable of the host system.</p></li>
+<li><p><strong>X11 Unix Socket</strong>: Share the X11 Unix socket directory between the host and the container by using the <code>-v</code> (volume) option in Docker.</p></li>
+<li><p><strong>Xhost</strong>: Temporarily allow connections to the X server on the host from any address. This is generally not recommended for public networks due to security concerns.</p></li>
+</ol>
+<h4 id="implementation">Implementation</h4>
+<p>First, on your host, run:</p>
+<div class="sourceCode" id="cb139"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb139-1"><a href="#cb139-1" aria-hidden="true"></a><span class="fu">xhost</span> +</span></code></pre></div>
+<p>This command temporarily allows all connections to your X server. For a more secure setup, you might specify the IP address of the container or use <code>xhost +local:</code> to only allow local connections.</p>
+<p>Then, when running your container, add the <code>-e DISPLAY</code> and <code>-v /tmp/.X11-unix:/tmp/.X11-unix</code> options to your <code>docker run</code> command. For example:</p>
+<div class="sourceCode" id="cb140"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb140-1"><a href="#cb140-1" aria-hidden="true"></a><span class="ex">docker</span> run -it --rm -e DISPLAY=<span class="va">$DISPLAY</span> -v /tmp/.X11-unix:/tmp/.X11-unix your_container_image</span></code></pre></div>
+<p>This command runs a container with the display environment variable set to use the host’s display and shares the X11 Unix socket between the host and the container.</p>
+<h4 id="security-note">Security Note</h4>
+<p>After you’ve finished running your containerized application, it’s a good practice to revoke the open access to your X server (if you used <code>xhost +</code> earlier) by running:</p>
+<div class="sourceCode" id="cb141"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb141-1"><a href="#cb141-1" aria-hidden="true"></a><span class="fu">xhost</span> -</span></code></pre></div>
+<p>This command will reset the access control to the default settings, generally denying all connections except those allowed explicitly.</p>
+<h3 id="inside-a-container-without-docker">Inside a Container without Docker</h3>
+<p>If you’re using a containerization technology other than Docker, or if Docker-specific solutions aren’t applicable, you’ll need to adjust the approach based on your container platform’s way of handling networking, volumes, and environment variables. The key concepts of sharing the <code>DISPLAY</code> environment variable and the X11 Unix socket directory, however, remain the same.</p>
+<hr />
+<h2 id="config">config</h2>
+<p>No, you generally do not need to rebuild your container every time you wish to change a parameter in your application for running on an HPC cluster. There are more efficient strategies to manage parameter changes without the overhead of rebuilding the container:</p>
+<h3 id="external-configuration-files-or-environment-variables">1. <strong>External Configuration Files or Environment Variables</strong></h3>
+<p>One common approach is to use external configuration files or environment variables to pass parameters into your application. This way, you can change the parameters without altering the container.</p>
+<ul>
+<li><p><strong>Configuration Files</strong>: You can mount a configuration file into the container at runtime that your application reads to set parameters. This file can be edited outside the container, and the changes will be reflected the next time you run the container.</p>
+<div class="sourceCode" id="cb142"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb142-1"><a href="#cb142-1" aria-hidden="true"></a><span class="ex">singularity</span> exec --bind ./config:/app/config yourappname.sif ./bin/simulate2d</span></code></pre></div>
+<p>In this example, <code>--bind ./config:/app/config</code> mounts the local <code>config</code> directory to <code>/app/config</code> inside the container, where your application can access it.</p></li>
+<li><p><strong>Environment Variables</strong>: Alternatively, you can pass parameters as environment variables using the <code>-e</code> option with Singularity. Your application would then read these environment variables at runtime.</p>
+<div class="sourceCode" id="cb143"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb143-1"><a href="#cb143-1" aria-hidden="true"></a><span class="ex">singularity</span> exec -e SINGULARITYENV_PARAM1=value1 yourappname.sif ./bin/simulate2d</span></code></pre></div>
+<p>Ensure your application is designed to read parameters from either configuration files or environment variables as needed.</p></li>
+</ul>
+<h3 id="interactive-mode-or-shell-access">2. <strong>Interactive Mode or Shell Access</strong></h3>
+<p>For development, testing, or debugging, you might want to run the container in interactive mode or access its shell directly. This allows you to modify files, execute commands, or run scripts inside the container without rebuilding it.</p>
+<div class="sourceCode" id="cb144"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb144-1"><a href="#cb144-1" aria-hidden="true"></a><span class="ex">singularity</span> shell yourappname.sif</span></code></pre></div>
+<p>Once inside, you can edit parameters in your scripts or binaries directly and run your application.</p>
+<h3 id="scripts-and-command-line-arguments">3. <strong>Scripts and Command Line Arguments</strong></h3>
+<p>Modify your application to accept command line arguments or to read from a script that can be easily edited and passed into the container. This is particularly useful for numerical parameters, flags, or other simple configurations that might change frequently.</p>
+<p>For example, you could modify your application to accept command line arguments for different parameters:</p>
+<div class="sourceCode" id="cb145"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb145-1"><a href="#cb145-1" aria-hidden="true"></a><span class="ex">singularity</span> exec yourappname.sif ./bin/simulate2d --param1 value1 --param2 value2</span></code></pre></div>
+<h3 id="volume-binding-for-dynamic-data">4. <strong>Volume Binding for Dynamic Data</strong></h3>
+<p>Bind volumes (directories) from the host to the container for data or configuration files that might change between runs. This is similar to the first approach and allows your application to access different data sets or configuration files without rebuilding the container.</p>
+<div class="sourceCode" id="cb146"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb146-1"><a href="#cb146-1" aria-hidden="true"></a><span class="ex">singularity</span> exec --bind /path/to/data:/app/data yourappname.sif ./bin/simulate2d</span></code></pre></div>
+<p>This approach is flexible and efficient for HPC applications, as it separates the immutable aspects of your environment (which are containerized) from the mutable aspects (like data and configuration), which are managed externally.</p>
+<hr />
+<h2 id="compile-on-cluster">compile on cluster</h2>
+<p>No, if you compile your code inside a container on your local machine, you typically do not need to recompile it when you run the container on an HPC (High-Performance Computing) cluster. The primary advantage of using containers is to package your application along with all its dependencies into a single, portable unit that can run consistently across different computing environments.</p>
+<p>Here’s why recompilation is usually unnecessary:</p>
+<h3 id="consistent-environment">1. <strong>Consistent Environment:</strong></h3>
+<p>Containers encapsulate not just the application, but also the runtime environment, including the operating system libraries (to an extent), application binaries, and all dependencies. This consistency ensures that if your application compiles and runs inside a container on one system, it should behave the same way when the container is run on another system, such as an HPC cluster.</p>
+<h3 id="binary-compatibility">2. <strong>Binary Compatibility:</strong></h3>
+<p>Since the binary executables are created in an environment that is shipped with the container, those binaries are compatible with any system where the container runtime (e.g., Docker or Singularity) is compatible. This means the binaries should execute without issues on the HPC cluster, assuming the architecture (e.g., x86_64) is the same.</p>
+<h3 id="performance-considerations">3. <strong>Performance Considerations:</strong></h3>
+<p>While the need to recompile for performance reasons (e.g., to optimize for a specific architecture) might arise, this is generally handled during the container’s build process. If your application benefits significantly from being optimized for the specific hardware of the HPC cluster, you might consider building the container directly on the HPC system or incorporating architecture-specific optimizations into your container build process. However, for many applications, the difference may not justify the complexity.</p>
+<h3 id="best-practices-1">Best Practices:</h3>
+<ul>
+<li><p><strong>Build Once, Run Anywhere:</strong> Compile your code inside the container during the build process. This practice adheres to the principle of creating a container that can be run across different environments without modification.</p></li>
+<li><p><strong>Test Locally, Deploy Globally:</strong> Test your container thoroughly in your local environment to ensure that it behaves as expected. Once confirmed, you can confidently deploy and run it on the HPC cluster.</p></li>
+<li><p><strong>Consider Using Precompiled Binaries:</strong> For dependencies that are large or complex to compile, consider using precompiled binaries if they are available for your base container image’s OS. This approach can save time both during the build process and when moving the container to different environments.</p></li>
+<li><p><strong>Optimize for Portability:</strong> If you anticipate running your container across a wide variety of systems, aim to optimize for portability. This might mean targeting common denominators in terms of system libraries and avoiding bleeding-edge features that might not be supported everywhere.</p></li>
+</ul>
+<p>Following these guidelines, you should be able to use your containers across different systems, including HPC clusters, without needing to recompile your code each time.</p>
+<h2 id="mpi">mpi</h2>
+<p><a href="https://permedcoe.github.io/mpi-in-container/#mpi-inside-a-container">mpi and containers</a></p>
+<h2 id="mpi-authorization">mpi authorization</h2>
+<pre><code>Authorization required, but no authorization protocol specified 
+</code></pre>
+<ul>
+<li>I used mpirun -disable-x : still we have the same error</li>
+</ul>
+<hr />
+<h1 id="mpi-1">mpi</h1>
+<h2 id="mpi-and-singularity">MPI and singularity</h2>
+<p>a common practice is</p>
+<pre><code>mpirun -np XXX machine_file singularity exec ....</code></pre>
+<hr />
+<h2 id="samba">samba</h2>
+<p><a href="https://ubuntu.com/tutorials/install-and-configure-samba#4-setting-up-user-accounts-and-connecting-to-share">samba share</a></p>
+<p>etting up a Samba share on Ubuntu, you will indeed need to replace <code>"ip-address"</code> with the actual IP address of the Ubuntu machine where the Samba server is running. This address is a numeric identifier that uniquely identifies your machine on the network.</p>
+<p>Here’s how you can find the IP address on your Ubuntu machine:</p>
+<ol type="1">
+<li><p><strong>Open a terminal:</strong> You can do this by pressing <code>Ctrl+Alt+T</code> on your keyboard.</p></li>
+<li><p><strong>Type the following command and press Enter:</strong></p>
+<div class="sourceCode" id="cb149"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb149-1"><a href="#cb149-1" aria-hidden="true"></a><span class="ex">ip</span> a</span></code></pre></div>
+<p>This will list all the network interfaces and their assigned IP addresses. Look for something like <code>inet 192.168.x.x</code> or <code>inet 10.0.x.x</code> under an interface that isn’t <code>lo</code> (which is the loopback interface).</p></li>
+</ol>
+<p>Once you find your IP address, replace <code>"ip-address"</code> in the network path (<code>\\ip-address\sambashare</code>) with this number. For example, if your IP address is <code>192.168.1.5</code>, then the network path would be <code>\\192.168.1.5\sambashare</code>.</p>
+<p>Ensure that the Samba server is properly configured and that the firewall is allowing access to the Samba ports. Then, you should be able to access your Samba share from other computers on the network by entering the network path in a File Explorer window on a Windows machine or a similar application on other operating systems.</p>
+<hr />
+<h2 id="run">run</h2>
+<div class="sourceCode" id="cb150"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb150-1"><a href="#cb150-1" aria-hidden="true"></a><span class="fu">myPython()</span> <span class="kw">{</span></span>
+<span id="cb150-2"><a href="#cb150-2" aria-hidden="true"></a>    <span class="ex">singularity</span> exec <span class="kw">\</span></span>
+<span id="cb150-3"><a href="#cb150-3" aria-hidden="true"></a>        <span class="ex">-B</span> <span class="st">&quot;</span><span class="va">$PATH_OUT</span><span class="st">:</span><span class="va">$PATH_OUT</span><span class="st">:rw,</span><span class="va">$PATH_MSH2</span><span class="st">:</span><span class="va">$PATH_MSH1</span><span class="st">,</span><span class="va">$PATH_LOC</span><span class="st">:</span><span class="va">$PATH_IMG</span><span class="st">,</span><span class="va">$PATH_DATA2</span><span class="st">:</span><span class="va">$PATH_DATA1</span><span class="st">:rw,</span><span class="va">$PATH_h5py2</span><span class="st">:</span><span class="va">$PATH_h5py1</span><span class="st">:rw,</span><span class="va">$PATH2</span><span class="st">:</span><span class="va">$PATH1</span><span class="st">:rw&quot;</span> <span class="kw">\</span></span>
+<span id="cb150-4"><a href="#cb150-4" aria-hidden="true"></a>        <span class="st">&quot;</span><span class="va">$IMG</span><span class="st">&quot;</span> <span class="kw">\</span></span>
+<span id="cb150-5"><a href="#cb150-5" aria-hidden="true"></a>        <span class="fu">bash</span> -c <span class="st">&quot;cd </span><span class="va">$PATH_IMG2</span><span class="st">; python3  </span><span class="va">$*</span><span class="st">&quot;</span></span>
+<span id="cb150-6"><a href="#cb150-6" aria-hidden="true"></a><span class="kw">}</span></span>
+<span id="cb150-7"><a href="#cb150-7" aria-hidden="true"></a></span>
+<span id="cb150-8"><a href="#cb150-8" aria-hidden="true"></a><span class="fu">myMPIsingularity()</span> <span class="kw">{</span></span>
+<span id="cb150-9"><a href="#cb150-9" aria-hidden="true"></a>    <span class="ex">mpirun</span> -machinefile <span class="st">&quot;</span><span class="va">$PBS_NODEFILE</span><span class="st">&quot;</span> -np <span class="st">&quot;</span><span class="va">$NPROCS</span><span class="st">&quot;</span> <span class="kw">\</span></span>
+<span id="cb150-10"><a href="#cb150-10" aria-hidden="true"></a>        <span class="ex">singularity</span> exec  -B <span class="st">&quot;</span><span class="va">$PATH_OUT</span><span class="st">:</span><span class="va">$PATH_OUT</span><span class="st">:rw,</span><span class="va">$PATH_MSH2</span><span class="st">:</span><span class="va">$PATH_MSH1</span><span class="st">,</span><span class="va">$PATH_LOC</span><span class="st">:</span><span class="va">$PATH_IMG</span><span class="st">:rw,</span><span class="va">$PATH2</span><span class="st">:</span><span class="va">$PATH1</span><span class="st">:rw&quot;</span>  <span class="st">&quot;</span><span class="va">$IMG</span><span class="st">&quot;</span> <span class="kw">\</span></span>
+<span id="cb150-11"><a href="#cb150-11" aria-hidden="true"></a>        <span class="fu">bash</span> -c <span class="st">&quot;cd </span><span class="va">$PATH_IMG2</span><span class="st">; </span><span class="va">$PATH_SIM3D</span><span class="st"> -c </span><span class="va">$config</span><span class="st"> -o </span><span class="va">$dir</span><span class="st"> -i </span><span class="va">$sfile</span><span class="st">&quot;</span> <span class="op">&gt;&gt;</span> <span class="st">&quot;</span><span class="va">$logfile</span><span class="st">&quot;</span> <span class="op">2&gt;&amp;1</span></span>
+<span id="cb150-12"><a href="#cb150-12" aria-hidden="true"></a><span class="kw">}</span></span></code></pre></div>
 <hr />
 <div id="back-to-top" style="position: fixed; bottom: 20px; right: 20px; display: none;">
 <p><a href="#top">↑ Back to Top</a></p>

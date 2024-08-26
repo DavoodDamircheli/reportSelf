@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>parallelComputing</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+</head>
+<body>
+<p><span id="top"></span></p>
+<h1 id="table-of-content">Table of content</h1>
+<ul>
+<li><a href="#step-1">Brain Storming</a></li>
+<li><a href="#resources">Learning pathes and resources</a></li>
+<li><a href="#step-2">MPI install and configuration</a></li>
+</ul>
+<!-- nd see the changes live -->
+<!-- ls  selfTuroring.md | entr pandoc /_ -s -o selfTuroringehtml --css pandoc.css -->
+<hr />
+<h1 id="step-1">step 1</h1>
+<p>Multi-threaded programming and MPI (Message Passing Interface) are both approaches used in parallel computing but serve different purposes and operate in distinct environments. Here’s a breakdown of their differences and connections:</p>
+<h3 id="multi-threaded-programming">Multi-threaded Programming</h3>
+<ul>
+<li><strong>Scope</strong>: Multi-threaded programming is used to execute multiple threads concurrently within a single process. Threads share the process’s resources but can operate independently to perform parallel tasks.</li>
+<li><strong>Memory Model</strong>: It employs a shared memory model where all threads have access to the same shared memory space, allowing for easy communication and data sharing among threads.</li>
+<li><strong>Use Case</strong>: It’s commonly used in applications running on a single computer with multiple cores or processors, enabling the application to perform multiple tasks or handle multiple requests at the same time.</li>
+<li><strong>Synchronization</strong>: Requires careful management of resources shared among threads to avoid issues like race conditions. Mechanisms like mutexes, locks, and semaphores are used for synchronization.</li>
+<li><strong>Examples</strong>: POSIX Threads (pthreads), Windows Threads, Java Threads.</li>
+</ul>
+<h3 id="mpi-message-passing-interface">MPI (Message Passing Interface)</h3>
+<ul>
+<li><strong>Scope</strong>: MPI is a protocol and an API for passing messages between processes in a distributed computing environment. Each process has its own memory space.</li>
+<li><strong>Memory Model</strong>: It uses a distributed memory model where each process operates independently with its own local memory. Processes communicate by sending and receiving messages, which can contain data, instructions, or synchronization signals.</li>
+<li><strong>Use Case</strong>: MPI is designed for high-performance computing (HPC) applications that run on computer clusters or grid environments, where processes need to communicate across different nodes of a network.</li>
+<li><strong>Synchronization</strong>: Communication and synchronization between processes are achieved through explicit message passing, which includes sending and receiving data.</li>
+<li><strong>Examples</strong>: Open MPI, MPICH, Microsoft MPI.</li>
+</ul>
+<h3 id="connection-and-combination">Connection and Combination</h3>
+<ul>
+<li><strong>Complementary Use</strong>: In practice, MPI and multi-threaded programming are often used together in hybrid models of parallel computing. This approach leverages the benefits of both distributed and shared memory paradigms, allowing for efficient utilization of multi-core processors within nodes (using multi-threading) and communication across nodes in a cluster or grid (using MPI).</li>
+<li><strong>Efficiency and Scalability</strong>: The hybrid model can offer improved efficiency and scalability, particularly for complex HPC applications that require both intensive computation and significant data exchange between nodes.</li>
+</ul>
+<p>In summary, while multi-threaded programming and MPI can be used independently based on the application requirements and the computing environment, combining them can provide a powerful approach to solving large-scale, complex problems in parallel computing,</p>
+<hr />
+<h2 id="resources">resources</h2>
+<p>Parallel computing is a method of performing multiple computations simultaneously to solve a problem faster. Here’s a straightforward, step-by-step guide to understand and implement parallel computing:</p>
+<h3 id="step-by-step-guide">Step-by-Step Guide:</h3>
+<h4 id="understand-the-basics">1. <strong>Understand the Basics:</strong></h4>
+<ul>
+<li><strong>Concept:</strong> Learn the fundamental concepts of parallel computing, including concurrency, parallelism, and types of parallelism (data parallelism vs. task parallelism).</li>
+<li><strong>Architecture:</strong> Familiarize yourself with different parallel computing architectures like multicore processors, clusters, and GPUs.</li>
+</ul>
+<h4 id="learn-a-parallel-programming-model">2. <strong>Learn a Parallel Programming Model:</strong></h4>
+<ul>
+<li><strong>Shared Memory Model:</strong> Using threads (e.g., POSIX threads) or higher-level abstractions like OpenMP.</li>
+<li><strong>Distributed Memory Model:</strong> Using message passing (e.g., MPI - Message Passing Interface).</li>
+<li><strong>Heterogeneous Computing:</strong> Using GPUs (e.g., CUDA for NVIDIA GPUs, OpenCL).</li>
+</ul>
+<h4 id="select-a-programming-language">3. <strong>Select a Programming Language:</strong></h4>
+<ul>
+<li><strong>For Shared Memory:</strong> C/C++ with OpenMP, Python with multiprocessing/threading, Java with concurrency utilities.</li>
+<li><strong>For Distributed Memory:</strong> MPI with C/C++ or Fortran, Python with MPI4Py.</li>
+<li><strong>For GPUs:</strong> CUDA with C/C++, PyCUDA, or TensorFlow for machine learning tasks.</li>
+</ul>
+<h4 id="set-up-the-environment">4. <strong>Set Up the Environment:</strong></h4>
+<ul>
+<li>Install necessary software and libraries (e.g., OpenMP, MPI, CUDA toolkit).</li>
+</ul>
+<h4 id="write-and-run-simple-programs">5. <strong>Write and Run Simple Programs:</strong></h4>
+<ul>
+<li><strong>Shared Memory Example:</strong> A simple matrix multiplication using OpenMP in C.</li>
+<li><strong>Distributed Memory Example:</strong> A basic “Hello World” program using MPI.</li>
+<li><strong>GPU Example:</strong> Vector addition using CUDA.</li>
+</ul>
+<h4 id="optimize-and-debug">6. <strong>Optimize and Debug:</strong></h4>
+<ul>
+<li><strong>Profiling Tools:</strong> Use tools to profile your program (e.g., gprof, NVIDIA Visual Profiler).</li>
+<li><strong>Debugging Tools:</strong> Use parallel debugging tools (e.g., gdb for MPI, CUDA-GDB).</li>
+</ul>
+<h4 id="scale-up">7. <strong>Scale Up:</strong></h4>
+<ul>
+<li><strong>Larger Problems:</strong> Implement more complex algorithms.</li>
+<li><strong>Performance Tuning:</strong> Optimize code for better performance (e.g., minimizing communication overhead, balancing workload).</li>
+</ul>
+<h3 id="references-and-resources">References and Resources:</h3>
+<h4 id="books">Books:</h4>
+<ol type="1">
+<li><strong>“Introduction to Parallel Computing” by Ananth Grama, Anshul Gupta, George Karypis, and Vipin Kumar:</strong>
+<ul>
+<li>A comprehensive textbook covering the fundamentals and advanced topics in parallel computing.</li>
+</ul></li>
+<li><strong>“Parallel Programming in C with MPI and OpenMP” by Michael J. Quinn:</strong>
+<ul>
+<li>A practical guide for implementing parallel programs using MPI and OpenMP.</li>
+</ul></li>
+</ol>
+<h4 id="websites">Websites:</h4>
+<ol type="1">
+<li><strong><a href="https://www.openmp.org/">OpenMP Official Website</a>:</strong>
+<ul>
+<li>Contains documentation, tutorials, and resources for learning OpenMP.</li>
+</ul></li>
+<li><strong><a href="https://www.mpi-forum.org/">MPI Forum</a>:</strong>
+<ul>
+<li>Provides the MPI standard and resources for learning MPI.</li>
+</ul></li>
+<li><strong><a href="https://developer.nvidia.com/cuda-zone">CUDA Zone</a>:</strong>
+<ul>
+<li>Official NVIDIA site for CUDA, offering documentation, tutorials, and development tools.</li>
+</ul></li>
+</ol>
+<h4 id="online-courses">Online Courses:</h4>
+<ol type="1">
+<li><strong>Coursera: “Parallel, Concurrent, and Distributed Programming in Java” by Rice University:</strong>
+<ul>
+<li>A series of courses on Coursera covering parallel and concurrent programming in Java.</li>
+</ul></li>
+<li><strong>Udacity: “High Performance Computing” by Georgia Tech:</strong>
+<ul>
+<li>Covers high-performance computing concepts and applications.</li>
+</ul></li>
+</ol>
+<h4 id="tutorials">Tutorials:</h4>
+<ol type="1">
+<li><strong><a href="https://www.openmp.org/resources/tutorials-articles/">OpenMP Tutorial</a>:</strong>
+<ul>
+<li>Provides a series of tutorials on using OpenMP.</li>
+</ul></li>
+<li><strong><a href="https://mpitutorial.com/">MPI Tutorial</a>:</strong>
+<ul>
+<li>Offers a comprehensive set of tutorials for learning MPI.</li>
+</ul></li>
+<li><strong><a href="https://developer.nvidia.com/cuda-example">CUDA by Example</a>:</strong>
+<ul>
+<li>A book and online resource for learning CUDA programming.</li>
+</ul></li>
+</ol>
+<p>By following these steps and utilizing the recommended resources, you can gain a solid understanding of parallel computing and start implementing parallel programs effectively.</p>
+<h2 id="step-2">step 2</h2>
+<p>To find out the version of MPICH installed on your Ubuntu system, you can use the command line. Open a terminal and enter the following command:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="ex">mpichversion</span></span></code></pre></div>
+<p>or</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="ex">mpiexec</span> --version</span></code></pre></div>
+<p>Either of these commands will display detailed information about the MPICH installation, including the version number.</p>
+<h2 id="install-specific-verison-of-mpi-with-intell">install specific verison of MPI with intell</h2>
+<p>To install a specific version of MPICH (such as version 3.3.2 with Intel compiler version 19.0.5) on Ubuntu, you’ll need to follow a series of steps since this setup involves using the Intel compilers, which are not typically installed by default on Ubuntu systems. Here’s a guide to help you through the process:</p>
+<h3 id="step-1-install-intel-compilers">Step 1: Install Intel Compilers</h3>
+<p>Before you can use the Intel version of MPICH, you’ll need the Intel compilers installed.</p>
+<ol type="1">
+<li><p><strong>Get Intel OneAPI:</strong> The Intel compilers are now part of the Intel OneAPI toolkits. You can download them from the <a href="https://software.intel.com/content/www/us/en/develop/tools/oneapi/all-toolkits.html">Intel website</a>. You’ll likely need the HPC Toolkit for Fortran and C++ compilers.</p></li>
+<li><p><strong>Install Intel OneAPI:</strong></p>
+<ul>
+<li>Follow the instructions on the website to download and install the toolkit. This typically involves running an installer script.</li>
+</ul></li>
+</ol>
+<h3 id="step-2-download-mpich">Step 2: Download MPICH</h3>
+<p>You’ll need to manually download the specific version of MPICH that corresponds to the version used on your HPC.</p>
+<ol type="1">
+<li><strong>Download the Source Code:</strong>
+<ul>
+<li>Go to the <a href="http://www.mpich.org/downloads/">MPICH downloads page</a> and download the tar.gz file for version 3.3.2.</li>
+</ul></li>
+</ol>
+<h3 id="step-3-install-mpich">Step 3: Install MPICH</h3>
+<p>Once you have the Intel compilers and the MPICH source code, you can compile and install MPICH.</p>
+<ol type="1">
+<li><p><strong>Extract the MPICH Archive:</strong></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="fu">tar</span> -xzf mpich-3.3.2.tar.gz</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a><span class="bu">cd</span> mpich-3.3.2</span></code></pre></div></li>
+<li><p><strong>Set Up the Environment to Use Intel Compilers:</strong></p>
+<ul>
+<li><p>Load the Intel compilers into your path. If you installed OneAPI, source the setvars.sh script:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="bu">source</span> /opt/intel/oneapi/setvars.sh</span></code></pre></div></li>
+</ul></li>
+<li><p><strong>Configure MPICH with Intel Compilers:</strong></p>
+<ul>
+<li><p>Configure the MPICH build system to use the Intel compilers. You might need to specify the compilers explicitly:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a><span class="ex">./configure</span> CC=icc CXX=icpc FC=ifort</span></code></pre></div></li>
+</ul></li>
+</ol>
+<hr />
+<h2 id="a-problem">A problem</h2>
+<p>go to</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a> <span class="fu">ls</span> /opt/intel/oneapi/compiler/latest/linux/bin </span></code></pre></div>
+<p>i don’t see ICC instead i have icx, icp and others</p>
+<p>should i adjust this</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a><span class="ex">./configure</span> CC=icc CXX=icpc FC=ifort</span></code></pre></div>
+<hr />
+<ol start="4" type="1">
+<li><p><strong>Compile and Install MPICH:</strong></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a><span class="fu">make</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true"></a><span class="fu">sudo</span> make install</span></code></pre></div></li>
+</ol>
+<h3 id="step-4-verify-installation">Step 4: Verify Installation</h3>
+<p>After installing, you can check the version of MPICH to ensure everything is installed correctly:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true"></a><span class="ex">mpichversion</span></span></code></pre></div>
+<h3 id="notes">Notes:</h3>
+<ul>
+<li>Ensure that the Intel compilers are properly licensed or use the free community editions if available.</li>
+<li>Adjust paths and environment settings according to where things are installed on your system.</li>
+<li>This guide assumes you have sudo privileges on your Ubuntu system. If you don’t, you’ll need to install MPICH in a directory where you have write permissions and adjust your path accordingly.</li>
+</ul>
+<p>Following these steps should help you set up MPICH with Intel compilers on your Ubuntu system to match the configuration on your HPC.</p>
+<hr />
+<div id="back-to-top" style="position: fixed; bottom: 20px; right: 20px; display: none;">
+<p><a href="#top">↑ Back to Top</a></p>
+</div>
+<script>
+    // When the user scrolls down 20px from the top of the document, show the button
+    window.onscroll = function() {scrollFunction()};
+    
+    function scrollFunction() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            document.getElementById("back-to-top").style.display = "block";
+        } else {
+            document.getElementById("back-to-top").style.display = "none";
+        }
+    }
+
+    // When the user clicks on the button, scroll to the top of the document
+    document.getElementById("back-to-top").onclick = function() {
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    }
+</script>
+</body>
+</html>

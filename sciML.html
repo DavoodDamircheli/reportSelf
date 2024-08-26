@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>sciML</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+</head>
+<body>
+<p><span id="top"></span></p>
+<hr />
+<h2 id="sciml">sciML</h2>
+<h1 id="table-of-content">Table of content</h1>
+<ul>
+<li><a href="#ve-in-python">virtual environment in python</a>
+<ul>
+<li><a href="#list-of-ve">list of virtual environment</a></li>
+</ul></li>
+<li><a href="#cuda">install cuda</a></li>
+<li><a href="#pytorch">install pytorch</a></li>
+<li><a href="#deep-learning">Deeplearning</a></li>
+<li><a href="#pINN">physic informed N N</a>
+<!-- nd see the changes live -->
+<!-- ls  selfTuroring.md | entr pandoc /_ -s -o selfTuroringehtml --css pandoc.css --></li>
+</ul>
+<hr />
+<h1 id="ve-in-python">ve in python</h1>
+<h3 id="what-is-a-virtual-environment-in-python">What is a Virtual
+Environment in Python?</h3>
+<p>A virtual environment in Python is an isolated environment that
+allows you to manage dependencies for your projects separately. This
+means you can have different versions of libraries and packages for
+different projects without conflicts. It’s especially useful for
+managing dependencies and avoiding version conflicts.</p>
+<h3 id="why-use-virtual-environments">Why Use Virtual Environments?</h3>
+<ol type="1">
+<li><strong>Isolation:</strong> Each virtual environment has its own set
+of installed packages, independent of others.</li>
+<li><strong>Dependency Management:</strong> Different projects can use
+different versions of the same package.</li>
+<li><strong>Avoid Conflicts:</strong> Prevents conflicts between package
+versions required by different projects.</li>
+</ol>
+<h3 id="important-commands-for-virtual-environments">Important Commands
+for Virtual Environments</h3>
+<p>Here are some important commands to create, activate, deactivate, and
+manage virtual environments:</p>
+<h4 id="install-venv-module">1. Install <code>venv</code> Module</h4>
+<p>First, ensure you have the <code>venv</code> module available. It’s
+included in the standard library for Python 3.3 and later.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt install python3-venv</span></code></pre></div>
+<h4 id="create-a-virtual-environment">2. Create a Virtual
+Environment</h4>
+<p>Use the <code>venv</code> module to create a virtual environment.
+Replace <code>myenv</code> with your desired environment name.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> venv myenv</span></code></pre></div>
+<p>This creates a directory named <code>myenv</code> containing the
+virtual environment.</p>
+<h4 id="activate-the-virtual-environment">3. Activate the Virtual
+Environment</h4>
+<p>To start using the virtual environment, you need to activate it. The
+command varies depending on your operating system.</p>
+<ul>
+<li><p><strong>On Linux or macOS:</strong></p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> myenv/bin/activate</span></code></pre></div></li>
+<li><p><strong>On Windows:</strong></p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">myenv\Scripts\activate</span></span></code></pre></div></li>
+</ul>
+<p>After activation, your terminal prompt will change to indicate that
+you’re working inside the virtual environment.</p>
+<h4 id="deactivate-the-virtual-environment">4. Deactivate the Virtual
+Environment</h4>
+<p>To stop using the virtual environment and return to the global Python
+environment, use:</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">deactivate</span></span></code></pre></div>
+<h4 id="installing-packages">5. Installing Packages</h4>
+<p>Once the virtual environment is activated, you can install packages
+using <code>pip</code> without affecting the global Python
+environment.</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install package_name</span></code></pre></div>
+<p>For example, to install <code>numpy</code>:</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install numpy</span></code></pre></div>
+<h4 id="list-installed-packages">6. List Installed Packages</h4>
+<p>To list all the packages installed in the virtual environment,
+use:</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> list</span></code></pre></div>
+<h4 id="freeze-and-recreate-environments">7. Freeze and Recreate
+Environments</h4>
+<p>To save the current state of the environment (list of installed
+packages and their versions), you can create a
+<code>requirements.txt</code> file:</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> freeze <span class="op">&gt;</span> requirements.txt</span></code></pre></div>
+<p>To recreate the environment in another setup or for sharing, use:</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-r</span> requirements.txt</span></code></pre></div>
+<h3 id="example-workflow">Example Workflow</h3>
+<p>Here’s a simple example workflow:</p>
+<ol type="1">
+<li><p><strong>Create a virtual environment:</strong></p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> venv myenv</span></code></pre></div></li>
+<li><p><strong>Activate the virtual environment:</strong></p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> myenv/bin/activate</span></code></pre></div></li>
+<li><p><strong>Install a package:</strong></p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install numpy</span></code></pre></div></li>
+<li><p><strong>List installed packages:</strong></p>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> list</span></code></pre></div></li>
+<li><p><strong>Save the environment:</strong></p>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> freeze <span class="op">&gt;</span> requirements.txt</span></code></pre></div></li>
+<li><p><strong>Deactivate the virtual environment:</strong></p>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">deactivate</span></span></code></pre></div></li>
+</ol>
+<p>Using virtual environments ensures that your projects remain
+self-contained and easier to manage.</p>
+<hr />
+<h2 id="list-of-ve">list of ve</h2>
+<p>To find the list of virtual environments (VEs) created on your
+system, you need to keep track of where you’ve created them, as there
+isn’t a built-in command to list all virtual environments like you might
+find for packages or other resources. Here are a few methods you can
+use:</p>
+<h3 id="directory-organization">1. Directory Organization</h3>
+<p>A common practice is to keep all your virtual environments in a
+specific directory. For example, you might create a directory called
+<code>venvs</code> in your home directory to store all your virtual
+environments.</p>
+<ol type="1">
+<li><p><strong>Create a Directory for Virtual Environments:</strong></p>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> ~/venvs</span></code></pre></div></li>
+<li><p><strong>Create Virtual Environments in This
+Directory:</strong></p>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> venv ~/venvs/myenv1</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> venv ~/venvs/myenv2</span></code></pre></div></li>
+<li><p><strong>List Virtual Environments:</strong></p>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> ~/venvs</span></code></pre></div></li>
+</ol>
+<p>This way, you can easily see all your virtual environments by listing
+the contents of the <code>venvs</code> directory.</p>
+<h3 id="using-virtualenvwrapper">2. Using
+<code>virtualenvwrapper</code></h3>
+<p><code>virtualenvwrapper</code> is a set of shell scripts that help
+manage your virtual environments. It adds some nice features, like a
+centralized location for all your environments and easy commands to work
+with them.</p>
+<ol type="1">
+<li><p><strong>Install <code>virtualenvwrapper</code>:</strong></p>
+<div class="sourceCode" id="cb20"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install virtualenvwrapper</span></code></pre></div></li>
+<li><p><strong>Set Up <code>virtualenvwrapper</code>:</strong></p>
+<p>Add the following lines to your shell startup file (e.g.,
+<code>~/.bashrc</code> or <code>~/.zshrc</code>):</p>
+<div class="sourceCode" id="cb21"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">WORKON_HOME</span><span class="op">=</span>~/venvs</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> /usr/local/bin/virtualenvwrapper.sh</span></code></pre></div>
+<p>Then source the file to apply the changes:</p>
+<div class="sourceCode" id="cb22"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> ~/.bashrc</span></code></pre></div></li>
+<li><p><strong>Create a Virtual Environment with
+<code>virtualenvwrapper</code>:</strong></p>
+<div class="sourceCode" id="cb23"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mkvirtualenv</span> myenv</span></code></pre></div></li>
+<li><p><strong>List All Virtual Environments:</strong></p>
+<div class="sourceCode" id="cb24"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lsvirtualenv</span></span></code></pre></div></li>
+</ol>
+<h3 id="manual-tracking">3. Manual Tracking</h3>
+<p>If you haven’t been using a centralized directory or tool like
+<code>virtualenvwrapper</code>, you may need to search for virtual
+environments manually. Virtual environments typically have a specific
+directory structure with a <code>bin</code> (Linux/macOS) or
+<code>Scripts</code> (Windows) directory containing the
+<code>activate</code> script.</p>
+<ol type="1">
+<li><p><strong>Find Virtual Environments in Your Home
+Directory:</strong></p>
+<div class="sourceCode" id="cb25"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> ~ <span class="at">-name</span> <span class="st">&quot;activate&quot;</span> <span class="at">-type</span> f</span></code></pre></div></li>
+</ol>
+<p>This command will search for files named <code>activate</code> in
+your home directory, which are part of the virtual environment
+structure.</p>
+<h3 id="summary">Summary</h3>
+<ul>
+<li><strong>Centralized Directory:</strong> Keep all virtual
+environments in a specific directory and list the contents of that
+directory.</li>
+<li><strong><code>virtualenvwrapper</code>:</strong> Use
+<code>virtualenvwrapper</code> to manage and list virtual environments
+easily.</li>
+<li><strong>Manual Search:</strong> Use the <code>find</code> command to
+locate virtual environments if you haven’t been organizing them
+centrally.</li>
+</ul>
+<p>By adopting one of these practices, you can easily keep track of your
+virtual environments.</p>
+<hr />
+<h1 id="cuda">cuda</h1>
+<p>It seems like the <code>nvcc</code> command is still not found, which
+indicates that it might not be properly set in your PATH. Let’s ensure
+everything is correctly set up.</p>
+<h3 id="step-1-verify-cuda-installation-path">Step 1: Verify CUDA
+Installation Path</h3>
+<p>Ensure that the CUDA installation path is correctly set in your
+environment variables. By default, CUDA installs to
+<code>/usr/local/cuda</code>.</p>
+<h3 id="step-2-add-cuda-to-path-and-ld_library_path">Step 2: Add CUDA to
+PATH and LD_LIBRARY_PATH</h3>
+<p>Add the CUDA binary directory to your PATH and LD_LIBRARY_PATH
+environment variables. Open the <code>.bashrc</code> file:</p>
+<div class="sourceCode" id="cb26"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> ~/.bashrc</span></code></pre></div>
+<p>Add the following lines at the end of the file (adjust the version
+number if necessary):</p>
+<div class="sourceCode" id="cb27"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">PATH</span><span class="op">=</span>/usr/local/cuda-12.5/bin:<span class="va">$PATH</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">LD_LIBRARY_PATH</span><span class="op">=</span>/usr/local/cuda-12.5/lib64:<span class="va">$LD_LIBRARY_PATH</span></span></code></pre></div>
+<p>Save and close the file, then source it to apply the changes:</p>
+<div class="sourceCode" id="cb28"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> ~/.bashrc</span></code></pre></div>
+<h3 id="step-3-verify-the-environment-variables">Step 3: Verify the
+Environment Variables</h3>
+<p>Verify that the environment variables are correctly set:</p>
+<div class="sourceCode" id="cb29"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="va">$PATH</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="va">$LD_LIBRARY_PATH</span></span></code></pre></div>
+<p>Ensure that <code>/usr/local/cuda-12.5/bin</code> is included in the
+PATH and <code>/usr/local/cuda-12.5/lib64</code> is included in the
+LD_LIBRARY_PATH.</p>
+<h3 id="step-4-verify-cuda-installation-again">Step 4: Verify CUDA
+Installation Again</h3>
+<p>Now, try verifying the CUDA installation again:</p>
+<div class="sourceCode" id="cb30"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nvcc</span> <span class="at">--version</span></span></code></pre></div>
+<h3 id="step-5-check-cuda-directory">Step 5: Check CUDA Directory</h3>
+<p>If <code>nvcc</code> is still not found, ensure that it exists in the
+expected directory:</p>
+<div class="sourceCode" id="cb31"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> /usr/local/cuda-12.5/bin/nvcc</span></code></pre></div>
+<p>If <code>nvcc</code> is present, but still not recognized, you might
+need to restart your terminal or system to apply the changes fully.</p>
+<h3
+id="additional-step-install-cuda-toolkit-manually-if-necessary">Additional
+Step: Install CUDA Toolkit Manually (if necessary)</h3>
+<p>If you still encounter issues, you might need to manually install the
+CUDA toolkit using:</p>
+<div class="sourceCode" id="cb32"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt install nvidia-cuda-toolkit</span></code></pre></div>
+<p>After completing these steps, you should be able to use the
+<code>nvcc</code> command and have the CUDA toolkit properly configured
+on your system.</p>
+<hr />
+<h1 id="deep-learning">deep learning</h1>
+<p><img src="deepimage/deep1.png" alt="myimage" /> <img
+src="deepimage/deep2.png" alt="myimage2" /> <img
+src="deepimage/deep3.png" alt="myimage3" /> <img
+src="deepimage/deep4.png" alt="myimage4" /></p>
+<ul>
+<li><p>tanh activation function is popular in the sciml</p></li>
+<li><p>search G about sciML ## universal approximation</p></li>
+<li><p>theorem of universal approximation</p></li>
+</ul>
+<figure>
+<img src="deepimage/deep6.png" alt="myimage6" />
+<figcaption aria-hidden="true">myimage6</figcaption>
+</figure>
+<h2 id="convolutonal-neural-networkcnn">convolutonal neural
+Network(CNN)</h2>
+<p><img src="deepimage/deep7.png" alt="myimage7" /> <img
+src="deepimage/deep8.png" alt="myimage8" /></p>
+<figure>
+<img src="deepimage/deep9.png" alt="myimage9" />
+<figcaption aria-hidden="true">myimage9</figcaption>
+</figure>
+<h2 id="depth-is-key">Depth is key</h2>
+<figure>
+<img src="deepimage/deep10.png" alt="myimage10" />
+<figcaption aria-hidden="true">myimage10</figcaption>
+</figure>
+<p>it is not about the number of parameters, but the number of layers.
+see the cnn in the plot.</p>
+<h2 id="ploluar-deep-learning-tasks">ploluar deep learning tasks</h2>
+<p><img src="deepimage/deep11.png" alt="myimage11" /> <img
+src="deepimage/deep12.png" alt="myimage12" /></p>
+<h2 id="probabilistic-perspective-and-deep-learning">probabilistic
+perspective and deep learning!!</h2>
+<figure>
+<img src="deepimage/deep13.png" alt="myimage13" />
+<figcaption aria-hidden="true">myimage13</figcaption>
+</figure>
+<figure>
+<img src="deepimage/deep14.png" alt="myimage14" />
+<figcaption aria-hidden="true">myimage14</figcaption>
+</figure>
+<h2 id="unsuperivised-learning">unsuperivised learning</h2>
+<figure>
+<img src="deepimage/deep15.png" alt="myimage15" />
+<figcaption aria-hidden="true">myimage15</figcaption>
+</figure>
+<h2 id="autoregression">autoregression</h2>
+<ul>
+<li>chatGPt</li>
+<li>stoch price</li>
+</ul>
+<figure>
+<img src="deepimage/deep16.png" alt="myimage16" />
+<figcaption aria-hidden="true">myimage16</figcaption>
+</figure>
+<h2 id="generative-modeling">generative modeling</h2>
+<ul>
+<li>GANs</li>
+</ul>
+<figure>
+<img src="deepimage/deep17.png" alt="myimage17" />
+<figcaption aria-hidden="true">myimage17</figcaption>
+</figure>
+<h1 id="training-a-neural-network">training a Neural Network</h1>
+<figure>
+<img src="deepimage/deep18.png" alt="myimage18" />
+<figcaption aria-hidden="true">myimage18</figcaption>
+</figure>
+<h1 id="pinn">pINN</h1>
+<h2 id="intro-to-pinns">Intro to PINNs</h2>
+<figure>
+<img src="deepimage/deep27.png" alt="myimage19" />
+<figcaption aria-hidden="true">myimage19</figcaption>
+</figure>
+<h2 id="an-example-burgers-equation">an example: Burgers’ Equation</h2>
+<figure>
+<img src="deepimage/deep28.png" alt="myimage19" />
+<figcaption aria-hidden="true">myimage19</figcaption>
+</figure>
+<ul>
+<li>Latine Hypercube sampling ?</li>
+<li>L-BFGS optimiser???</li>
+<li>why <strong>Tanh</strong> activation fucntion? continously
+differentiable action function, since we need second order differential
+equation and Relu is peice wise is linear!!</li>
+</ul>
+<figure>
+<img src="deepimage/deep29.png" alt="myimage19" />
+<figcaption aria-hidden="true">myimage19</figcaption>
+</figure>
+<h2 id="training-pinns">Training PINNs</h2>
+<hr />
+<p><strong>Training loop:</strong></p>
+<ol type="1">
+<li>Sample boundary/physics training points</li>
+<li>Compute network outputs</li>
+<li>Compute 1st and 2nd order gradient of network output <strong>with
+respect to network input</strong></li>
+<li>Compute loss</li>
+<li>Compute gradient of loss function <strong>with respect to network
+parameters</strong></li>
+<li>Take gradient descent step</li>
+</ol>
+<p>How can we compute the gradients (e.g., () and ()) required in steps
+3 and 5?</p>
+<p><img src="deepimage/deep30.png" alt="myimage19" /> <img
+src="deepimage/deep31.png" alt="myimage19" /> <img
+src="deepimage/deep32.png" alt="myimage19" /></p>
+<div class="sourceCode" id="cb33"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># PINN training pseudocode</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="co">#2.</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>t.requires_grad_(<span class="va">True</span>)  <span class="co"># tells PyTorch to start tracking graph</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>theta.requires_grad_(<span class="va">True</span>)</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>u <span class="op">=</span> NN(t, theta)</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a><span class="co">#3.</span></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>dudt <span class="op">=</span> torch.autograd.grad(u, t, torch.ones_like(u), create_graph<span class="op">=</span><span class="va">True</span>)[<span class="dv">0</span>]</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>d2udt2 <span class="op">=</span> torch.autograd.grad(dudt, t, torch.ones_like(u), create_graph<span class="op">=</span><span class="va">True</span>)[<span class="dv">0</span>]</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a><span class="co">#4.</span></span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>physics_loss <span class="op">=</span> torch.mean(m<span class="op">*</span>d2udt2 <span class="op">+</span> mu<span class="op">*</span>dudt <span class="op">+</span> k<span class="op">*</span>u)<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>loss <span class="op">=</span> physics_loss <span class="op">+</span> lambda_boundary_loss</span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a><span class="co">#5.</span></span>
+<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a>dtheta <span class="op">=</span> torch.autograd.grad(loss, theta)[<span class="dv">0</span>]</span></code></pre></div>
+<h2 id="myimage19"><img src="deepimage/deep33.png"
+alt="myimage19" /></h2>
+<p><img src="deepimage/deep34.png" alt="myimage19" /> Here is the text
+from the image you provided:</p>
+<hr />
+<p><strong>Computational cost of higher order derivatives</strong></p>
+<ul>
+<li><strong>Note</strong>, gradient computation roughly
+<strong>doubles</strong> the size of the computational graph*
+<ul>
+<li>The cost of evaluating () grows exponentially with (n) (!)</li>
+<li>Most time is spent computing gradients, not the forward pass, when
+training PINNs</li>
+</ul></li>
+<li>More precisely, given some (f: ^n ^m), its Jacobian (J ^{m n}) and
+some vector (v ^n):</li>
+</ul>
+<p>[ (f,v) , (f) ]</p>
+<p>With a constant () using autodifferentiation</p>
+<hr />
+<p>For detailed derivation, see e.g.: Griewank and Walther, Evaluating
+Derivatives, Ch 3.1, SIAM (2008).</p>
+<hr />
+<p><strong>401-4656-21L AI in the Sciences and Engineering
+2024</strong></p>
+<h2 id="limitation-of-pinns">limitation of PINNS</h2>
+<ul>
+<li>computational</li>
+<li><span class="math inline"><em>λ</em></span></li>
+</ul>
+<hr />
+<figure>
+<img src="deepimage/deep35.png" alt="myimage19" />
+<figcaption aria-hidden="true">myimage19</figcaption>
+</figure>
+<h3 id="pinns-as-a-ml">PINNS as a ML !</h3>
+<p><img src="deepimage/deep36.png" alt="myimage19" /> <img
+src="deepimage/deep37.png" alt="myimage19" /></p>
+<h2 id="key-scientific-tasks">key scientific tasks</h2>
+<figure>
+<img src="deepimage/deep38.png" alt="myimage19" />
+<figcaption aria-hidden="true">myimage19</figcaption>
+</figure>
+<h2 id="pinns-for-inverse-problems">PINNS for Inverse problems!!</h2>
+<ul>
+<li>lectrue 5-intro to physic inform INN at 1:10:00 minutes</li>
+</ul>
+<figure>
+<img src="deepimage/deep38.png" alt="myimage19" />
+<figcaption aria-hidden="true">myimage19</figcaption>
+</figure>
+<figure>
+<img src="deepimage/deep39.png" alt="myimage19" />
+<figcaption aria-hidden="true">myimage19</figcaption>
+</figure>
+<figure>
+<img src="deepimage/deep40.png" alt="myimage19" />
+<figcaption aria-hidden="true">myimage19</figcaption>
+</figure>
+<h2 id="theroy">theroy</h2>
+<figure>
+<img src="deepimage/deep19.png" alt="myimage19" />
+<figcaption aria-hidden="true">myimage19</figcaption>
+</figure>
+<ul>
+<li><p>in the pINN for differentiation we use the <strong>Automatic
+Differentiation</strong> or <strong>Backpropagation</strong></p></li>
+<li><p><strong>unriversal approximator!!!!</strong> there exist a NN
+such that <span
+class="math inline">|<em>u</em>−<em>u</em><sub><em>θ</em></sub>|</span>
+goes to zero.</p></li>
+</ul>
+<p><img src="deepimage/deep20.png" alt="myimage20" /> <img
+src="deepimage/deep21.png" alt="myimage21" /></p>
+<ul>
+<li>note that in physic NN we can not use Relu!! since it is not
+differentiable</li>
+</ul>
+<p><img src="deepimage/deep22.png" alt="myimage22" /> <img
+src="deepimage/deep23.png" alt="myimage23" /></p>
+<h2 id="do-pinns-work">DO PINNs work?</h2>
+<figure>
+<img src="deepimage/deep24.png" alt="myimage24" />
+<figcaption aria-hidden="true">myimage24</figcaption>
+</figure>
+<h2 id="when-and-why-do-pinns-work-for-a-pde">when and why do PINNS work
+for a PDE?</h2>
+<p><img src="deepimage/deep25.png" alt="myimage25" /> <img
+src="deepimage/deep26.png" alt="myimage26" /></p>
+<hr />
+<div id="back-to-top"
+style="position: fixed; bottom: 20px; right: 20px; display: none;">
+<p><a href="#top">↑ Back to Top</a></p>
+</div>
+<script>
+    // When the user scrolls down 20px from the top of the document, show the button
+    window.onscroll = function() {scrollFunction()};
+    
+    function scrollFunction() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            document.getElementById("back-to-top").style.display = "block";
+        } else {
+            document.getElementById("back-to-top").style.display = "none";
+        }
+    }
+
+    // When the user clicks on the button, scroll to the top of the document
+    document.getElementById("back-to-top").onclick = function() {
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    }
+</script>
+</body>
+</html>

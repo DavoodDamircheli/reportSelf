@@ -1,4 +1,4 @@
-# Chapter 1: Introduction <a id="chapter1"></a>
+# Chapter 1: continers! <a id="chapter1"></a>
 
 This is the first chapter of my book...
 To have a table of contents as a sidebar on the left, and make each chapter link navigate to the respective chapter content, you'll need to use some JavaScript and CSS along with your HTML template. Here's how you can modify the provided template to achieve this:

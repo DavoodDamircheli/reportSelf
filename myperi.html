@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>my peri</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="/usr/share/javascript/mathjax/MathJax.js"
+  type="text/javascript"></script>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">my peri</h1>
+</header>
+<p><span id="top"></span></p>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<h2 id="table-of-content">Table of content</h2>
+<ul>
+<li><a href="#Nbd">neigboorhod array</a>
+<ul>
+<li><a href="#sparse-matlab">sparse matrices in matlab</a></li>
+<li><a href="#sub2ind">Linear indices in MATLAB</a></li>
+</ul></li>
+<li><a href="#weighted-sum">nterpretation of Nbd times V</a></li>
+<li><a href="#mydiff">finding differences</a></li>
+</ul>
+<!-- nd see the changes live -->
+<!-- ls  selfTuroring.md | entr pandoc /_ -s -o selfTuroringehtml --css pandoc.css -->
+<hr />
+<h2 id="sparse-matlab">sparse matlab</h2>
+<h3 id="example">Example</h3>
+<p>Let’s assume the following neighborhood relationships:</p>
+<ul>
+<li>Node 1 has node 2 and node 3 as neighbors.</li>
+<li>Node 2 has node 1 and node 3 as neighbors.</li>
+<li>Node 3 has node 1 as a neighbor.</li>
+</ul>
+<p>We can represent this using a sparse matrix as follows:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode matlab"><code class="sourceCode matlab"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="va">Nbd_sparse</span> <span class="op">=</span> <span class="va">sparse</span>([<span class="fl">1</span><span class="op">,</span> <span class="fl">1</span><span class="op">,</span> <span class="fl">2</span><span class="op">,</span> <span class="fl">2</span><span class="op">,</span> <span class="fl">3</span>]<span class="op">,</span> [<span class="fl">2</span><span class="op">,</span> <span class="fl">3</span><span class="op">,</span> <span class="fl">1</span><span class="op">,</span> <span class="fl">3</span><span class="op">,</span> <span class="fl">1</span>]<span class="op">,</span> <span class="fl">1</span><span class="op">,</span> <span class="fl">3</span><span class="op">,</span> <span class="fl">3</span>)<span class="op">;</span></span></code></pre></div>
+<h3 id="explanation-of-the-sparse-matrix">Explanation of the Sparse
+Matrix</h3>
+<ul>
+<li><code>Nbd_sparse</code> is a sparse matrix with 5 non-zero
+elements.</li>
+<li>The first argument to <code>sparse</code> is an array of row indices
+<code>[1, 1, 2, 2, 3]</code>.</li>
+<li>The second argument to <code>sparse</code> is an array of column
+indices <code>[2, 3, 1, 3, 1]</code>.</li>
+<li>The third argument <code>1</code> means that the value at each
+specified <code>(row, column)</code> position is set to 1.</li>
+<li><code>3, 3</code> specifies the size of the sparse matrix.</li>
+</ul>
+<h3 id="matrix-representation">Matrix Representation</h3>
+<p>The sparse matrix <code>Nbd_sparse</code> represents the following
+neighborhood relationships:</p>
+<pre><code>Nbd_sparse =
+   (1,2)   1
+   (1,3)   1
+   (2,1)   1
+   (2,3)   1
+   (3,1)   1</code></pre>
+<h3 id="using-find-to-extract-indices">Using <code>find</code> to
+Extract Indices</h3>
+<p>When you use <code>[row, col] = find(Nbd_sparse);</code>, you
+get:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode matlab"><code class="sourceCode matlab"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="va">row</span> <span class="op">=</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>     <span class="fl">1</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>     <span class="fl">1</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>     <span class="fl">2</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>     <span class="fl">2</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>     <span class="fl">3</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="va">col</span> <span class="op">=</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>     <span class="fl">2</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>     <span class="fl">3</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>     <span class="fl">1</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>     <span class="fl">3</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>     <span class="fl">1</span></span></code></pre></div>
+<h3 id="what-this-means">What This Means</h3>
+<ul>
+<li>The non-zero element at position (1, 2) indicates that node 1 has
+node 2 as a neighbor.</li>
+<li>The non-zero element at position (1, 3) indicates that node 1 has
+node 3 as a neighbor.</li>
+<li>The non-zero element at position (2, 1) indicates that node 2 has
+node 1 as a neighbor.</li>
+<li>The non-zero element at position (2, 3) indicates that node 2 has
+node 3 as a neighbor.</li>
+<li>The non-zero element at position (3, 1) indicates that node 3 has
+node 1 as a neighbor.</li>
+</ul>
+<h3 id="how-it-is-used">How It Is Used</h3>
+<p>The arrays <code>row</code> and <code>col</code> together describe
+all the neighbor relationships in the grid. Each pair
+<code>(row(i), col(i))</code> represents a connection where
+<code>col(i)</code> is a neighbor of <code>row(i)</code>.</p>
+<h3 id="full-example-in-matlab">Full Example in MATLAB</h3>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode matlab"><code class="sourceCode matlab"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">% Create the sparse matrix</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="va">Nbd_sparse</span> <span class="op">=</span> <span class="va">sparse</span>([<span class="fl">1</span><span class="op">,</span> <span class="fl">1</span><span class="op">,</span> <span class="fl">2</span><span class="op">,</span> <span class="fl">2</span><span class="op">,</span> <span class="fl">3</span>]<span class="op">,</span> [<span class="fl">2</span><span class="op">,</span> <span class="fl">3</span><span class="op">,</span> <span class="fl">1</span><span class="op">,</span> <span class="fl">3</span><span class="op">,</span> <span class="fl">1</span>]<span class="op">,</span> <span class="fl">1</span><span class="op">,</span> <span class="fl">3</span><span class="op">,</span> <span class="fl">3</span>)<span class="op">;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">% Find non-zero elements</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>[<span class="va">row</span><span class="op">,</span> <span class="va">col</span>] <span class="op">=</span> <span class="va">find</span>(<span class="va">Nbd_sparse</span>)<span class="op">;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">% Display the indices</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="va">disp</span>(<span class="ss">&#39;Row indices:&#39;</span>)<span class="op">;</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="va">disp</span>(<span class="va">row</span>)<span class="op">;</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="va">disp</span>(<span class="ss">&#39;Column indices:&#39;</span>)<span class="op">;</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="va">disp</span>(<span class="va">col</span>)<span class="op">;</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co">% Example velocity array for 3 points in 2D space</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="va">velocity</span> <span class="op">=</span> [</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="fl">1.0</span><span class="op">,</span> <span class="fl">2.0</span><span class="op">;</span> <span class="co">% velocity of point 1 (vx1, vy1)</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    <span class="fl">3.0</span><span class="op">,</span> <span class="fl">4.0</span><span class="op">;</span> <span class="co">% velocity of point 2 (vx2, vy2)</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    <span class="fl">5.0</span><span class="op">,</span> <span class="fl">6.0</span>  <span class="co">% velocity of point 3 (vx3, vy3)</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>]<span class="op">;</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="co">% Compute differences in velocity components</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="va">v_diff_x</span> <span class="op">=</span> <span class="va">velocity</span>(<span class="va">row</span><span class="op">,</span> <span class="fl">1</span>) <span class="op">-</span> <span class="va">velocity</span>(<span class="va">col</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span> <span class="co">% Differences in x component of velocity</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="va">v_diff_y</span> <span class="op">=</span> <span class="va">velocity</span>(<span class="va">row</span><span class="op">,</span> <span class="fl">2</span>) <span class="op">-</span> <span class="va">velocity</span>(<span class="va">col</span><span class="op">,</span> <span class="fl">2</span>)<span class="op">;</span> <span class="co">% Differences in y component of velocity</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="co">% Combine differences into a single array</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="va">v_diff</span> <span class="op">=</span> [<span class="va">v_diff_x</span><span class="op">,</span> <span class="va">v_diff_y</span>]<span class="op">;</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="co">% Display the result</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">i</span> <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">max</span>(<span class="va">row</span>)</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>    <span class="va">idx</span> <span class="op">=</span> (<span class="va">row</span> <span class="op">==</span> <span class="va">i</span>)<span class="op">;</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>    <span class="va">fprintf</span>(<span class="ss">&#39;Velocity differences for point %d:\n&#39;</span><span class="op">,</span> <span class="va">i</span>)<span class="op">;</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>    <span class="va">disp</span>(<span class="va">v_diff</span>(<span class="va">idx</span><span class="op">,</span> <span class="op">:</span>))<span class="op">;</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div>
+<p>This example demonstrates how to use a sparse matrix to represent
+neighborhood relationships, extract indices using <strong>find</strong>,
+and perform vectorized operations on the velocity differences between
+points and their neighbors.</p>
+<hr />
+<h2 id="sub2ind">sub2ind</h2>
+<ul>
+<li>step by step to explain the concept of linear indices more
+clearly.</li>
+</ul>
+<h3 id="example-matrix">Example Matrix</h3>
+<p>Consider a simple (3 ) matrix <code>Nbd</code>:</p>
+<pre><code>\[ 
+Nbd = \begin{bmatrix}
+0 &amp; 2 &amp; 0 \\
+4 &amp; 0 &amp; 6 \\
+0 &amp; 0 &amp; 3
+\end{bmatrix}
+\]</code></pre>
+<h3 id="step-1-find-non-zero-elements">Step 1: Find Non-Zero
+Elements</h3>
+<p>First, we use the <code>find</code> function to get the row and
+column indices of non-zero elements:</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode matlab"><code class="sourceCode matlab"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>[<span class="va">row</span><span class="op">,</span> <span class="va">col</span>] <span class="op">=</span> <span class="va">find</span>(<span class="va">Nbd</span>)<span class="op">;</span></span></code></pre></div>
+<p>For our matrix <code>Nbd</code>, the non-zero elements are
+<code>2</code>, <code>4</code>, <code>6</code>, and <code>3</code>.
+Their positions (row, column) are:</p>
+<ul>
+<li>(2) is at (1, 2)</li>
+<li>(4) is at (2, 1)</li>
+<li>(6) is at (2, 3)</li>
+<li>(3) is at (3, 3)</li>
+</ul>
+<p>So, <code>row</code> and <code>col</code> will be:</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode matlab"><code class="sourceCode matlab"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="va">row</span> <span class="op">=</span> [<span class="fl">1</span><span class="op">;</span> <span class="fl">2</span><span class="op">;</span> <span class="fl">2</span><span class="op">;</span> <span class="fl">3</span>]<span class="op">;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="va">col</span> <span class="op">=</span> [<span class="fl">2</span><span class="op">;</span> <span class="fl">1</span><span class="op">;</span> <span class="fl">3</span><span class="op">;</span> <span class="fl">3</span>]<span class="op">;</span></span></code></pre></div>
+<h3 id="step-2-convert-to-linear-indices">Step 2: Convert to Linear
+Indices</h3>
+<p>Next, we convert these row and column indices to linear indices using
+<code>sub2ind</code>:</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode matlab"><code class="sourceCode matlab"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="va">linear_indices</span> <span class="op">=</span> <span class="va">sub2ind</span>([<span class="fl">3</span><span class="op">,</span> <span class="fl">3</span>]<span class="op">,</span> <span class="va">row</span><span class="op">,</span> <span class="va">col</span>)<span class="op">;</span></span></code></pre></div>
+<p>Here, <code>[3, 3]</code> specifies the size of the matrix (3 rows
+and 3 columns).</p>
+<h3 id="understanding-linear-indices">Understanding Linear Indices</h3>
+<p>In MATLAB, a matrix is stored in column-major order. This means the
+elements are stored column by column. For a (3 ) matrix, the linear
+indices are as follows:</p>
+[
+<span class="math display">\[\begin{array}{ccc}
+1 &amp; 4 &amp; 7 \\
+2 &amp; 5 &amp; 8 \\
+3 &amp; 6 &amp; 9
+\end{array}\]</span>
+<p>]</p>
+<p>Let’s convert our row and column indices to linear indices:</p>
+<ol type="1">
+<li>Element at (1, 2) (which is <code>2</code>):
+<ul>
+<li>Linear index = 1 + (2-1) * 3 = 4</li>
+</ul></li>
+<li>Element at (2, 1) (which is <code>4</code>):
+<ul>
+<li>Linear index = 2 + (1-1) * 3 = 2</li>
+</ul></li>
+<li>Element at (2, 3) (which is <code>6</code>):
+<ul>
+<li>Linear index = 2 + (3-1) * 3 = 8</li>
+</ul></li>
+<li>Element at (3, 3) (which is <code>3</code>):
+<ul>
+<li>Linear index = 3 + (3-1) * 3 = 9</li>
+</ul></li>
+</ol>
+<p>So, <code>linear_indices</code> will be:</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode matlab"><code class="sourceCode matlab"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="va">linear_indices</span> <span class="op">=</span> [<span class="fl">4</span><span class="op">;</span> <span class="fl">2</span><span class="op">;</span> <span class="fl">8</span><span class="op">;</span> <span class="fl">9</span>]<span class="op">;</span></span></code></pre></div>
+<h3 id="summary">Summary</h3>
+<p>For our example matrix:</p>
+[ Nbd =
+<span class="math display">\[\begin{bmatrix}
+0 &amp; 2 &amp; 0 \\
+4 &amp; 0 &amp; 6 \\
+0 &amp; 0 &amp; 3
+\end{bmatrix}\]</span>
+<p>]</p>
+<p>The non-zero elements and their linear indices are:</p>
+<ul>
+<li><code>2</code> at (1, 2) → Linear index 4</li>
+<li><code>4</code> at (2, 1) → Linear index 2</li>
+<li><code>6</code> at (2, 3) → Linear index 8</li>
+<li><code>3</code> at (3, 3) → Linear index 9</li>
+</ul>
+<p>Thus, the linear indices of the non-zero elements in the matrix
+<code>Nbd</code> are <code>[4, 2, 8, 9]</code>.</p>
+<hr />
+<h2 id="weighted-sum">weighted sum</h2>
+<p>The product <code>$\text{Nbd} \times \text{V}$</code> can be
+interpreted as a weighted sum of the properties of neighboring points
+for each point in the network or grid. Here’s a more detailed
+explanation:</p>
+<ol type="1">
+<li><p><strong>Neighbor Matrix (Nbd)</strong>: The matrix ( ) represents
+the connectivity or adjacency between points. If ( (i, j) ) is non-zero,
+it indicates that point ( j ) is a neighbor of point ( i ). The value of
+( (i, j) ) might represent a weight, such as the strength or distance of
+the connection.</p></li>
+<li><p><strong>Property Vector (V)</strong>: The vector ( ) contains
+some property or value associated with each point. For example, ( (i) )
+could represent the temperature, concentration, or any other property at
+point ( i ).</p></li>
+<li><p><strong>Product Interpretation</strong>: The product ( ) results
+in a new vector where each element is the weighted sum of the properties
+of the neighboring points. Specifically, the ( i )-th element of the
+resulting vector can be interpreted as:</p></li>
+</ol>
+<pre><code>\[ (\text{Nbd} \times \text{V})_i = \sum_j \text{Nbd}(i, j) \cdot \text{V}(j) \]
+</code></pre>
+<figure>
+<img src="myperiImage/1.png" alt="myimage" />
+<figcaption aria-hidden="true">myimage</figcaption>
+</figure>
+<p>This means that for each point ( i ), you sum the properties ( (j) )
+of its neighbors ( j ), each multiplied by the corresponding weight (
+(i, j) ).</p>
+<h3 id="practical-interpretation">Practical Interpretation</h3>
+<ul>
+<li><strong>Smoothing or Averaging</strong>: If ( ) represents a simple
+adjacency matrix (e.g., 0 or 1 values indicating whether points are
+neighbors), ( ) can be seen as an operation that averages or smooths the
+property values over neighboring points.</li>
+<li><strong>Diffusion or Influence</strong>: In physical systems, ( )
+might represent a diffusion operator or influence matrix. In this case,
+( ) can describe how the property ( ) spreads or influences neighboring
+points.</li>
+<li><strong>Graph-based Operations</strong>: In graph theory, this
+operation is akin to applying a graph filter or aggregation function,
+where the value at each node is updated based on its neighbors.</li>
+</ul>
+<h3 id="example-1">Example</h3>
+<p>Suppose we have:</p>
+[ =
+<span class="math display">\[\begin{pmatrix}
+0 &amp; 1 &amp; 1 \\
+1 &amp; 0 &amp; 1 \\
+1 &amp; 1 &amp; 0 \\
+\end{pmatrix}\]</span>
+, =
+<span class="math display">\[\begin{pmatrix}
+2 \\
+3 \\
+5 \\
+\end{pmatrix}\]</span>
+<p>]</p>
+<p>Then:</p>
+[ =
+<span class="math display">\[\begin{pmatrix}
+0 &amp; 1 &amp; 1 \\
+1 &amp; 0 &amp; 1 \\
+1 &amp; 1 &amp; 0 \\
+\end{pmatrix}\]</span>
+
+<span class="math display">\[\begin{pmatrix}
+2 \\
+3 \\
+5 \\
+\end{pmatrix}\]</span>
+=
+<span class="math display">\[\begin{pmatrix}
+1 \cdot 3 + 1 \cdot 5 \\
+1 \cdot 2 + 1 \cdot 5 \\
+1 \cdot 2 + 1 \cdot 3 \\
+\end{pmatrix}\]</span>
+=
+<span class="math display">\[\begin{pmatrix}
+8 \\
+7 \\
+5 \\
+\end{pmatrix}\]</span>
+<p>]</p>
+<p>Here, each element of the resulting vector is the sum of the
+properties of its neighbors. For example, the first element (8) is the
+sum of the properties of the second (3) and third (5) points.</p>
+<h2 id="mydiff">mydiff</h2>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode matlab"><code class="sourceCode matlab"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>        [<span class="va">row</span><span class="op">,</span> <span class="va">col</span>] <span class="op">=</span> <span class="va">find</span>(<span class="va">Nbd</span> <span class="op">&gt;</span> <span class="fl">0</span>)<span class="op">;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">linear_indices</span> <span class="op">=</span> <span class="va">sub2ind</span>([<span class="va">m</span><span class="op">,</span> <span class="va">n</span>]<span class="op">,</span> <span class="va">row</span><span class="op">,</span> <span class="va">col</span>)<span class="op">;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">neighbors</span> <span class="op">=</span> <span class="va">Nbd</span>(<span class="va">linear_indices</span>)<span class="op">;</span></span></code></pre></div>
+<p>Let’s break down the provided MATLAB code to understand what it
+does:</p>
+<h3 id="findnbd-0">1. <code>find(Nbd &gt; 0)</code></h3>
+<p>This line finds the indices of the elements in the array
+<code>Nbd</code> that are greater than 0. Here, <code>Nbd</code> is
+presumably the neighborhood array where each row contains the neighbors
+of <code>x_i</code>. The <code>find</code> function returns the row and
+column indices of these elements:</p>
+<ul>
+<li><code>row</code> contains the row indices.</li>
+<li><code>col</code> contains the column indices.</li>
+</ul>
+<h3 id="linear_indices-sub2indm-n-row-col">2.
+<code>linear_indices = sub2ind([m, n], row, col)</code></h3>
+<p>The <code>sub2ind</code> function converts the row and column
+subscripts (indices) into linear indices. The arguments
+<code>[m, n]</code> specify the size of the matrix <code>Nbd</code>.
+This is useful because sometimes it’s easier or necessary to work with
+linear indices rather than row and column subscripts.</p>
+<h3 id="neighbors-nbdlinear_indices">3.
+<code>neighbors = Nbd(linear_indices)</code></h3>
+<p>This line uses the linear indices to extract the corresponding
+elements from the <code>Nbd</code> array. Essentially, it retrieves all
+the neighbor values from <code>Nbd</code> that are greater than 0 and
+stores them in the <code>neighbors</code> array.</p>
+<h3 id="summary-1">Summary</h3>
+<p>The provided code snippet:</p>
+<ol type="1">
+<li>Finds the indices of all elements in <code>Nbd</code> that are
+greater than 0.</li>
+<li>Converts these indices to linear indices.</li>
+<li>Retrieves the corresponding neighbor values from <code>Nbd</code>
+using these linear indices.</li>
+</ol>
+<p>In practical terms, this code is used to identify and extract all the
+neighbors that have a relationship (indicated by values greater than 0)
+with the elements in the array.</p>
+<p>Sure, let’s go through an example to illustrate how this code
+works.</p>
+<p>Let’s assume we have a 4x4 neighborhood array <code>Nbd</code>:</p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode matlab"><code class="sourceCode matlab"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="va">Nbd</span> <span class="op">=</span> [</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="fl">0</span>  <span class="fl">1</span>  <span class="fl">0</span>  <span class="fl">2</span><span class="op">;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="fl">3</span>  <span class="fl">0</span>  <span class="fl">4</span>  <span class="fl">0</span><span class="op">;</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="fl">0</span>  <span class="fl">5</span>  <span class="fl">0</span>  <span class="fl">6</span><span class="op">;</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="fl">7</span>  <span class="fl">0</span>  <span class="fl">8</span>  <span class="fl">0</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>]<span class="op">;</span></span></code></pre></div>
+<p>We will follow the steps of the provided code.</p>
+<h3 id="step-1-findnbd-0">Step 1: <code>find(Nbd &gt; 0)</code></h3>
+<p>First, we find the indices of the elements in <code>Nbd</code> that
+are greater than 0.</p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode matlab"><code class="sourceCode matlab"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>[<span class="va">row</span><span class="op">,</span> <span class="va">col</span>] <span class="op">=</span> <span class="va">find</span>(<span class="va">Nbd</span> <span class="op">&gt;</span> <span class="fl">0</span>)<span class="op">;</span></span></code></pre></div>
+<p>Here, <code>row</code> and <code>col</code> will be:</p>
+<pre><code>row = [1  1  1  2  2  3  3  3  4  4]
+col = [2  4  4  1  3  2  4  4  1  3]</code></pre>
+<h3 id="step-2-linear_indices-sub2indm-n-row-col">Step 2:
+<code>linear_indices = sub2ind([m, n], row, col)</code></h3>
+<p>Next, we convert these row and column subscripts to linear indices.
+The size of the matrix <code>Nbd</code> is <code>[4, 4]</code>.</p>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode matlab"><code class="sourceCode matlab"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="va">linear_indices</span> <span class="op">=</span> <span class="va">sub2ind</span>([<span class="fl">4</span><span class="op">,</span> <span class="fl">4</span>]<span class="op">,</span> <span class="va">row</span><span class="op">,</span> <span class="va">col</span>)<span class="op">;</span></span></code></pre></div>
+<p>The linear indices will be:</p>
+<pre><code>linear_indices = [2  4  8  5  7  10  12  14  15  17]</code></pre>
+<h3 id="step-3-neighbors-nbdlinear_indices">Step 3:
+<code>neighbors = Nbd(linear_indices)</code></h3>
+<p>Finally, we use these linear indices to extract the corresponding
+elements from <code>Nbd</code>.</p>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode matlab"><code class="sourceCode matlab"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="va">neighbors</span> <span class="op">=</span> <span class="va">Nbd</span>(<span class="va">linear_indices</span>)<span class="op">;</span></span></code></pre></div>
+<p>The <code>neighbors</code> array will be:</p>
+<pre><code>neighbors = [1  2  3  4  5  6  7  8]</code></pre>
+<h3 id="summary-of-the-example">Summary of the Example</h3>
+<p>Given the <code>Nbd</code> array:</p>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode matlab"><code class="sourceCode matlab"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="va">Nbd</span> <span class="op">=</span> [</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    <span class="fl">0</span>  <span class="fl">1</span>  <span class="fl">0</span>  <span class="fl">2</span><span class="op">;</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="fl">3</span>  <span class="fl">0</span>  <span class="fl">4</span>  <span class="fl">0</span><span class="op">;</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="fl">0</span>  <span class="fl">5</span>  <span class="fl">0</span>  <span class="fl">6</span><span class="op">;</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="fl">7</span>  <span class="fl">0</span>  <span class="fl">8</span>  <span class="fl">0</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>]<span class="op">;</span></span></code></pre></div>
+<p>The steps:</p>
+<ol type="1">
+<li>Find the row and column indices of elements greater than 0.</li>
+<li>Convert these indices to linear indices.</li>
+<li>Extract the neighbor values using the linear indices.</li>
+</ol>
+<p>The resulting <code>neighbors</code> array contains all the non-zero
+elements of <code>Nbd</code>:</p>
+<pre><code>neighbors = [1  2  3  4  5  6  7  8]</code></pre>
+<p><img src="deepimage/deep25.png" alt="myimage25" /> <img
+src="deepimage/deep26.png" alt="myimage26" /></p>
+<hr />
+<div id="back-to-top"
+style="position: fixed; bottom: 20px; right: 20px; display: none;">
+<p><a href="#top">↑ Back to Top</a></p>
+</div>
+<script>
+    // When the user scrolls down 20px from the top of the document, show the button
+    window.onscroll = function() {scrollFunction()};
+    
+    function scrollFunction() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            document.getElementById("back-to-top").style.display = "block";
+        } else {
+            document.getElementById("back-to-top").style.display = "none";
+        }
+    }
+
+    // When the user clicks on the button, scroll to the top of the document
+    document.getElementById("back-to-top").onclick = function() {
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    }
+</script>
+</body>
+</html>

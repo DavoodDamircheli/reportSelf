@@ -2530,6 +2530,17 @@ Once you've identified the device, you need to mount it to access its contents.
   ```bash
   sudo mkdir /mnt/external_drive
   ```
+- **note**
+whatever the output is with lsblk the follwoing is the right command
+
+
+```
+sda           8:0    0   3.6T  0 disk 
+└─sda1        8:1    0   3.6T  0 part /media/davood/093c4011-b7d0-4917-a86a-7c2fb7e4c748
+
+sudo mount /dev/sda1 /mnt/external
+
+```
 
 - **Mount the Drive:**
   Use the `mount` command to mount the drive to the directory you just created. Replace `/dev/sdX1` with your actual device name and partition (e.g., `/dev/sdb1`).
