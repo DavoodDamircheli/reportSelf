@@ -1,4 +1,4 @@
-<span id="top"></span>
+<SPAN id="top"></span>
 ---
 Missing concepts!
 ---
@@ -24,6 +24,7 @@ Missing concepts!
   - [simple step by step preparing PBS file](#basic-pbs-file)
   - [environment varibles](#env-variable)
   - [real exprements](#real)
+- [renameing a file or a directory](#rename)
 - [conda](#conda)
   - [conda and hpc](#conda-and-hpc)
   - [conda in PBS file](#pbs)
@@ -821,7 +822,7 @@ git push --force origin main
 ## git invitation 
 
 
-Certainly! When someone invites you to collaborate on a GitHub project, there's a general workflow to follow to ensure smooth collaboration. Here's a step-by-step guide to help you track and submit the changes you make to the project:
+When someone invites you to collaborate on a GitHub project, there's a general workflow to follow to ensure smooth collaboration. Here's a step-by-step guide to help you track and submit the changes you make to the project:
 Accept the Invitation:
 Go to the repository's GitHub page. If you were invited to collaborate, there should be a notification prompting you to accept the invitation.
 Clone the Repository:
@@ -867,9 +868,50 @@ For every new feature or fix, you can repeat the process: creating a new branch,
 Remember that Git and GitHub have a bit of a learning curve, so don't be discouraged if things seem complex at first. Over time, this workflow will become second nature. It's also worth noting that there are many other Git commands and features that can be useful, but the above steps outline a basic collaborative workflow.
 
 
+---
 
+### rename 
 
+When you rename a directory or file in a Git repository and want to reflect these changes on GitHub, you need to follow these steps:
 
+### 1. Rename the File or Directory
+You can rename a file or directory using the `git mv` command, or you can rename it manually and then add the changes.
+
+- Using `git mv`:
+  ```bash
+  git mv old_filename new_filename
+  ```
+
+- Renaming manually:
+  - Rename the file or directory using your file explorer or terminal.
+  - Then, stage the changes:
+    ```bash
+    git add old_filename
+    git add new_filename
+    ```
+
+### 2. Commit the Changes
+After renaming, commit the changes to your local repository:
+
+```bash
+git commit -m "Renamed file/directory from old_filename to new_filename"
+```
+
+### 3. Push the Changes to GitHub
+Finally, push the changes to your remote GitHub repository:
+
+```bash
+git push origin branch_name
+```
+
+Replace `branch_name` with the name of the branch you are working on (e.g., `main` or `master`).
+
+### Summary
+- Use `git mv` or rename manually and stage the changes.
+- Commit the changes with an appropriate message.
+- Push the changes to GitHub.
+
+This will ensure that your renamed files or directories are updated in your GitHub repository.
 
 ---
 
