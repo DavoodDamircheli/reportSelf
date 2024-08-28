@@ -16,6 +16,8 @@ Missing concepts!
   - [collaboration on Github](#collaboration-and-github)
   - [git LFS](#git-LFS)
   - [what do I do after invitation?](#git-invitation)
+  - [renaming a file or a direcotry](#rename)
+  - [which git branch i am on](#branch)
 - [make](#review-make)
 - [git for hpc](git-hpc)
   - [track repository on HPC server](#hpc-track)
@@ -912,6 +914,63 @@ Replace `branch_name` with the name of the branch you are working on (e.g., `mai
 - Push the changes to GitHub.
 
 This will ensure that your renamed files or directories are updated in your GitHub repository.
+
+
+-----
+### branch
+
+To find out which branch you're currently on and how to switch to a different branch in Git, you can use the following commands:
+
+### 1. Check Which Branch You're On
+To see which branch you're currently on, use:
+
+```bash
+git branch
+```
+
+This command will list all the branches in your repository and highlight the current branch with an asterisk (`*`).
+
+### 2. Change to a Different Branch
+To switch to a different branch, use:
+
+```bash
+git checkout branch_name
+```
+
+Replace `branch_name` with the name of the branch you want to switch to.
+
+### Example
+Let's say you're on the `main` branch and want to switch to a branch called `feature-branch`:
+
+```bash
+git branch
+```
+Output might look like this:
+```
+* main
+  feature-branch
+```
+
+Then, to switch to `feature-branch`:
+
+```bash
+git checkout feature-branch
+```
+
+After running this command, you'll be on the `feature-branch`.
+
+### 3. Alternative: Use `git switch`
+You can also use the `git switch` command (available in more recent versions of Git) to change branches:
+
+```bash
+git switch branch_name
+```
+
+This command is functionally equivalent to `git checkout` for switching branches, but it doesn’t have the added functionality of `checkout`, which can also be used for other purposes like checking out files.
+
+### Summary
+- Use `git branch` to see the current branch.
+- Use `git checkout branch_name` or `git switch branch_name` to switch to another branch.
 
 ---
 
