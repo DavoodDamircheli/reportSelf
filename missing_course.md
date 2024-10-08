@@ -26,6 +26,7 @@ Missing concepts!
   - [simple step by step preparing PBS file](#basic-pbs-file)
   - [environment varibles](#env-variable)
   - [real exprements](#real)
+  - [slurm](#slurm)
 - [renameing a file or a directory](#rename)
 - [conda](#conda)
   - [conda and hpc](#conda-and-hpc)
@@ -1281,7 +1282,19 @@ bash run_project.sh
  In the context of a PBS job, PBS_NODEFILE is an environment variable **automatically** set by the PBS system. It points to a file that contains a list of the compute nodes allocated to the current job, with each line representing a node. If nodes are allocated more than one processor (core), the node's name will appear in the file once for each allocated processor, thus indicating the total number of processors available to the job.
 
 
+## slurm 
 
+- for submiting the slurm we nee to say 
+
+```
+sbatch <batch file name>
+
+```
+
+
+![Batch file](images/slurm1.png)
+
+![Useful commands](images/slurm2.png)
 
 ## real
 
